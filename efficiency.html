@@ -189,7 +189,7 @@
             <h3>${night.date}</h3>
             <div class="stat">⚡ Most Efficient Scorer</div><div class="player">${night.efficiency.player} (${night.efficiency.team}) – ${night.efficiency.fg_pct}% FG (${night.efficiency.fga} FGA)</div>
             <div class="stat">📈 Best +/-</div><div class="player">${night.plus_minus.player} (${night.plus_minus.team}) – +${night.plus_minus.value}</div>
-            <div class="stat">🛡️ Defensive Beast</div><div class="player">${night.defense.player} ${night.defense.team} – ${night.defense.stocks} STL+BLK</div>
+            <div class="stat">🛡️ Defensive Beast</div><div class="player">${night.defense.player} (${night.defense.team}) – ${night.defense.stocks} STL+BLK</div>
             ${night.triple_double ? `
               <div class="stat">👑 Triple-Double Royalty</div><div class="player">${night.triple_double.name} (${night.triple_double.team}) – ${night.triple_double.pts} | ${night.triple_double.reb} | ${night.triple_double.ast}</div>` : ""}
           `;
