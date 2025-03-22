@@ -6,9 +6,7 @@
   <title>Season Scoring Leaders – Stat Kings HQ</title>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -102,25 +100,15 @@
     }
 
     @media (max-width: 700px) {
-      .leader-box {
-        padding: 1.5rem;
-      }
-      .stat {
-        font-size: 1.3rem;
-      }
-      .player {
-        font-size: 1rem;
-      }
-
-      .back-logo img {
-        height: 44px;
-      }
+      .leader-box { padding: 1.5rem; }
+      .stat { font-size: 1.3rem; }
+      .player { font-size: 1rem; }
+      .back-logo img { height: 44px; }
     }
   </style>
 </head>
 <body>
 
-  <!-- 🏠 Back to Home -->
   <a href="index.html" class="back-logo">
     <img src="img/logo2.jpg" alt="Back to Home">
   </a>
@@ -136,41 +124,47 @@
   <p class="note">Stat Kings HQ – All stats auto-tracked & published. @StackKingsHQ</p>
 
   <script>
-    fetch('season.json')
-      .then(res => res.json())
-      .then(data => {
-        const dateLabel = document.getElementById('season-date');
-        const container = document.getElementById('player-list');
-        container.innerHTML = '';
+    const SUPABASE_URL = 'https://fjtxowbjnxclzcogostk.supabase.co/rest/v1/seasonkings?order=date.desc&limit=1';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZqdHhvd2JqbnhjbHpjb2dvc3RrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI2MDE5NTgsImV4cCI6MjA1ODE3Nzk1OH0.LPkFw-UX6io0F3j18Eefd1LmeAGGXnxL4VcCLOR_c1Q'; 
 
-        if (!data.nights || data.nights.length === 0) {
-          container.innerHTML = 'No data found';
-          return;
-        }
+    fetch(SUPABASE_URL, {
+      headers: {
+        apikey: SUPABASE_KEY,
+        Authorization: `Bearer ${SUPABASE_KEY}`
+      }
+    })
+    .then(res => res.json())
+    .then(rows => {
+      const dateLabel = document.getElementById('season-date');
+      const container = document.getElementById('player-list');
+      container.innerHTML = '';
 
-        const night = data.nights[0];
-        const players = night.leaders;
-        const medals = ['🥇', '🥈', '🥉'];
+      if (!rows || !rows.length) {
+        container.innerHTML = 'No data found';
+        return;
+      }
 
-        // Format date
-        const rawDate = night.date;
-        const [mm, dd, yyyy] = rawDate.split('/');
-        const dateObj = new Date(`${yyyy}-${mm}-${dd}`);
-        const options = { month: 'short', day: 'numeric', year: 'numeric' };
-        //dateLabel.textContent = `As of ${dateObj.toLocaleDateString('en-US', options)}`;
+      const entry = rows[0];
+      const rawDate = entry.date;
+      const dateObj = new Date(rawDate);
+      const options = { month: 'short', day: 'numeric', year: 'numeric' };
+      dateLabel.textContent = `As of ${dateObj.toLocaleDateString('en-US', options)}`;
 
-        players.forEach((p, i) => {
-          const medal = medals[i] || `${i + 1}.`;
-          const div = document.createElement('div');
-          div.className = 'player';
-          div.textContent = `${medal} ${p.name} (${p.team}): ${p.ppg} PPG | ${p.points} PTS`;
-          container.appendChild(div);
-        });
-      })
-      .catch(err => {
-        console.error("Failed to load season.json", err);
-        document.getElementById('player-list').innerText = "Unable to load season leaders.";
+      const players = entry.data.leaders;
+      const medals = ['🥇', '🥈', '🥉'];
+
+      players.forEach((p, i) => {
+        const medal = medals[i] || `${i + 1}.`;
+        const div = document.createElement('div');
+        div.className = 'player';
+        div.textContent = `${medal} ${p.name} (${p.team}): ${p.ppg} PPG | ${p.points} PTS`;
+        container.appendChild(div);
       });
+    })
+    .catch(err => {
+      console.error("Failed to load from Supabase:", err);
+      document.getElementById('player-list').innerText = "Unable to load season leaders.";
+    });
   </script>
 </body>
 </html>

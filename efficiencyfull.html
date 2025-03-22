@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Efficiency Kings Archive – Stat Kings HQ</title>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
   <style>
     * {
       box-sizing: border-box;
@@ -115,36 +116,49 @@
   <div id="archive"></div>
 
   <script>
-    fetch('efficiency.json')
-      .then(res => res.json())
-      .then(data => {
-        const container = document.getElementById('archive');
+    const supabase = window.supabase.createClient(
+      'https://fjtxowbjnxclzcogostk.supabase.co',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZqdHhvd2JqbnhjbHpjb2dvc3RrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI2MDE5NTgsImV4cCI6MjA1ODE3Nzk1OH0.LPkFw-UX6io0F3j18Eefd1LmeAGGXnxL4VcCLOR_c1Q'
+    );
 
-        data.nights.forEach(night => {
-          const div = document.createElement('div');
-          div.className = 'night';
+    async function loadArchive() {
+      const { data, error } = await supabase
+        .from('efficiencykings')
+        .select('*')
+        .order('date', { ascending: false });
 
-          let content = `
-            <div class="night-header">${night.date}</div>
-            <div class="stat-row"><span class="emoji">⚡</span> <span class="label">Efficiency:</span> ${night.efficiency.player} (${night.efficiency.team}) – ${night.efficiency.fg_pct}% FG (${night.efficiency.fga} FGA)</div>
-            <div class="stat-row"><span class="emoji">📈</span> <span class="label">Plus/Minus:</span> ${night.plus_minus.player} (${night.plus_minus.team}) – +${night.plus_minus.value}</div>
-            <div class="stat-row"><span class="emoji">🛡️</span> <span class="label">Defense:</span> ${night.defense.player} – ${night.defense.stocks} STL+BLK</div>
-          `;
-
-          if (night.triple_double) {
-            content += `
-              <div class="stat-row"><span class="emoji">👑</span> <span class="label">Triple-Double:</span> ${night.triple_double.name} (${night.triple_double.team}) – ${night.triple_double.pts} | ${night.triple_double.reb} | ${night.triple_double.ast}</div>
-            `;
-          }
-
-          div.innerHTML = content;
-          container.appendChild(div);
-        });
-      })
-      .catch(err => {
-        console.error("Error loading efficiency.json", err);
+      if (error) {
+        console.error("Error loading archive:", error);
         document.getElementById('archive').innerText = "Unable to load archive data.";
+        return;
+      }
+
+      const nights = data.map(entry => ({ date: entry.date, ...entry.data }));
+      const container = document.getElementById('archive');
+
+      nights.forEach(night => {
+        const div = document.createElement('div');
+        div.className = 'night';
+
+        let content = `
+          <div class="night-header">${night.date}</div>
+          <div class="stat-row"><span class="emoji">⚡</span> <span class="label">Efficiency:</span> ${night.efficiency.player} (${night.efficiency.team}) – ${night.efficiency.fg_pct}% FG (${night.efficiency.fga} FGA)</div>
+          <div class="stat-row"><span class="emoji">📈</span> <span class="label">Plus/Minus:</span> ${night.plus_minus.player} (${night.plus_minus.team}) – +${night.plus_minus.value}</div>
+          <div class="stat-row"><span class="emoji">🛡️</span> <span class="label">Defense:</span> ${night.defense.player} – ${night.defense.stocks} STL+BLK</div>
+        `;
+
+        if (night.triple_double) {
+          content += `
+            <div class="stat-row"><span class="emoji">👑</span> <span class="label">Triple-Double:</span> ${night.triple_double.name} (${night.triple_double.team}) – ${night.triple_double.pts} | ${night.triple_double.reb} | ${night.triple_double.ast}</div>
+          `;
+        }
+
+        div.innerHTML = content;
+        container.appendChild(div);
       });
+    }
+
+    loadArchive();
   </script>
 </body>
 </html>

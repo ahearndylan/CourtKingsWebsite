@@ -5,11 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Clutch Time Kings – Stat Kings HQ</title>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
-    * {
-      box-sizing: border-box;
-    }
-
+    * { box-sizing: border-box; }
     body {
       margin: 0;
       font-family: 'Outfit', sans-serif;
@@ -22,14 +20,12 @@
       align-items: center;
       position: relative;
     }
-
     .back-logo {
       position: absolute;
       top: 20px;
       left: 20px;
       z-index: 10;
     }
-
     .back-logo img {
       height: 52px;
       width: auto;
@@ -37,18 +33,13 @@
       box-shadow: 0 0 8px rgba(0,0,0,0.4);
       transition: transform 0.3s ease;
     }
-
-    .back-logo img:hover {
-      transform: scale(1.08);
-    }
-
+    .back-logo img:hover { transform: scale(1.08); }
     h1 {
       font-size: 2.5rem;
       font-weight: 800;
       margin-bottom: 1.5rem;
       text-align: center;
     }
-
     .grid-container {
       display: flex;
       gap: 2rem;
@@ -56,7 +47,6 @@
       width: 100%;
       flex-wrap: wrap;
     }
-
     .left, .right {
       background: rgba(255, 255, 255, 0.05);
       backdrop-filter: blur(12px);
@@ -68,11 +58,7 @@
       min-width: 300px;
       animation: fadeIn 0.6s ease-out;
     }
-
-    .left {
-      flex: 2;
-    }
-
+    .left { flex: 2; }
     h2 {
       font-size: 1.4rem;
       color: #ffc107;
@@ -80,26 +66,22 @@
       border-bottom: 1px solid #333;
       padding-bottom: 0.5rem;
     }
-
     .night-block, .record {
       margin-bottom: 1.5rem;
       padding: 1rem;
       background-color: #222;
       border-radius: 10px;
     }
-
     .stat {
       font-weight: 600;
       color: #00ffd5;
       margin-bottom: 0.5rem;
     }
-
     .player {
       font-size: 1rem;
       color: #ddd;
       margin-bottom: 0.2rem;
     }
-
     .button-link {
       margin-top: 2rem;
       padding: 0.75rem 1.25rem;
@@ -111,40 +93,22 @@
       transition: background 0.2s ease;
       display: inline-block;
     }
-
-    .button-link:hover {
-      background-color: #00cbb0;
-    }
-
-    .centered {
-      text-align: center;
-      margin-top: 2rem;
-    }
-
+    .button-link:hover { background-color: #00cbb0; }
+    .centered { text-align: center; margin-top: 2rem; }
     .note {
       font-size: 0.9rem;
       color: #777;
       margin-top: 3rem;
       text-align: center;
     }
-
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
     }
-
     @media (max-width: 768px) {
-      h1 {
-        font-size: 2rem;
-      }
-
-      .grid-container {
-        flex-direction: column;
-      }
-
-      .back-logo img {
-        height: 44px;
-      }
+      h1 { font-size: 2rem; }
+      .grid-container { flex-direction: column; }
+      .back-logo img { height: 44px; }
     }
   </style>
 </head>
@@ -174,55 +138,68 @@
   <p class="note">Stat Kings HQ – All stats auto-tracked & published. @StackKingsHQ</p>
 
   <script>
-    fetch("clutch.json")
-      .then(res => res.json())
-      .then(data => {
-        const left = document.getElementById("leaders");
-        const right = document.querySelector(".right");
-        const stats = { points: {}, fg: {}, assists: {}, teams: {} };
+    const supabase = window.supabase.createClient(
+      'https://fjtxowbjnxclzcogostk.supabase.co',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZqdHhvd2JqbnhjbHpjb2dvc3RrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI2MDE5NTgsImV4cCI6MjA1ODE3Nzk1OH0.LPkFw-UX6io0F3j18Eefd1LmeAGGXnxL4VcCLOR_c1Q'
+    );
 
-        data.nights.slice(0, 3).forEach(night => {
-          const block = document.createElement("div");
-          block.className = "night-block";
-          block.innerHTML = `
-            <h3>${night.date}</h3>
-            <div class="stat">🚀 4Q Scoring</div><div class="player">${night.points.player} (${night.points.team}) – ${night.points.value} PTS</div>
-            <div class="stat">💎 4Q FG%</div><div class="player">${night.fg.player} (${night.fg.team}) – ${night.fg.fg_pct}% FG (${night.fg.fga} FGA)</div>
-            <div class="stat">🧠 4Q Assists</div><div class="player">${night.assists.player} (${night.assists.team}) – ${night.assists.value} AST</div>
-            ${night.team_4q_diff ? `<div class="stat">📈 Best 4Q Team</div><div class="player">${night.team_4q_diff.abbr}: +${night.team_4q_diff.value}</div>` : ""}
-          `;
-          left.appendChild(block);
+    async function loadData() {
+      const { data, error } = await supabase
+        .from('clutchkings')
+        .select('*')
+        .order('date', { ascending: false });
 
-          stats.points[night.points.player] = (stats.points[night.points.player] || 0) + 1;
-          stats.fg[night.fg.player] = (stats.fg[night.fg.player] || 0) + 1;
-          stats.assists[night.assists.player] = (stats.assists[night.assists.player] || 0) + 1;
-          if (night.team_4q_diff) {
-            const abbr = night.team_4q_diff.abbr;
-            stats.teams[abbr] = (stats.teams[abbr] || 0) + 1;
-          }
-        });
+      if (error) {
+        console.error("Supabase error:", error);
+        document.getElementById("leaders").innerText = "Failed to load data.";
+        return;
+      }
 
-        const labels = {
-          points: "🚀 Most Wins – 4Q Scoring",
-          fg: "💎 Most Wins – 4Q FG%",
-          assists: "🧠 Most Wins – 4Q Assists",
-          teams: "📈 Most Wins – Best 4Q Teams"
-        };
+      const left = document.getElementById("leaders");
+      const right = document.querySelector(".right");
+      const stats = { points: {}, fg: {}, assists: {}, teams: {} };
 
-        for (const key in stats) {
-          const sorted = Object.entries(stats[key]).sort((a, b) => b[1] - a[1]).slice(0, 3);
-          let html = `<div class="record"><div class="stat">${labels[key]}</div>`;
-          sorted.forEach(([name, count], i) => {
-            html += `<div class="player">${i + 1}. ${name} – ${count} Wins</div>`;
-          });
-          html += "</div>";
-          right.innerHTML += html;
+      data.slice(0, 3).forEach(row => {
+        const night = row.data;
+        const block = document.createElement("div");
+        block.className = "night-block";
+        block.innerHTML = `
+          <h3>${row.date}</h3>
+          <div class="stat">🚀 4Q Scoring</div><div class="player">${night.points.player} (${night.points.team}) – ${night.points.value} PTS</div>
+          <div class="stat">💎 4Q FG%</div><div class="player">${night.fg.player} (${night.fg.team}) – ${night.fg.fg_pct}% FG (${night.fg.fga} FGA)</div>
+          <div class="stat">🧠 4Q Assists</div><div class="player">${night.assists.player} (${night.assists.team}) – ${night.assists.value} AST</div>
+          ${night.team_4q_diff ? `<div class="stat">📈 Best 4Q Team</div><div class="player">${night.team_4q_diff.abbr}: +${night.team_4q_diff.value}</div>` : ""}
+        `;
+        left.appendChild(block);
+
+        stats.points[night.points.player] = (stats.points[night.points.player] || 0) + 1;
+        stats.fg[night.fg.player] = (stats.fg[night.fg.player] || 0) + 1;
+        stats.assists[night.assists.player] = (stats.assists[night.assists.player] || 0) + 1;
+        if (night.team_4q_diff) {
+          const abbr = night.team_4q_diff.abbr;
+          stats.teams[abbr] = (stats.teams[abbr] || 0) + 1;
         }
-      })
-      .catch(err => {
-        console.error("Error loading clutch.json", err);
-        document.getElementById("leaders").innerText = "Unable to load clutch data.";
       });
+
+      const labels = {
+        points: "🚀 Most Wins – 4Q Scoring",
+        fg: "💎 Most Wins – 4Q FG%",
+        assists: "🧠 Most Wins – 4Q Assists",
+        teams: "📈 Most Wins – Best 4Q Teams"
+      };
+
+      for (const key in stats) {
+        const sorted = Object.entries(stats[key]).sort((a, b) => b[1] - a[1]).slice(0, 3);
+        let html = `<div class="record"><div class="stat">${labels[key]}</div>`;
+        sorted.forEach(([name, count], i) => {
+          html += `<div class="player">${i + 1}. ${name} – ${count} Wins</div>`;
+        });
+        html += "</div>";
+        right.innerHTML += html;
+      }
+    }
+
+    loadData();
   </script>
 </body>
 </html>

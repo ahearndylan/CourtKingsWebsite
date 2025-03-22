@@ -6,10 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
   <style>
-    * {
-      box-sizing: border-box;
-    }
-
+    * { box-sizing: border-box; }
     body {
       margin: 0;
       font-family: 'Outfit', sans-serif;
@@ -17,7 +14,6 @@
       color: #f0f0f0;
       padding: 3rem 1rem;
     }
-
     h1 {
       text-align: center;
       font-size: 2.2rem;
@@ -28,12 +24,7 @@
       justify-content: center;
       gap: 0.5rem;
     }
-
-    h1::before {
-      content: "🗂️";
-      font-size: 1.8rem;
-    }
-
+    h1::before { content: "🗂️"; font-size: 1.8rem; }
     .subheading {
       text-align: center;
       font-size: 1.5rem;
@@ -41,7 +32,6 @@
       margin-bottom: 2.5rem;
       letter-spacing: 0.5px;
     }
-
     .night {
       background: rgba(255, 255, 255, 0.05);
       border: 1px solid rgba(255, 255, 255, 0.07);
@@ -51,19 +41,16 @@
       max-width: 750px;
       transition: transform 0.25s ease, box-shadow 0.25s ease;
     }
-
     .night:hover {
       transform: translateY(-3px);
       box-shadow: 0 0 20px rgba(0, 255, 198, 0.08);
     }
-
     .night-header {
       font-size: 1.15rem;
       font-weight: 700;
       color: #ffc107;
       margin-bottom: 1rem;
     }
-
     .stat-row {
       display: flex;
       align-items: center;
@@ -71,72 +58,63 @@
       margin-bottom: 0.5rem;
       color: #ddd;
     }
-
     .stat-row .emoji {
       margin-right: 0.5rem;
       font-size: 1.2rem;
     }
-
     .stat-row .label {
       font-weight: 600;
       color: #00ffd5;
       margin-right: 0.4rem;
     }
-
     @media (max-width: 600px) {
-      h1 {
-        font-size: 1.6rem;
-      }
-
-      .subheading {
-        font-size: 0.9rem;
-      }
-
-      .night {
-        padding: 1.2rem;
-      }
-
-      .night-header {
-        font-size: 1rem;
-      }
-
-      .stat-row {
-        font-size: 0.95rem;
-        flex-wrap: wrap;
-      }
+      h1 { font-size: 1.6rem; }
+      .subheading { font-size: 0.9rem; }
+      .night { padding: 1.2rem; }
+      .night-header { font-size: 1rem; }
+      .stat-row { font-size: 0.95rem; flex-wrap: wrap; }
     }
   </style>
 </head>
 <body>
 
-  <h1>Stat Kings HQ - Full Archive</h1>
-  <p class="subheading">Nightly Kings</p>
+<h1>Stat Kings HQ - Full Archive</h1>
+<p class="subheading">Nightly Kings</p>
+<div id="all-nights"></div>
 
-  <div id="all-nights"></div>
+<script>
+  const SUPABASE_URL = 'https://fjtxowbjnxclzcogostk.supabase.co';
+  const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZqdHhvd2JqbnhjbHpjb2dvc3RrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI2MDE5NTgsImV4cCI6MjA1ODE3Nzk1OH0.LPkFw-UX6io0F3j18Eefd1LmeAGGXnxL4VcCLOR_c1Q'; // replace this with your anon public key
 
-  <script>
-    fetch('stats.json')
-      .then(res => res.json())
-      .then(data => {
-        const container = document.getElementById('all-nights');
+  fetch(`${SUPABASE_URL}/rest/v1/nightlykings?select=date,data&order=date.desc`, {
+    headers: {
+      apikey: SUPABASE_KEY,
+      Authorization: `Bearer ${SUPABASE_KEY}`
+    }
+  })
+    .then(res => res.json())
+    .then(data => {
+      const container = document.getElementById('all-nights');
 
-        data.nights.forEach(night => {
-          const div = document.createElement('div');
-          div.className = 'night';
-          div.innerHTML = `
-            <div class="night-header">${night.date}</div>
-            <div class="stat-row"><span class="emoji">🔥</span> <span class="label">Points:</span> ${night.points.player} (${night.points.team}) – ${night.points.value} PTS</div>
-            <div class="stat-row"><span class="emoji">🎯</span> <span class="label">Assists:</span> ${night.assists.player} (${night.assists.team}) – ${night.assists.value} AST</div>
-            <div class="stat-row"><span class="emoji">💪</span> <span class="label">Rebounds:</span> ${night.rebounds.player} (${night.rebounds.team}) – ${night.rebounds.value} REB</div>
-            <div class="stat-row"><span class="emoji">🏹</span> <span class="label">3PT:</span> ${night.threept.player} (${night.threept.team}) – ${night.threept.value} 3PM</div>
-          `;
-          container.appendChild(div);
-        });
-      })
-      .catch(err => {
-        console.error("Error loading stats.json", err);
-        document.getElementById('all-nights').innerText = "Unable to load stat history.";
+      data.forEach(row => {
+        const night = row.data;
+        const div = document.createElement('div');
+        div.className = 'night';
+        div.innerHTML = `
+          <div class="night-header">${row.date}</div>
+          <div class="stat-row"><span class="emoji">🔥</span> <span class="label">Points:</span> ${night.points.player} (${night.points.team}) – ${night.points.value} PTS</div>
+          <div class="stat-row"><span class="emoji">🎯</span> <span class="label">Assists:</span> ${night.assists.player} (${night.assists.team}) – ${night.assists.value} AST</div>
+          <div class="stat-row"><span class="emoji">💪</span> <span class="label">Rebounds:</span> ${night.rebounds.player} (${night.rebounds.team}) – ${night.rebounds.value} REB</div>
+          <div class="stat-row"><span class="emoji">🏹</span> <span class="label">3PT:</span> ${night.threept.player} (${night.threept.team}) – ${night.threept.value} 3PM</div>
+        `;
+        container.appendChild(div);
       });
-  </script>
+    })
+    .catch(err => {
+      console.error("Error loading data from Supabase", err);
+      document.getElementById('all-nights').innerText = "Unable to load stat history.";
+    });
+</script>
+
 </body>
 </html>

@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Efficiency Kings – Stat Kings HQ</title>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
   <style>
     * {
       box-sizing: border-box;
@@ -149,7 +150,6 @@
   </style>
 </head>
 <body>
-
   <a href="index.html" class="back-logo">
     <img src="img/logo2.jpg" alt="Back to Home">
   </a>
@@ -174,64 +174,77 @@
   <p class="note">Stat Kings HQ – All stats auto-tracked & published. @StackKingsHQ</p>
 
   <script>
-    fetch('efficiency.json')
-      .then(res => res.json())
-      .then(data => {
-        const left = document.getElementById('leaders');
-        const right = document.querySelector('.right');
-        const categories = ["efficiency", "plus_minus", "defense", "triple_double"];
-        const counts = { efficiency: {}, plus_minus: {}, defense: {}, triple_double: {} };
+    const supabase = window.supabase.createClient(
+      'https://fjtxowbjnxclzcogostk.supabase.co',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZqdHhvd2JqbnhjbHpjb2dvc3RrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI2MDE5NTgsImV4cCI6MjA1ODE3Nzk1OH0.LPkFw-UX6io0F3j18Eefd1LmeAGGXnxL4VcCLOR_c1Q'
+    );
 
-        data.nights.slice(0, 3).forEach(night => {
-          const block = document.createElement('div');
-          block.className = 'night-block';
-          block.innerHTML = `
-            <h3>${night.date}</h3>
-            <div class="stat">⚡ Most Efficient Scorer</div><div class="player">${night.efficiency.player} (${night.efficiency.team}) – ${night.efficiency.fg_pct}% FG (${night.efficiency.fga} FGA)</div>
-            <div class="stat">📈 Best +/-</div><div class="player">${night.plus_minus.player} (${night.plus_minus.team}) – +${night.plus_minus.value}</div>
-            <div class="stat">🛡️ Defensive Beast</div><div class="player">${night.defense.player} (${night.defense.team}) – ${night.defense.stocks} STL+BLK</div>
-            ${night.triple_double ? `
-              <div class="stat">👑 Triple-Double Royalty</div><div class="player">${night.triple_double.name} (${night.triple_double.team}) – ${night.triple_double.pts} | ${night.triple_double.reb} | ${night.triple_double.ast}</div>` : ""}
-          `;
-          left.appendChild(block);
-        });
+    async function loadData() {
+      const { data, error } = await supabase
+        .from('efficiencykings')
+        .select('*')
+        .order('date', { ascending: false });
 
-        data.nights.forEach(night => {
-          categories.forEach(cat => {
-            const player = (cat === "triple_double") ? night[cat]?.name : night[cat]?.player;
-            if (player) {
-              if (!counts[cat][player]) counts[cat][player] = 0;
-              counts[cat][player]++;
-            }
-          });
-        });
+      if (error) {
+        console.error("Error fetching data from Supabase", error);
+        document.getElementById('leaders').innerText = "Failed to load data.";
+        return;
+      }
 
-        const categoryLabels = {
-          efficiency: "⚡ Most Efficient Scorer",
-          plus_minus: "📈 Best +/-",
-          defense: "🛡️ Defensive Beast",
-          triple_double: "👑 Triple-Double Royalty"
-        };
+      const nights = data.map(entry => ({ date: entry.date, ...entry.data }));
+      const left = document.getElementById('leaders');
+      const right = document.querySelector('.right');
+      const categories = ["efficiency", "plus_minus", "defense", "triple_double"];
+      const counts = { efficiency: {}, plus_minus: {}, defense: {}, triple_double: {} };
 
+      nights.slice(0, 3).forEach(night => {
+        const block = document.createElement('div');
+        block.className = 'night-block';
+        block.innerHTML = `
+          <h3>${night.date}</h3>
+          <div class="stat">⚡ Most Efficient Scorer</div><div class="player">${night.efficiency.player} (${night.efficiency.team}) – ${night.efficiency.fg_pct}% FG (${night.efficiency.fga} FGA)</div>
+          <div class="stat">📈 Best +/-</div><div class="player">${night.plus_minus.player} (${night.plus_minus.team}) – +${night.plus_minus.value}</div>
+          <div class="stat">🛡️ Defensive Beast</div><div class="player">${night.defense.player} (${night.defense.team}) – ${night.defense.stocks} STL+BLK</div>
+          ${night.triple_double ? `
+            <div class="stat">👑 Triple-Double Royalty</div><div class="player">${night.triple_double.name} (${night.triple_double.team}) – ${night.triple_double.pts} | ${night.triple_double.reb} | ${night.triple_double.ast}</div>` : ""}
+        `;
+        left.appendChild(block);
+      });
+
+      nights.forEach(night => {
         categories.forEach(cat => {
-          const sorted = Object.entries(counts[cat])
-            .sort((a, b) => b[1] - a[1])
-            .slice(0, 3);
-
-          if (sorted.length) {
-            let block = `<div class="record"><div class="stat">${categoryLabels[cat]}</div>`;
-            sorted.forEach(([name, count], i) => {
-              block += `<div class="player">${i + 1}. ${name} – ${count} Wins</div>`;
-            });
-            block += `</div>`;
-            right.innerHTML += block;
+          const player = (cat === "triple_double") ? night[cat]?.name : night[cat]?.player;
+          if (player) {
+            if (!counts[cat][player]) counts[cat][player] = 0;
+            counts[cat][player]++;
           }
         });
-      })
-      .catch(err => {
-        console.error("Error loading efficiency.json", err);
-        document.getElementById('leaders').innerText = "Failed to load data.";
       });
+
+      const categoryLabels = {
+        efficiency: "⚡ Most Efficient Scorer",
+        plus_minus: "📈 Best +/-",
+        defense: "🛡️ Defensive Beast",
+        triple_double: "👑 Triple-Double Royalty"
+      };
+
+      categories.forEach(cat => {
+        const sorted = Object.entries(counts[cat])
+          .sort((a, b) => b[1] - a[1])
+          .slice(0, 3);
+
+        if (sorted.length) {
+          let block = `<div class="record"><div class="stat">${categoryLabels[cat]}</div>`;
+          sorted.forEach(([name, count], i) => {
+            block += `<div class="player">${i + 1}. ${name} – ${count} Wins</div>`;
+          });
+          block += `</div>`;
+          right.innerHTML += block;
+        }
+      });
+    }
+
+    loadData();
   </script>
 </body>
 </html>

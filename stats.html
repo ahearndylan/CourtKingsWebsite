@@ -135,76 +135,85 @@
   </div>
   <p class="note">Stat Kings HQ – All stats auto-tracked & published. @StackKingsHQ</p>
   <script>
-    fetch('stats.json')
-      .then(res => res.json())
-      .then(data => {
-        const left = document.getElementById('leaders');
-        const winsDiv = document.getElementById('wins');
-        const highsDiv = document.getElementById('highs');
-        const categories = ["points", "assists", "rebounds", "threept"];
-        const wins = { points: {}, assists: {}, rebounds: {}, threept: {} };
-        const highs = {
-          points: { value: 0 },
-          assists: { value: 0 },
-          rebounds: { value: 0 },
-          threept: { value: 0 }
-        };
-
-        data.nights.slice(0, 3).forEach(night => {
-          const block = document.createElement('div');
-          block.className = 'night-block';
-          block.innerHTML = `
-            <h3>${night.date}</h3>
-            <div class="stat">🔥 Points Leader</div><div class="player">${night.points.player} (${night.points.team}) – ${night.points.value} PTS</div>
-            <div class="stat">🎯 Assists Leader</div><div class="player">${night.assists.player} (${night.assists.team}) – ${night.assists.value} AST</div>
-            <div class="stat">💪 Rebounds Leader</div><div class="player">${night.rebounds.player} (${night.rebounds.team}) – ${night.rebounds.value} REB</div>
-            <div class="stat">🏹 3PT Leader</div><div class="player">${night.threept.player} (${night.threept.team}) – ${night.threept.value} 3PM</div>
-          `;
-          left.appendChild(block);
-        });
-
-        data.nights.forEach(night => {
-          categories.forEach(cat => {
-            const val = night[cat].value;
-            const player = night[cat].player;
-            if (!wins[cat][player]) wins[cat][player] = 0;
-            wins[cat][player]++;
-            if (val > highs[cat].value) {
-              highs[cat] = {
-                value: val,
-                player: night[cat].player,
-                team: night[cat].team
-              };
-            }
-          });
-        });
-
-        categories.forEach(cat => {
-          const emoji = { points: "🔥", assists: "🎯", rebounds: "💪", threept: "🏹" }[cat];
-          const sorted = Object.entries(wins[cat]).sort((a, b) => b[1] - a[1]).slice(0, 3);
-          let block = `<div class="record"><div class="stat">${emoji} Most Wins – ${cat.charAt(0).toUpperCase() + cat.slice(1)}</div>`;
-          sorted.forEach(([player, count], i) => {
-            block += `<div class="player">${i + 1}. ${player} – ${count} Wins</div>`;
-          });
-          block += `</div>`;
-          winsDiv.innerHTML += block;
-        });
-
-        categories.forEach(cat => {
-          const emoji = { points: "🧨", assists: "🤝", rebounds: "🧲", threept: "🔫" }[cat];
-          const high = highs[cat];
-          const statName = cat === 'threept' ? '3PM' : cat.charAt(0).toUpperCase() + cat.slice(1);
-          const block = `<div class="record">
-            <div class="stat">${emoji} ${statName}</div>
-            <div class="player">${high.player} (${high.team}) – ${high.value} ${statName}</div>
-          </div>`;
-          highsDiv.innerHTML += block;
-        });
-      })
-      .catch(err => {
-        console.error("Error loading stats.json", err);
-        document.getElementById('leaders').innerText = "Failed to load data.";
+    fetch("https://fjtxowbjnxclzcogostk.supabase.co/rest/v1/nightlykings?select=*&order=date.desc&limit=10", {
+      headers: {
+        "apikey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZqdHhvd2JqbnhjbHpjb2dvc3RrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI2MDE5NTgsImV4cCI6MjA1ODE3Nzk1OH0.LPkFw-UX6io0F3j18Eefd1LmeAGGXnxL4VcCLOR_c1Q"
+      }
+    })
+    .then(res => res.json())
+    .then(rows => {
+      const left = document.getElementById('leaders');
+      const winsDiv = document.getElementById('wins');
+      const highsDiv = document.getElementById('highs');
+      const categories = ["points", "assists", "rebounds", "threept"];
+      const wins = { points: {}, assists: {}, rebounds: {}, threept: {} };
+      const highs = {
+        points: { value: 0 },
+        assists: { value: 0 },
+        rebounds: { value: 0 },
+        threept: { value: 0 }
+      };
+  
+      // Show only top 3 nights
+      rows.slice(0, 3).forEach(night => {
+        const data = night.data;
+        const block = document.createElement('div');
+        block.className = 'night-block';
+        block.innerHTML = `
+          <h3>${night.date}</h3>
+          <div class="stat">🔥 Points Leader</div><div class="player">${data.points.player} (${data.points.team}) – ${data.points.value} PTS</div>
+          <div class="stat">🎯 Assists Leader</div><div class="player">${data.assists.player} (${data.assists.team}) – ${data.assists.value} AST</div>
+          <div class="stat">💪 Rebounds Leader</div><div class="player">${data.rebounds.player} (${data.rebounds.team}) – ${data.rebounds.value} REB</div>
+          <div class="stat">🏹 3PT Leader</div><div class="player">${data.threept.player} (${data.threept.team}) – ${data.threept.value} 3PM</div>
+        `;
+        left.appendChild(block);
       });
+  
+      // Process all for Wins and Season Highs
+      rows.forEach(night => {
+        const data = night.data;
+        categories.forEach(cat => {
+          const val = data[cat].value;
+          const player = data[cat].player;
+          if (!wins[cat][player]) wins[cat][player] = 0;
+          wins[cat][player]++;
+          if (val > highs[cat].value) {
+            highs[cat] = {
+              value: val,
+              player: data[cat].player,
+              team: data[cat].team
+            };
+          }
+        });
+      });
+  
+      categories.forEach(cat => {
+        const emoji = { points: "🔥", assists: "🎯", rebounds: "💪", threept: "🏹" }[cat];
+        const sorted = Object.entries(wins[cat]).sort((a, b) => b[1] - a[1]).slice(0, 3);
+        let block = `<div class="record"><div class="stat">${emoji} Most Wins – ${cat.charAt(0).toUpperCase() + cat.slice(1)}</div>`;
+        sorted.forEach(([player, count], i) => {
+          block += `<div class="player">${i + 1}. ${player} – ${count} Wins</div>`;
+        });
+        block += `</div>`;
+        winsDiv.innerHTML += block;
+      });
+  
+      categories.forEach(cat => {
+        const emoji = { points: "🧨", assists: "🤝", rebounds: "🧲", threept: "🔫" }[cat];
+        const high = highs[cat];
+        const statName = cat === 'threept' ? '3PM' : cat.charAt(0).toUpperCase() + cat.slice(1);
+        const block = `<div class="record">
+          <div class="stat">${emoji} ${statName}</div>
+          <div class="player">${high.player} (${high.team}) – ${high.value} ${statName}</div>
+        </div>`;
+        highsDiv.innerHTML += block;
+      });
+    })
+    .catch(err => {
+      console.error("Error loading from Supabase", err);
+      document.getElementById('leaders').innerText = "Failed to load data.";
+    });
   </script>
+  
 </body>
 </html>
