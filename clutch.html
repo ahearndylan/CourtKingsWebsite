@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Clutch Time Kings – Stat Kings HQ</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Outfit', sans-serif;
+      background: radial-gradient(circle at top, #1b1b1b 0%, #080808 100%);
+      color: #f0f0f0;
+      padding: 3rem 2rem;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+
+    .back-logo {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      z-index: 10;
+    }
+
+    .back-logo img {
+      height: 52px;
+      width: auto;
+      border-radius: 12px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.4);
+      transition: transform 0.3s ease;
+    }
+
+    .back-logo img:hover {
+      transform: scale(1.08);
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+
+    .grid-container {
+      display: flex;
+      gap: 2rem;
+      max-width: 1100px;
+      width: 100%;
+      flex-wrap: wrap;
+    }
+
+    .left, .right {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 20px;
+      padding: 2rem;
+      flex: 1;
+      min-width: 300px;
+      animation: fadeIn 0.6s ease-out;
+    }
+
+    .left {
+      flex: 2;
+    }
+
+    h2 {
+      font-size: 1.4rem;
+      color: #ffc107;
+      margin-bottom: 1rem;
+      border-bottom: 1px solid #333;
+      padding-bottom: 0.5rem;
+    }
+
+    .night-block, .record {
+      margin-bottom: 1.5rem;
+      padding: 1rem;
+      background-color: #222;
+      border-radius: 10px;
+    }
+
+    .stat {
+      font-weight: 600;
+      color: #00ffd5;
+      margin-bottom: 0.5rem;
+    }
+
+    .player {
+      font-size: 1rem;
+      color: #ddd;
+      margin-bottom: 0.2rem;
+    }
+
+    .button-link {
+      margin-top: 2rem;
+      padding: 0.75rem 1.25rem;
+      background-color: #00ffc6;
+      color: #000;
+      font-weight: bold;
+      border-radius: 10px;
+      text-decoration: none;
+      transition: background 0.2s ease;
+      display: inline-block;
+    }
+
+    .button-link:hover {
+      background-color: #00cbb0;
+    }
+
+    .centered {
+      text-align: center;
+      margin-top: 2rem;
+    }
+
+    .note {
+      font-size: 0.9rem;
+      color: #777;
+      margin-top: 3rem;
+      text-align: center;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2rem;
+      }
+
+      .grid-container {
+        flex-direction: column;
+      }
+
+      .back-logo img {
+        height: 44px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <a href="index.html" class="back-logo">
+    <img src="img/logo2.jpg" alt="Back to Home">
+  </a>
+
+  <h1>👑 Clutch Kings</h1>
+
+  <div class="grid-container">
+    <div class="left">
+      <h2>🔥 Last 3 Nights</h2>
+      <div id="leaders"></div>
+    </div>
+
+    <div class="right">
+      <h2>🏆 Clutch Leaders</h2>
+    </div>
+  </div>
+
+  <div class="centered">
+    <a class="button-link" href="clutchfull.html" target="_blank">📂 Full Clutch Archive</a>
+  </div>
+
+  <p class="note">Stat Kings HQ – All stats auto-tracked & published. @StackKingsHQ</p>
+
+  <script>
+    fetch("clutch.json")
+      .then(res => res.json())
+      .then(data => {
+        const left = document.getElementById("leaders");
+        const right = document.querySelector(".right");
+        const stats = { points: {}, fg: {}, assists: {}, teams: {} };
+
+        data.nights.slice(0, 3).forEach(night => {
+          const block = document.createElement("div");
+          block.className = "night-block";
+          block.innerHTML = `
+            <h3>${night.date}</h3>
+            <div class="stat">🚀 4Q Scoring</div><div class="player">${night.points.player} (${night.points.team}) – ${night.points.value} PTS</div>
+            <div class="stat">💎 4Q FG%</div><div class="player">${night.fg.player} (${night.fg.team}) – ${night.fg.fg_pct}% FG (${night.fg.fga} FGA)</div>
+            <div class="stat">🧠 4Q Assists</div><div class="player">${night.assists.player} (${night.assists.team}) – ${night.assists.value} AST</div>
+            ${night.team_4q_diff ? `<div class="stat">📈 Best 4Q Team</div><div class="player">${night.team_4q_diff.abbr}: +${night.team_4q_diff.value}</div>` : ""}
+          `;
+          left.appendChild(block);
+
+          stats.points[night.points.player] = (stats.points[night.points.player] || 0) + 1;
+          stats.fg[night.fg.player] = (stats.fg[night.fg.player] || 0) + 1;
+          stats.assists[night.assists.player] = (stats.assists[night.assists.player] || 0) + 1;
+          if (night.team_4q_diff) {
+            const abbr = night.team_4q_diff.abbr;
+            stats.teams[abbr] = (stats.teams[abbr] || 0) + 1;
+          }
+        });
+
+        const labels = {
+          points: "🚀 Most Wins – 4Q Scoring",
+          fg: "💎 Most Wins – 4Q FG%",
+          assists: "🧠 Most Wins – 4Q Assists",
+          teams: "📈 Most Wins – Best 4Q Teams"
+        };
+
+        for (const key in stats) {
+          const sorted = Object.entries(stats[key]).sort((a, b) => b[1] - a[1]).slice(0, 3);
+          let html = `<div class="record"><div class="stat">${labels[key]}</div>`;
+          sorted.forEach(([name, count], i) => {
+            html += `<div class="player">${i + 1}. ${name} – ${count} Wins</div>`;
+          });
+          html += "</div>";
+          right.innerHTML += html;
+        }
+      })
+      .catch(err => {
+        console.error("Error loading clutch.json", err);
+        document.getElementById("leaders").innerText = "Unable to load clutch data.";
+      });
+  </script>
+</body>
+</html>

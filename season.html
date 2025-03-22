@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Season Scoring Leaders – Stat Kings HQ</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Outfit', sans-serif;
+      background: radial-gradient(circle at top, #1b1b1b 0%, #080808 100%);
+      color: #f0f0f0;
+      padding: 3rem 2rem;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+
+    .back-logo {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      display: inline-block;
+      z-index: 10;
+    }
+
+    .back-logo img {
+      height: 52px;
+      width: auto;
+      border-radius: 12px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.4);
+      transition: transform 0.3s ease;
+    }
+
+    .back-logo img:hover {
+      transform: scale(1.08);
+    }
+
+    h1 {
+      font-size: 2.7rem;
+      font-weight: 800;
+      margin-bottom: 0.5rem;
+      text-align: center;
+    }
+
+    .date-label {
+      font-size: 1rem;
+      color: #aaa;
+      margin-bottom: 2.5rem;
+    }
+
+    .leader-box {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 20px;
+      padding: 2.5rem;
+      width: 100%;
+      max-width: 850px;
+      box-shadow: 0 0 25px rgba(0, 255, 170, 0.12);
+      animation: fadeIn 0.6s ease-out;
+    }
+
+    .stat {
+      font-size: 1.5rem;
+      color: #ffc107;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .player {
+      font-size: 1.15rem;
+      padding: 0.6rem 0;
+      border-bottom: 1px solid #333;
+    }
+
+    .player:last-child {
+      border-bottom: none;
+    }
+
+    .note {
+      text-align: center;
+      font-size: 0.9rem;
+      color: #777;
+      margin-top: 3rem;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 700px) {
+      .leader-box {
+        padding: 1.5rem;
+      }
+      .stat {
+        font-size: 1.3rem;
+      }
+      .player {
+        font-size: 1rem;
+      }
+
+      .back-logo img {
+        height: 44px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 🏠 Back to Home -->
+  <a href="index.html" class="back-logo">
+    <img src="img/logo2.jpg" alt="Back to Home">
+  </a>
+
+  <h1>🏀 Season Scoring Kings</h1>
+  <div class="date-label" id="season-date"></div>
+
+  <div class="leader-box" id="leader-block">
+    <div class="stat">🔥 Top Season Scorers</div>
+    <div id="player-list">Loading...</div>
+  </div>
+
+  <p class="note">Stat Kings HQ – All stats auto-tracked & published. @StackKingsHQ</p>
+
+  <script>
+    fetch('season.json')
+      .then(res => res.json())
+      .then(data => {
+        const dateLabel = document.getElementById('season-date');
+        const container = document.getElementById('player-list');
+        container.innerHTML = '';
+
+        if (!data.nights || data.nights.length === 0) {
+          container.innerHTML = 'No data found';
+          return;
+        }
+
+        const night = data.nights[0];
+        const players = night.leaders;
+        const medals = ['🥇', '🥈', '🥉'];
+
+        // Format date
+        const rawDate = night.date;
+        const [mm, dd, yyyy] = rawDate.split('/');
+        const dateObj = new Date(`${yyyy}-${mm}-${dd}`);
+        const options = { month: 'short', day: 'numeric', year: 'numeric' };
+        //dateLabel.textContent = `As of ${dateObj.toLocaleDateString('en-US', options)}`;
+
+        players.forEach((p, i) => {
+          const medal = medals[i] || `${i + 1}.`;
+          const div = document.createElement('div');
+          div.className = 'player';
+          div.textContent = `${medal} ${p.name} (${p.team}): ${p.ppg} PPG | ${p.points} PTS`;
+          container.appendChild(div);
+        });
+      })
+      .catch(err => {
+        console.error("Failed to load season.json", err);
+        document.getElementById('player-list').innerText = "Unable to load season leaders.";
+      });
+  </script>
+</body>
+</html>

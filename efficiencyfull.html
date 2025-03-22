@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Efficiency Kings Archive – Stat Kings HQ</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Outfit', sans-serif;
+      background: radial-gradient(circle at top, #1b1b1b 0%, #080808 100%);
+      color: #f0f0f0;
+      padding: 3rem 1rem;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 2.2rem;
+      margin-bottom: 0.5rem;
+      color: #00ffc6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    h1::before {
+      content: "🗂️";
+      font-size: 1.8rem;
+    }
+
+    .subheading {
+      text-align: center;
+      font-size: 1.5rem;
+      color: #999;
+      margin-bottom: 2.5rem;
+      letter-spacing: 0.5px;
+    }
+
+    .night {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 16px;
+      padding: 1.5rem 1.5rem 1.2rem;
+      margin: 0 auto 1.8rem;
+      max-width: 750px;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .night:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 0 20px rgba(0, 255, 198, 0.08);
+    }
+
+    .night-header {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #ffc107;
+      margin-bottom: 1rem;
+    }
+
+    .stat-row {
+      display: flex;
+      align-items: center;
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+      color: #ddd;
+    }
+
+    .stat-row .emoji {
+      margin-right: 0.5rem;
+      font-size: 1.2rem;
+    }
+
+    .stat-row .label {
+      font-weight: 600;
+      color: #00ffd5;
+      margin-right: 0.4rem;
+    }
+
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 1.6rem;
+      }
+
+      .subheading {
+        font-size: 0.9rem;
+      }
+
+      .night {
+        padding: 1.2rem;
+      }
+
+      .night-header {
+        font-size: 1rem;
+      }
+
+      .stat-row {
+        font-size: 0.95rem;
+        flex-wrap: wrap;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Stat Kings HQ – Full Archive</h1>
+  <p class="subheading">Efficiency Kings</p>
+
+  <div id="archive"></div>
+
+  <script>
+    fetch('efficiency.json')
+      .then(res => res.json())
+      .then(data => {
+        const container = document.getElementById('archive');
+
+        data.nights.forEach(night => {
+          const div = document.createElement('div');
+          div.className = 'night';
+
+          let content = `
+            <div class="night-header">${night.date}</div>
+            <div class="stat-row"><span class="emoji">⚡</span> <span class="label">Efficiency:</span> ${night.efficiency.player} (${night.efficiency.team}) – ${night.efficiency.fg_pct}% FG (${night.efficiency.fga} FGA)</div>
+            <div class="stat-row"><span class="emoji">📈</span> <span class="label">Plus/Minus:</span> ${night.plus_minus.player} (${night.plus_minus.team}) – +${night.plus_minus.value}</div>
+            <div class="stat-row"><span class="emoji">🛡️</span> <span class="label">Defense:</span> ${night.defense.player} – ${night.defense.stocks} STL+BLK</div>
+          `;
+
+          if (night.triple_double) {
+            content += `
+              <div class="stat-row"><span class="emoji">👑</span> <span class="label">Triple-Double:</span> ${night.triple_double.name} (${night.triple_double.team}) – ${night.triple_double.pts} | ${night.triple_double.reb} | ${night.triple_double.ast}</div>
+            `;
+          }
+
+          div.innerHTML = content;
+          container.appendChild(div);
+        });
+      })
+      .catch(err => {
+        console.error("Error loading efficiency.json", err);
+        document.getElementById('archive').innerText = "Unable to load archive data.";
+      });
+  </script>
+</body>
+</html>

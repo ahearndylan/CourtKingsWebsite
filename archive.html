@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Live Feed – Stat Kings HQ</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Outfit', sans-serif;
+      background: #0c0c0c;
+      color: #f0f0f0;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 2rem;
+      background: #121212;
+      border-bottom: 1px solid #1f1f1f;
+    }
+
+    .logo img {
+      height: 52px;
+      border-radius: 10px;
+    }
+
+    nav a {
+      color: #ccc;
+      text-decoration: none;
+      font-weight: 600;
+      margin-left: 1.5rem;
+      transition: color 0.2s ease;
+    }
+
+    nav a:hover {
+      color: #00ffc6;
+    }
+
+    .grid {
+      display: flex;
+      flex-direction: row;
+      gap: 2rem;
+      padding: 2rem;
+      flex: 1;
+    }
+
+    .left, .right {
+      flex: 1;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 16px;
+      padding: 1.5rem;
+      overflow-y: auto;
+    }
+
+    .left {
+      min-width: 350px;
+    }
+
+    .right {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding-top: 2rem;
+}
+
+
+    .right h2 {
+      color: #ffc107;
+      margin-bottom: 2rem;
+      font-size: 1.8rem;
+    }
+
+    #player-spotlight img {
+      width: 140px;
+      height: 140px;
+      object-fit: cover;
+      border-radius: 50%;
+      margin-bottom: 1rem;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.4);
+      border: 3px solid #ffc107;
+    }
+
+    .spotlight-name {
+      font-size: 1.5rem;
+      font-weight: 800;
+      margin-bottom: 0.4rem;
+    }
+
+    .spotlight-team {
+      font-size: 1.15rem;
+      color: #ccc;
+      margin-bottom: 1.2rem;
+    }
+
+    .spotlight-description {
+      font-size: 1rem;
+      line-height: 1.7;
+      color: #ddd;
+      max-width: 400px;
+      padding: 0 1rem;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1.5rem;
+      font-size: 0.85rem;
+      color: #777;
+    }
+
+    @media (max-width: 768px) {
+      .grid {
+        flex-direction: column;
+      }
+
+      nav {
+        justify-content: center;
+        width: 100%;
+        margin-top: 1rem;
+      }
+
+      .logo {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo">
+      <a href="index.html"><img src="img/logo2.jpg" alt="Stat Kings HQ Logo"></a>
+    </div>
+    <nav>
+      <a href="about.html">About</a>
+      <a href="archive.html">Live Hub</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <div class="grid">
+    <div class="left">
+      <!-- Elfsight Twitter Feed -->
+      <script src="https://static.elfsight.com/platform/platform.js" async></script>
+      <div class="elfsight-app-884b8042-a696-4787-b2fa-e5f78c03eb06" data-elfsight-app-lazy></div>
+    </div>
+
+    <div class="right">
+      <h2>🏀 Player Spotlight</h2>
+      <div id="player-spotlight">
+        Loading player spotlight...
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    &copy; 2025 Stat Kings HQ – All stats auto-tracked & published. @StackKingsHQ
+  </footer>
+
+  <script>
+    async function loadPlayerSpotlight() {
+      try {
+        const response = await fetch('player.json');
+        const players = await response.json();
+
+        const randomPlayer = players[Math.floor(Math.random() * players.length)];
+        const { name, team, description, imageFile } = randomPlayer;
+
+        const spotlightDiv = document.getElementById('player-spotlight');
+        spotlightDiv.innerHTML = `
+          <img src="player_images/${imageFile}" alt="${name}">
+          <div class="spotlight-name">${name}</div>
+          <div class="spotlight-team">${team}</div>
+          <div class="spotlight-description">${description}</div>
+        `;
+      } catch (error) {
+        console.error('Error loading player spotlight:', error);
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', loadPlayerSpotlight);
+  </script>
+
+</body>
+</html>

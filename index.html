@@ -2,18 +2,15 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Stat Kings HQ</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --primary: #00bfff;
-      --background: #0b0b0f;
-      --card-bg: #14151a;
-      --text-light: #ffffff;
-      --text-muted: #aaa;
-      --button-hover: #0099cc;
-      --glow: 0 0 15px rgba(0, 191, 255, 0.5);
+      --primary: #00ffc6;
+      --accent: #c084fc;
+      --bg-dark: #0c0c0c;
+      --card-bg: #151515;
     }
 
     * {
@@ -23,99 +20,251 @@
     }
 
     body {
-      background-color: var(--background);
-      font-family: 'Inter', sans-serif;
-      color: var(--text-light);
+      font-family: 'Outfit', sans-serif;
+      background: var(--bg-dark);
+      color: #fff;
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
-      min-height: 100vh;
-      overflow-x: hidden;
     }
 
-    .container {
-      max-width: 800px;
-      margin: auto;
-      padding: 4rem 1rem;
-      text-align: center;
-      animation: fadeIn 1.2s ease-out;
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      background: #121212;
+      border-bottom: 1px solid #1f1f1f;
+      flex-wrap: wrap;
     }
 
-    @keyframes fadeIn {
-      0% { opacity: 0; transform: translateY(20px); }
-      100% { opacity: 1; transform: translateY(0); }
+    .logo-container img {
+      height: 68px;
+      width: auto;
+      border-radius: 12px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.4);
+      transition: transform 0.3s ease;
+      animation: slamIn 0.9s ease-out;
     }
 
-    .logo {
-      width: 130px;
-      margin-bottom: 2rem;
-      filter: drop-shadow(var(--glow));
+    .logo-container img:hover {
+      transform: scale(1.05);
     }
 
-    h1 {
-      font-family: 'Orbitron', sans-serif;
-      font-size: 3rem;
-      margin-bottom: 1rem;
+    nav {
+      display: flex;
+      gap: 1.2rem;
+      margin-top: 0.5rem;
+    }
+
+    nav a {
+      color: #ccc;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.2s ease;
+    }
+
+    nav a:hover {
       color: var(--primary);
-      text-shadow: var(--glow);
     }
 
-    p {
-      font-size: 1.15rem;
-      color: var(--text-muted);
-      margin-bottom: 2.5rem;
+    .intro {
+      text-align: center;
+      margin-top: 3rem;
+      padding: 0 1rem;
+    }
+
+    .intro h1 {
+      font-size: 2.4rem;
+      font-weight: 800;
+      color: var(--primary);
+      margin-bottom: 0.6rem;
+    }
+
+    .intro h3 {
+      font-size: 1.25rem;
+      color: var(--accent);
+      font-weight: 600;
+      margin-bottom: 1.2rem;
+    }
+
+    .intro p {
+      color: #aaa;
+      font-size: 1.05rem;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.5rem;
+      padding: 3rem 2rem;
+      max-width: 1100px;
+      margin: 0 auto;
+      width: 100%;
     }
 
     .card {
-      background-color: var(--card-bg);
-      padding: 2rem;
+      background: var(--card-bg);
+      border: 1px solid #1e1e1e;
       border-radius: 16px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.3);
-      transition: transform 0.4s ease;
+      padding: 2rem;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 0 12px rgba(0, 255, 198, 0.05);
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(0,255,198,0.08) 0%, transparent 60%);
+      transform: rotate(25deg);
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+    }
+
+    .card:hover::before {
+      opacity: 0.2;
     }
 
     .card:hover {
-      transform: scale(1.03);
+      transform: translateY(-6px);
+      box-shadow: 0 0 25px rgba(0,255,198,0.1);
     }
 
-    .button {
-      display: inline-block;
-      background-color: var(--primary);
-      color: #000;
-      padding: 0.85rem 2rem;
-      border-radius: 10px;
-      font-weight: 600;
-      font-size: 1rem;
+    .card h3 {
+      color: var(--accent);
+      margin-bottom: 1rem;
+      font-size: 1.2rem;
+    }
+
+    .card p {
+      color: #ccc;
+      font-size: 0.95rem;
+      line-height: 1.4;
+    }
+
+    a.card {
       text-decoration: none;
-      transition: background 0.3s ease, transform 0.3s ease;
-      box-shadow: var(--glow);
+      color: inherit;
     }
 
-    .button:hover {
-      background-color: var(--button-hover);
-      transform: scale(1.05);
+    .follow-twitter {
+      display: flex;
+      justify-content: center;
+      margin: 2rem 0 1rem;
     }
 
     footer {
       margin-top: auto;
       text-align: center;
-      padding: 2rem 1rem;
+      padding: 2rem;
       font-size: 0.85rem;
-      color: var(--text-muted);
+      color: #666;
+    }
+
+    @keyframes slamIn {
+      0% {
+        transform: scale(5) translateY(-300px);
+        opacity: 0;
+      }
+      60% {
+        transform: scale(1.2) translateY(20px);
+        opacity: 1;
+      }
+      80% {
+        transform: scale(0.95) translateY(-10px);
+      }
+      100% {
+        transform: scale(1) translateY(0);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .intro h1 {
+        font-size: 2rem;
+      }
+
+      .intro h3 {
+        font-size: 1.1rem;
+      }
+
+      nav {
+        justify-content: center;
+        width: 100%;
+        margin-top: 1rem;
+      }
+
+      .logo-container {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+      }
+
+      .grid {
+        padding: 2rem 1rem;
+      }
+
+      header {
+        justify-content: center;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
     }
   </style>
 </head>
 <body>
-  <main class="container">
-    <div class="card">
-      <img src="logo.jpg" alt="Stat Kings HQ Logo" class="logo" />
-      <h1>Stat Kings HQ</h1>
-      <p>Coming Soon — Where NBA stats become royalty.</p>
-      <a href="https://twitter.com/StatKingsHQ" class="button" target="_blank">Follow on X</a>
+
+  <header>
+    <div class="logo-container">
+      <img src="img/logo1.jpg" alt="Stat Kings HQ Logo">
     </div>
-  </main>
+    <nav>
+      <a href="about.html">About</a>
+      <a href="archive.html">Live Hub</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <section class="intro">
+    <h1>Daily Stat Bot Leaders</h1>
+    <h3>NBA Stats 👑 | Backed by Data 🚀</h3>
+    <p>Track nightly NBA performance leaders across elite scoring, efficiency, clutch, and season stats — powered by the Stat Kings HQ bots. @StackKingsHQ</p>
+  </section>
+
+  <section class="grid">
+    <a href="stats.html" class="card">
+      <h3>🔥 Nightly Kings</h3>
+      <p>Top scorers, rebounders, passers, and shooters from every NBA slate.</p>
+    </a>
+    <a href="efficiency.html" class="card">
+      <h3>⚡ Efficiency Kings</h3>
+      <p>Most efficient scorers, best +/-, nightly defensive monsters, plus Triple-Double Royalty.</p>
+    </a>
+    <a href="clutch.html" class="card">
+      <h3>⏱️ Clutch Kings</h3>
+      <p>4th quarter excellence: points, FG%, assists, and best team finishers.</p>
+    </a>
+    <a href="season.html" class="card">
+      <h3>👑 Scoring Kings</h3>
+      <p>Live season-long tracking of the NBA's total points and PPG leaders.</p>
+    </a>
+  </section>
+
+  <div class="follow-twitter">
+    <a href="https://twitter.com/StatKingsHQ?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-show-screen-name="false" data-show-count="false">Follow @StatKingsHQ</a>
+  </div>
+  <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
   <footer>
-    &copy; 2025 Stat Kings HQ. All rights reserved.
+    &copy; 2025 Stat Kings HQ – All stats auto-tracked & published. @StackKingsHQ
   </footer>
+
 </body>
 </html>

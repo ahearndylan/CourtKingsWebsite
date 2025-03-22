@@ -1,0 +1,758 @@
+[
+    {
+        "name": "Tyrese Maxey",
+        "team": "Philadelphia 76ers",
+        "description": "Dynamic young combo guard known for his speed and scoring bursts, emerging as a primary offensive option for Philadelphia.",
+        "imageFile": "Tyrese-Maxey.jpg"
+    },
+    {
+        "name": "Darius Garland",
+        "team": "Cleveland Cavaliers",
+        "description": "Quick, sharpshooting point guard who became an All-Star in 2022, serving as the Cavaliers' primary playmaker and outside threat.",
+        "imageFile": "Darius-Garland.jpg"
+    },
+    {
+        "name": "Jaden McDaniels",
+        "team": "Minnesota Timberwolves",
+        "description": "Long, defensive-minded forward, prized for his ability to guard multiple positions while improving as a three-point shooter.",
+        "imageFile": "Jaden-McDaniels.jpg"
+    },
+    {
+        "name": "Jrue Holiday",
+        "team": "Boston Celtics",
+        "description": "All-Star guard and elite defender, a 2021 NBA champion admired for his two-way play and leadership, now anchoring Boston's backcourt.",
+        "imageFile": "Jrue-Holiday.jpg"
+    },
+    {
+        "name": "Karl-Anthony Towns",
+        "team": "New York Knicks",
+        "description": "Skilled big man and multiple-time All-Star, known for his shooting range and scoring ability as a cornerstone of the Timberwolves.",
+        "imageFile": "Karl-Anthony-Towns.jpg"
+    },
+    {
+        "name": "Fred VanVleet",
+        "team": "Houston Rockets",
+        "description": "Veteran point guard and 2019 NBA champion, known for steady leadership, shooting, and defense, now guiding a young Rockets team.",
+        "imageFile": "Fred-VanVleet.jpg"
+    },
+    {
+        "name": "Andrew Wiggins",
+        "team": "Miami Heat",
+        "description": "Athletic forward and 2022 NBA champion, a former No.1 pick who has evolved into a reliable two-way contributor and All-Star with Golden State.",
+        "imageFile": "Andrew-Wiggins.jpg"
+    },
+    {
+        "name": "Khris Middleton",
+        "team": "Washington Wizards",
+        "description": "Three-time All-Star swingman and 2021 NBA champion, a smooth scorer and secondary playmaker who remains a key Bucks leader.",
+        "imageFile": "Khris-Middleton.jpg"
+    },
+    {
+        "name": "Pascal Siakam",
+        "team": "Toronto Raptors",
+        "description": "All-NBA forward and 2019 champion, a versatile scorer and defender who leads the Raptors with his inside-out game.",
+        "imageFile": "Pascal-Siakam.jpg"
+    },
+    {
+        "name": "Marcus Smart",
+        "team": "Memphis Grizzlies",
+        "description": "Gritty guard and 2022 Defensive Player of the Year, known for his hustle and leadership; now tasked with guiding Memphis’s young backcourt.",
+        "imageFile": "Marcus-Smart.jpg"
+    },
+    {
+        "name": "Kevin Durant",
+        "team": "Phoenix Suns",
+        "description": "All-time great forward, two-time Finals MVP and former league MVP, revered for his scoring excellence; now leading Phoenix’s title push.",
+        "imageFile": "Kevin-Durant.jpg"
+    },
+    {
+        "name": "Jalen Brunson",
+        "team": "New York Knicks",
+        "description": "Skilled point guard recognized for scoring and leadership, who led the Knicks to a playoff series win as the team's floor general.",
+        "imageFile": "Jalen-Brunson.jpg"
+    },
+    {
+        "name": "De'Aaron Fox",
+        "team": "San Antonio Spurs",
+        "description": "Lightning-quick point guard and 2023 All-Star who led the league in clutch scoring, steering Sacramento back to playoff contention.",
+        "imageFile": "DeAaron-Fox.jpg"
+    },
+    {
+        "name": "Desmond Bane",
+        "team": "Memphis Grizzlies",
+        "description": "Sharpshooting guard who has quickly become a top scoring option for Memphis, known for his strength, efficient three-point shot, and playmaking.",
+        "imageFile": "Desmond-Bane.jpg"
+    },
+    {
+        "name": "Austin Reaves",
+        "team": "Los Angeles Lakers",
+        "description": "Skilled young guard who went from undrafted to key Lakers starter, known for crafty playmaking, shot-making and hustle.",
+        "imageFile": "Austin-Reaves.jpg"
+    },
+    {
+        "name": "Cade Cunningham",
+        "team": "Detroit Pistons",
+        "description": "Tall point guard and 2021 No.1 pick, leading the Pistons with his playmaking and scoring when healthy.",
+        "imageFile": "Cade-Cunningham.jpg"
+    },
+    {
+        "name": "OG Anunoby",
+        "team": "Toronto Raptors",
+        "description": "Elite wing defender who led the NBA in steals in 2022–23, serving as a key three-and-D presence for the Raptors.",
+        "imageFile": "OG-Anunoby.jpg"
+    },
+    {
+        "name": "Anfernee Simons",
+        "team": "Portland Trail Blazers",
+        "description": "Scoring guard with a lethal three-point shot, stepping into a leading role for the Blazers in the post-Lillard era.",
+        "imageFile": "Anfernee-Simons.jpg"
+    },
+    {
+        "name": "Klay Thompson",
+        "team": "Golden State Warriors",
+        "description": "Sharpshooting guard and four-time champion, one of the best three-point marksmen in history, providing elite shooting and defense for the Warriors.",
+        "imageFile": "Klay-Thompson.jpg"
+    },
+    {
+        "name": "Alperen Sengun",
+        "team": "Houston Rockets",
+        "description": "Skilled young center with excellent passing and post moves, often drawing comparisons to a young Jokic as he develops for the Rockets.",
+        "imageFile": "Alperen-Sengun.jpg"
+    },
+    {
+        "name": "Brook Lopez",
+        "team": "Milwaukee Bucks",
+        "description": "Veteran 7-footer and 2021 NBA champion who reinvented himself as a premier shot-blocker and stretch-five, anchoring Milwaukee’s defense.",
+        "imageFile": "Brook-Lopez.jpg"
+    },
+    {
+        "name": "Deandre Ayton",
+        "team": "Portland Trail Blazers",
+        "description": "Skilled center and 2018 No.1 pick, providing Portland with interior scoring and rebounding after arriving in the Lillard trade.",
+        "imageFile": "Deandre-Ayton.jpg"
+    },
+    {
+        "name": "Lauri Markkanen",
+        "team": "Utah Jazz",
+        "description": "All-Star 7-footer and the NBA’s 2023 Most Improved Player, now Utah’s go-to scorer with his versatile inside-out game.",
+        "imageFile": "Lauri-Markkanen.jpg"
+    },
+    {
+        "name": "Jaylen Brown",
+        "team": "Boston Celtics",
+        "description": "Athletic two-way wing and multiple-time All-Star, serving as a key scoring option and perimeter defender for Boston.",
+        "imageFile": "Jaylen-Brown.jpg"
+    },
+    {
+        "name": "Domantas Sabonis",
+        "team": "Sacramento Kings",
+        "description": "Skilled center and three-time All-Star, an elite rebounder and passer who anchors the Kings’ frontcourt (All-NBA Third Team in 2023).",
+        "imageFile": "Domantas-Sabonis.jpg"
+    },
+    {
+        "name": "Jalen Green",
+        "team": "Houston Rockets",
+        "description": "Athletic young shooting guard and 2021 No.2 pick, known for high-flying dunks and scoring potential as a focal point of Houston’s rebuild.",
+        "imageFile": "Jalen-Green.jpg"
+    },
+    {
+        "name": "Mikal Bridges",
+        "team": "Brooklyn Nets",
+        "description": "Two-way forward who emerged as a leading scorer for Brooklyn, known for his ironman streak and elite wing defense.",
+        "imageFile": "Mikal-Bridges.jpg"
+    },
+    {
+        "name": "Jayson Tatum",
+        "team": "Boston Celtics",
+        "description": "All-NBA forward and multiple-time All-Star, leading the Celtics with elite scoring and versatile play.",
+        "imageFile": "Jayson-Tatum.jpg"
+    },
+    {
+        "name": "Russell Westbrook",
+        "team": "Los Angeles Clippers",
+        "description": "Former MVP (2017) and nine-time All-Star, known for averaging a triple-double, now providing energy and playmaking for the Clippers.",
+        "imageFile": "Russell-Westbrook.jpg"
+    },
+    {
+        "name": "Rudy Gobert",
+        "team": "Minnesota Timberwolves",
+        "description": "Three-time Defensive Player of the Year and multiple-time All-Star center, an elite rim protector and rebounder for the Timberwolves.",
+        "imageFile": "Rudy-Gobert.jpg"
+    },
+    {
+        "name": "Paolo Banchero",
+        "team": "Orlando Magic",
+        "description": "Skilled forward and 2023 Rookie of the Year, a versatile scorer and playmaker who quickly became Orlando's go-to option.",
+        "imageFile": "Paolo-Banchero.jpg"
+    },
+    {
+        "name": "Nikola Jokic",
+        "team": "Denver Nuggets",
+        "description": "Two-time MVP and 2023 Finals MVP, a dominant center who orchestrates Denver's offense with elite passing, scoring, and rebounding.",
+        "imageFile": "Nikola-Jokic.jpg"
+    },
+    {
+        "name": "James Harden",
+        "team": "Los Angeles Clippers",
+        "description": "Former MVP and ten-time All-Star guard, a prolific scorer and playmaker now adjusting to a playmaking role with the Clippers.",
+        "imageFile": "James-Harden.jpg"
+    },
+    {
+        "name": "Zion Williamson",
+        "team": "New Orleans Pelicans",
+        "description": "Athletic power forward and two-time All-Star with rare explosiveness and strength, a dominant paint scorer when healthy for New Orleans.",
+        "imageFile": "Zion-Williamson.jpg"
+    },
+    {
+        "name": "Stephen Curry",
+        "team": "Golden State Warriors",
+        "description": "Revolutionary point guard, four-time NBA champion and two-time MVP, renowned as the greatest shooter ever and leader of the Warriors' dynasty.",
+        "imageFile": "Stephen-Curry.jpg"
+    },
+    {
+        "name": "Scottie Barnes",
+        "team": "Toronto Raptors",
+        "description": "Versatile forward and 2022 Rookie of the Year, known for all-around play and defensive versatility as a rising star for Toronto.",
+        "imageFile": "Scottie-Barnes.jpg"
+    },
+    {
+        "name": "Donovan Mitchell",
+        "team": "Cleveland Cavaliers",
+        "description": "Dynamic shooting guard and four-time All-Star, one of the NBA's elite scorers and playmakers leading Cleveland's backcourt.",
+        "imageFile": "Donovan-Mitchell.jpg"
+    },
+    {
+        "name": "Luka Doncic",
+        "team": "Dallas Mavericks",
+        "description": "Phenomenal playmaker and four-time All-Star, often producing triple-doubles; he leads the Mavericks as one of the NBA’s top offensive talents.",
+        "imageFile": "Luka-Doncic.jpg"
+    },
+    {
+        "name": "Buddy Hield",
+        "team": "Indiana Pacers",
+        "description": "Prolific three-point shooter and veteran guard who spaces the floor for Indiana's offense; a former NBA three-point contest champion.",
+        "imageFile": "Buddy-Hield.jpg"
+    },
+    {
+        "name": "Dejounte Murray",
+        "team": "Atlanta Hawks",
+        "description": "Two-way guard and 2022 All-Star, valued for his defensive instincts and playmaking; partners with Trae in Atlanta's backcourt.",
+        "imageFile": "Dejounte-Murray.jpg"
+    },
+    {
+        "name": "Ja Morant",
+        "team": "Memphis Grizzlies",
+        "description": "Explosive point guard and two-time All-Star, the 2020 Rookie of the Year known for high-flying dunks, serving as the catalyst of the Grizzlies' offense.",
+        "imageFile": "Ja-Morant.jpg"
+    },
+    {
+        "name": "Jimmy Butler",
+        "team": "Miami Heat",
+        "description": "Star swingman and six-time All-Star, famed for two-way tenacity and clutch performances, leading the Heat with his competitive drive.",
+        "imageFile": "Jimmy-Butler.jpg"
+    },
+    {
+        "name": "Brandon Miller",
+        "team": "Charlotte Hornets",
+        "description": "Rookie forward and 2023 No.2 pick, a versatile scorer with length who is expected to be a cornerstone for the Hornets.",
+        "imageFile": "Brandon-Miller.jpg"
+    },
+    {
+        "name": "Tyler Herro",
+        "team": "Miami Heat",
+        "description": "Sharpshooting guard and 2022 Sixth Man of the Year, a young scoring threat for Miami with the ability to create his own shot.",
+        "imageFile": "Tyler-Herro.jpg"
+    },
+    {
+        "name": "LaMelo Ball",
+        "team": "Charlotte Hornets",
+        "description": "Charismatic point guard and 2022 All-Star, known for flashy playmaking and deep shooting, leading Charlotte's young squad.",
+        "imageFile": "LaMelo-Ball.jpg"
+    },
+    {
+        "name": "Alex Caruso",
+        "team": "Chicago Bulls",
+        "description": "Defensive specialist guard known for hustle and IQ; a key role player for Chicago and a 2020 NBA champion with the Lakers.",
+        "imageFile": "Alex-Caruso.jpg"
+    },
+    {
+        "name": "Victor Wembanyama",
+        "team": "San Antonio Spurs",
+        "description": "Highly anticipated rookie big man, the 2023 No.1 pick (7'4\" tall) with a unique skill set, seen as the new franchise cornerstone for the Spurs.",
+        "imageFile": "Victor-Wembanyama.jpg"
+    },
+    {
+        "name": "LeBron James",
+        "team": "Los Angeles Lakers",
+        "description": "Legendary forward—four-time MVP, four-time champion and the NBA's all-time leading scorer—still performing at an elite level for the Lakers.",
+        "imageFile": "LeBron-James.jpg"
+    },
+    {
+        "name": "Jamal Murray",
+        "team": "Denver Nuggets",
+        "description": "Star point guard and 2023 NBA champion, renowned for scoring bursts and clutch performances, forming a lethal duo with Jokic.",
+        "imageFile": "Jamal-Murray.jpg"
+    },
+    {
+        "name": "Giannis Antetokounmpo",
+        "team": "Milwaukee Bucks",
+        "description": "Two-time MVP and 2021 NBA champion, a dominant forward who impacts both ends with athleticism, leading the Bucks as a perennial superstar.",
+        "imageFile": "Giannis-Antetokounmpo.jpg"
+    },
+    {
+        "name": "Clint Capela",
+        "team": "Atlanta Hawks",
+        "description": "Veteran center known for rebounding and shot-blocking, providing the Hawks with rim protection and lob-finishing inside.",
+        "imageFile": "Clint-Capela.jpg"
+    },
+    {
+        "name": "Myles Turner",
+        "team": "Indiana Pacers",
+        "description": "Athletic center and rim protector, consistently among the league's shot-block leaders while stretching the floor with three-point shooting.",
+        "imageFile": "Myles-Turner.jpg"
+    },
+    {
+        "name": "Michael Porter Jr.",
+        "team": "Denver Nuggets",
+        "description": "Tall sharpshooter at forward, a key scoring option who helped Denver win the 2023 championship with his three-point shooting and rebounding.",
+        "imageFile": "Michael-Porter-Jr.jpg"
+    },
+    {
+        "name": "Bam Adebayo",
+        "team": "Miami Heat",
+        "description": "All-Star center known for defensive versatility and playmaking from the post, anchoring Miami’s defense and filling the stat sheet.",
+        "imageFile": "Bam-Adebayo.jpg"
+    },
+    {
+        "name": "DeMar DeRozan",
+        "team": "Sacramento Kings",
+        "description": "Veteran swingman and multiple-time All-Star, renowned for his midrange scoring and playmaking, providing leadership for the Bulls.",
+        "imageFile": "DeMar-DeRozan.jpg"
+    },
+    {
+        "name": "Trae Young",
+        "team": "Atlanta Hawks",
+        "description": "Star point guard and two-time All-Star known for deep shooting range and playmaking, the offensive engine of the Hawks.",
+        "imageFile": "Trae-Young.jpg"
+    },
+    {
+        "name": "Aaron Gordon",
+        "team": "Denver Nuggets",
+        "description": "Athletic forward and defensive stopper, key to Denver’s 2023 title run with versatile defense and timely scoring around Jokic.",
+        "imageFile": "Aaron-Gordon.jpg"
+    },
+    {
+        "name": "Kyle Lowry",
+        "team": "Miami Heat",
+        "description": "Veteran point guard, six-time All-Star and 2019 NBA champion, providing leadership, playmaking, and toughness for the Heat.",
+        "imageFile": "Kyle-Lowry.jpg"
+    },
+    {
+        "name": "Brandon Ingram",
+        "team": "New Orleans Pelicans",
+        "description": "Smooth scoring forward and 2020 Most Improved Player, a one-time All-Star who serves as a primary offensive option for the Pelicans.",
+        "imageFile": "Brandon-Ingram.jpg"
+    },
+    {
+        "name": "Franz Wagner",
+        "team": "Orlando Magic",
+        "description": "Promising young forward with size and playmaking ability, known for efficient scoring and all-around game as a key Magic building block.",
+        "imageFile": "Franz-Wagner.jpg"
+    },
+    {
+        "name": "Scoot Henderson",
+        "team": "Portland Trail Blazers",
+        "description": "Electric rookie point guard taken No.3 overall in 2023, touted for explosiveness and playmaking as he begins his career in Portland.",
+        "imageFile": "Scoot-Henderson.jpg"
+    },
+    {
+        "name": "Devin Booker",
+        "team": "Phoenix Suns",
+        "description": "Three-time All-Star shooting guard, an elite scorer who has grown into a playmaker, and the homegrown star of the Suns.",
+        "imageFile": "Devin-Booker.jpg"
+    },
+    {
+        "name": "Brook Lopez",
+        "team": "Milwaukee Bucks",
+        "description": "Veteran 7-footer and 2021 NBA champion who reinvented himself as a premier shot-blocker and stretch-five, anchoring Milwaukee’s defense.",
+        "imageFile": "Brook-Lopez.jpg"
+    },
+    {
+        "name": "Mikal Bridges",
+        "team": "Brooklyn Nets",
+        "description": "Two-way forward who emerged as a leading scorer for Brooklyn, known for his ironman streak and elite wing defense.",
+        "imageFile": "Mikal-Bridges.jpg"
+    },
+    {
+        "name": "Julius Randle",
+        "team": "New York Knicks",
+        "description": "Powerful All-Star power forward known for physical scoring and rebounding, the centerpiece of the Knicks' offense.",
+        "imageFile": "Julius-Randle.jpg"
+    },
+    {
+        "name": "Lauri Markkanen",
+        "team": "Utah Jazz",
+        "description": "All-Star 7-footer and the NBA’s 2023 Most Improved Player, now Utah’s go-to scorer with his versatile inside-out game.",
+        "imageFile": "Lauri-Markkanen.jpg"
+    },
+    {
+        "name": "Nikola Jokic",
+        "team": "Denver Nuggets",
+        "description": "Two-time MVP and 2023 Finals MVP, a dominant center who orchestrates Denver's offense with elite passing, scoring, and rebounding.",
+        "imageFile": "Nikola-Jokic.jpg"
+    },
+    {
+        "name": "Brandon Ingram",
+        "team": "New Orleans Pelicans",
+        "description": "Smooth scoring forward and 2020 Most Improved Player, a one-time All-Star who serves as a primary offensive option for the Pelicans.",
+        "imageFile": "Brandon-Ingram.jpg"
+    },
+    {
+        "name": "Scoot Henderson",
+        "team": "Portland Trail Blazers",
+        "description": "Electric rookie point guard taken No.3 overall in 2023, touted for explosiveness and playmaking as he begins his career in Portland.",
+        "imageFile": "Scoot-Henderson.jpg"
+    },
+    {
+        "name": "Marcus Smart",
+        "team": "Memphis Grizzlies",
+        "description": "Gritty guard and 2022 Defensive Player of the Year, known for his hustle and leadership; now tasked with guiding Memphis’s young backcourt.",
+        "imageFile": "Marcus-Smart.jpg"
+    },
+    {
+        "name": "Julius Randle",
+        "team": "New York Knicks",
+        "description": "Powerful All-Star power forward known for physical scoring and rebounding, the centerpiece of the Knicks' offense.",
+        "imageFile": "Julius-Randle.jpg"
+    },
+    {
+        "name": "Ja Morant",
+        "team": "Memphis Grizzlies",
+        "description": "Explosive point guard and two-time All-Star, the 2020 Rookie of the Year known for high-flying dunks, serving as the catalyst of the Grizzlies' offense.",
+        "imageFile": "Ja-Morant.jpg"
+    },
+    {
+        "name": "CJ McCollum",
+        "team": "New Orleans Pelicans",
+        "description": "Veteran guard and prolific scorer, a long-time starter in Portland now providing veteran leadership and shot creation for the Pelicans.",
+        "imageFile": "CJ-McCollum.jpg"
+    },
+    {
+        "name": "Brandon Miller",
+        "team": "Charlotte Hornets",
+        "description": "Rookie forward and 2023 No.2 pick, a versatile scorer with length who is expected to be a cornerstone for the Hornets.",
+        "imageFile": "Brandon-Miller.jpg"
+    },
+    {
+        "name": "Devin Vassell",
+        "team": "San Antonio Spurs",
+        "description": "Emerging two-way guard with a smooth shooting stroke, now a core piece for San Antonio after signing a major extension in 2023.",
+        "imageFile": "Devin-Vassell.jpg"
+    },
+    {
+        "name": "Grant Williams",
+        "team": "Dallas Mavericks",
+        "description": "Defensive-minded forward valued for toughness and shooting; brings playoff experience (2022 Finals run with Boston) to his role in Dallas.",
+        "imageFile": "Grant-Williams.jpg"
+    },
+    {
+        "name": "Clint Capela",
+        "team": "Atlanta Hawks",
+        "description": "Veteran center known for rebounding and shot-blocking, providing the Hawks with rim protection and lob-finishing inside.",
+        "imageFile": "Clint-Capela.jpg"
+    },
+    {
+        "name": "DeMar DeRozan",
+        "team": "Sacramento Kings",
+        "description": "Veteran swingman and multiple-time All-Star, renowned for his midrange scoring and playmaking, providing leadership for the Bulls.",
+        "imageFile": "DeMar-DeRozan.jpg"
+    },
+    {
+        "name": "Dillon Brooks",
+        "team": "Houston Rockets",
+        "description": "Tenacious wing defender known for his aggressive play and vocal leadership, now bringing his toughness and improved shooting to Houston.",
+        "imageFile": "Dillon-Brooks.jpg"
+    },
+    {
+        "name": "Paul George",
+        "team": "Los Angeles Clippers",
+        "description": "Star swingman and eight-time All-Star, a smooth scorer and capable defender who serves as a co-leader for the Clippers.",
+        "imageFile": "Paul-George.jpg"
+    },
+    {
+        "name": "Jamal Murray",
+        "team": "Denver Nuggets",
+        "description": "Star point guard and 2023 NBA champion, renowned for scoring bursts and clutch performances, forming a lethal duo with Jokic.",
+        "imageFile": "Jamal-Murray.jpg"
+    },
+    {
+        "name": "Evan Mobley",
+        "team": "Cleveland Cavaliers",
+        "description": "Rising star big man known for defensive versatility, already an All-Defensive First Team honoree early in his career with Cleveland.",
+        "imageFile": "Evan-Mobley.jpg"
+    },
+    {
+        "name": "Draymond Green",
+        "team": "Golden State Warriors",
+        "description": "Defensive stalwart and four-time champion, a four-time All-Star and former Defensive Player of the Year known for playmaking and intensity.",
+        "imageFile": "Draymond-Green.jpg"
+    },
+    {
+        "name": "Terry Rozier",
+        "team": "Charlotte Hornets",
+        "description": "Scoring combo guard who provides shot creation and veteran presence in Charlotte's backcourt, consistently a top scoring option for the Hornets.",
+        "imageFile": "Terry-Rozier.jpg"
+    },
+    {
+        "name": "Kyle Kuzma",
+        "team": "Washington Wizards",
+        "description": "Scoring forward and 2020 NBA champion, taking a leading role in Washington with his ability to stretch the floor and rebound.",
+        "imageFile": "Kyle-Kuzma.jpg"
+    },
+    {
+        "name": "Russell Westbrook",
+        "team": "Los Angeles Clippers",
+        "description": "Former MVP (2017) and nine-time All-Star, known for averaging a triple-double, now providing energy and playmaking for the Clippers.",
+        "imageFile": "Russell-Westbrook.jpg"
+    },
+    {
+        "name": "Draymond Green",
+        "team": "Golden State Warriors",
+        "description": "Defensive stalwart and four-time champion, a four-time All-Star and former Defensive Player of the Year known for playmaking and intensity.",
+        "imageFile": "Draymond-Green.jpg"
+    },
+    {
+        "name": "Keldon Johnson",
+        "team": "San Antonio Spurs",
+        "description": "Strong young wing who led the Spurs in scoring in 2022-23, using slashing and physical play to be a key contributor.",
+        "imageFile": "Keldon-Johnson.jpg"
+    },
+    {
+        "name": "Walker Kessler",
+        "team": "Utah Jazz",
+        "description": "Young center and 2023 All-Rookie team honoree, already an elite shot-blocker and rebounder anchoring Utah’s defense.",
+        "imageFile": "Walker-Kessler.jpg"
+    },
+    {
+        "name": "Kawhi Leonard",
+        "team": "Los Angeles Clippers",
+        "description": "Two-time Finals MVP and five-time All-Star, an elite two-way forward bringing championship pedigree and defensive prowess to the Clippers.",
+        "imageFile": "Kawhi-Leonard.jpg"
+    },
+    {
+        "name": "Fred VanVleet",
+        "team": "Houston Rockets",
+        "description": "Veteran point guard and 2019 NBA champion, known for steady leadership, shooting, and defense, now guiding a young Rockets team.",
+        "imageFile": "Fred-VanVleet.jpg"
+    },
+    {
+        "name": "Tobias Harris",
+        "team": "Philadelphia 76ers",
+        "description": "Veteran forward providing steady scoring and shooting for the 76ers, filling a complementary role alongside the team's stars.",
+        "imageFile": "Tobias-Harris.jpg"
+    },
+    {
+        "name": "Ben Simmons",
+        "team": "Los Angeles Clippers",
+        "description": "Versatile guard/forward and three-time All-Star known for playmaking and defense, aiming to bounce back with the Nets after injuries.",
+        "imageFile": "Ben-Simmons.jpg"
+    },
+    {
+        "name": "Luka Doncic",
+        "team": "Los Angeles Lakers",
+        "description": "Phenomenal playmaker and four-time All-Star, often producing triple-doubles; he leads the Mavericks as one of the NBA’s top offensive talents.",
+        "imageFile": "Luka-Doncic.jpg"
+    },
+    {
+        "name": "Kristaps Porzingis",
+        "team": "Boston Celtics",
+        "description": "Skilled 7'3\" big man known for his shot-blocking and shooting range, a former All-Star adding interior scoring and defense to Boston.",
+        "imageFile": "Kristaps-Porzingis.jpg"
+    },
+    {
+        "name": "Tyrese Haliburton",
+        "team": "Indiana Pacers",
+        "description": "All-Star point guard and elite playmaker, leading the Pacers with his passing vision, efficient scoring, and on-court leadership.",
+        "imageFile": "Tyrese-Haliburton.jpg"
+    },
+    {
+        "name": "Myles Turner",
+        "team": "Indiana Pacers",
+        "description": "Athletic center and rim protector, consistently among the league's shot-block leaders while stretching the floor with three-point shooting.",
+        "imageFile": "Myles-Turner.jpg"
+    },
+    {
+        "name": "Giannis Antetokounmpo",
+        "team": "Milwaukee Bucks",
+        "description": "Two-time MVP and 2021 NBA champion, a dominant forward who impacts both ends with athleticism, leading the Bucks as a perennial superstar.",
+        "imageFile": "Giannis-Antetokounmpo.jpg"
+    },
+    {
+        "name": "Paul George",
+        "team": "Los Angeles Clippers",
+        "description": "Star swingman and eight-time All-Star, a smooth scorer and capable defender who serves as a co-leader for the Clippers.",
+        "imageFile": "Paul-George.jpg"
+    },
+    {
+        "name": "Shai Gilgeous-Alexander",
+        "team": "Oklahoma City Thunder",
+        "description": "All-NBA guard coming off a breakout season, a crafty scorer and playmaker who has become the franchise star for OKC.",
+        "imageFile": "Shai-Gilgeous-Alexander.jpg"
+    },
+    {
+        "name": "Devin Booker",
+        "team": "Phoenix Suns",
+        "description": "Three-time All-Star shooting guard, an elite scorer who has grown into a playmaker, and the homegrown star of the Suns.",
+        "imageFile": "Devin-Booker.jpg"
+    },
+    {
+        "name": "Tyrese Maxey",
+        "team": "Philadelphia 76ers",
+        "description": "Dynamic young combo guard known for his speed and scoring bursts, emerging as a primary offensive option for Philadelphia.",
+        "imageFile": "Tyrese-Maxey.jpg"
+    },
+    {
+        "name": "Jordan Poole",
+        "team": "Washington Wizards",
+        "description": "Guard and 2022 NBA champion now a primary scorer for the Wizards, known for his confident shooting and streaky scoring runs.",
+        "imageFile": "Jordan-Poole.jpg"
+    },
+    {
+        "name": "Kyrie Irving",
+        "team": "Dallas Mavericks",
+        "description": "Star point guard, eight-time All-Star and 2016 NBA champion, known for elite ball-handling and scoring; now co-leading Dallas’s offense.",
+        "imageFile": "Kyrie-Irving.jpg"
+    },
+    {
+        "name": "Dillon Brooks",
+        "team": "Houston Rockets",
+        "description": "Tenacious wing defender known for his aggressive play and vocal leadership, now bringing his toughness and improved shooting to Houston.",
+        "imageFile": "Dillon-Brooks.jpg"
+    },
+    {
+        "name": "Trae Young",
+        "team": "Atlanta Hawks",
+        "description": "Star point guard and two-time All-Star known for deep shooting range and playmaking, the offensive engine of the Hawks.",
+        "imageFile": "Trae-Young.jpg"
+    },
+    {
+        "name": "Dejounte Murray",
+        "team": "Atlanta Hawks",
+        "description": "Two-way guard and 2022 All-Star, valued for his defensive instincts and playmaking; partners with Trae in Atlanta's backcourt.",
+        "imageFile": "Dejounte-Murray.jpg"
+    },
+    {
+        "name": "Aaron Gordon",
+        "team": "Denver Nuggets",
+        "description": "Athletic forward and defensive stopper, key to Denver’s 2023 title run with versatile defense and timely scoring around Jokic.",
+        "imageFile": "Aaron-Gordon.jpg"
+    },
+    {
+        "name": "Devin Vassell",
+        "team": "San Antonio Spurs",
+        "description": "Emerging two-way guard with a smooth shooting stroke, now a core piece for San Antonio after signing a major extension in 2023.",
+        "imageFile": "Devin-Vassell.jpg"
+    },
+    {
+        "name": "Franz Wagner",
+        "team": "Orlando Magic",
+        "description": "Promising young forward with size and playmaking ability, known for efficient scoring and all-around game as a key Magic building block.",
+        "imageFile": "Franz-Wagner.jpg"
+    },
+    {
+        "name": "Nikola Jokic",
+        "team": "Denver Nuggets",
+        "description": "Two-time MVP and 2023 Finals MVP, a dominant center who orchestrates Denver's offense with elite passing, scoring, and rebounding.",
+        "imageFile": "Nikola-Jokic.jpg"
+    },
+    {
+        "name": "CJ McCollum",
+        "team": "New Orleans Pelicans",
+        "description": "Veteran guard and prolific scorer, a long-time starter in Portland now providing veteran leadership and shot creation for the Pelicans.",
+        "imageFile": "CJ-McCollum.jpg"
+    },
+    {
+        "name": "Anthony Edwards",
+        "team": "Minnesota Timberwolves",
+        "description": "Explosive shooting guard and 2023 All-Star, emerging as Minnesota’s franchise star with high-flying athleticism and confident scoring.",
+        "imageFile": "Anthony-Edwards.jpg"
+    },
+    {
+        "name": "Bojan Bogdanovic",
+        "team": "Los Angeles Clippers",
+        "description": "Sharpshooting veteran forward providing scoring and floor spacing for Detroit, and a mentor to the Pistons' young core.",
+        "imageFile": "Bojan-Bogdanovic.jpg"
+    },
+    {
+        "name": "Brandon Ingram",
+        "team": "New Orleans Pelicans",
+        "description": "Smooth scoring forward and 2020 Most Improved Player, a one-time All-Star who serves as a primary offensive option for the Pelicans.",
+        "imageFile": "Brandon-Ingram.jpg"
+    },
+    {
+        "name": "Damian Lillard",
+        "team": "Milwaukee Bucks",
+        "description": "Star point guard and seven-time All-Star, one of the league's premier scorers and clutch performers, now teaming with Giannis in Milwaukee.",
+        "imageFile": "Damian-Lillard.jpg"
+    },
+    {
+        "name": "James Harden",
+        "team": "Los Angeles Clippers",
+        "description": "Former MVP and ten-time All-Star guard, a prolific scorer and playmaker now adjusting to a playmaking role with the Clippers.",
+        "imageFile": "James-Harden.jpg"
+    },
+    {
+        "name": "Patrick Williams",
+        "team": "Chicago Bulls",
+        "description": "Young forward known for his defensive potential and athleticism, working to develop into a consistent two-way contributor for Chicago.",
+        "imageFile": "Patrick-Williams.jpg"
+    },
+    {
+        "name": "Victor Wembanyama",
+        "team": "San Antonio Spurs",
+        "description": "Highly anticipated rookie big man, the 2023 No.1 pick (7'4\" tall) with a unique skill set, seen as the new franchise cornerstone for the Spurs.",
+        "imageFile": "Victor-Wembanyama.jpg"
+    },
+    {
+        "name": "Stephen Curry",
+        "team": "Golden State Warriors",
+        "description": "Revolutionary point guard, four-time NBA champion and two-time MVP, renowned as the greatest shooter ever and leader of the Warriors' dynasty.",
+        "imageFile": "Stephen-Curry.jpg"
+    },
+    {
+        "name": "Russell Westbrook",
+        "team": "Denver Nuggets",
+        "description": "Former MVP (2017) and nine-time All-Star, known for averaging a triple-double, now providing energy and playmaking for the Clippers.",
+        "imageFile": "Russell-Westbrook.jpg"
+    },
+    {
+        "name": "Brook Lopez",
+        "team": "Milwaukee Bucks",
+        "description": "Veteran 7-footer and 2021 NBA champion who reinvented himself as a premier shot-blocker and stretch-five, anchoring Milwaukee’s defense.",
+        "imageFile": "Brook-Lopez.jpg"
+    },
+    {
+        "name": "Kevin Durant",
+        "team": "Phoenix Suns",
+        "description": "All-time great forward, two-time Finals MVP and former league MVP, revered for his scoring excellence; now leading Phoenix’s title push.",
+        "imageFile": "Kevin-Durant.jpg"
+    },
+    {
+        "name": "Michael Porter Jr.",
+        "team": "Denver Nuggets",
+        "description": "Tall sharpshooter at forward, a key scoring option who helped Denver win the 2023 championship with his three-point shooting and rebounding.",
+        "imageFile": "Michael-Porter-Jr.jpg"
+    },
+    {
+        "name": "Chris Paul",
+        "team": "San Antonio Spurs",
+        "description": "Future Hall-of-Fame point guard, 12-time All-Star and four-time assist leader, bringing leadership and playmaking savvy to the Warriors.",
+        "imageFile": "Chris-Paul.jpg"
+    },
+    {
+        "name": "RJ Barrett",
+        "team": "Toronto Raptors",
+        "description": "Young wing and former No.3 pick providing slashing and scoring for the Knicks, continuing to grow as a key starter.",
+        "imageFile": "RJ-Barrett.jpg"
+    }
+]

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contact – Stat Kings HQ</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Outfit', sans-serif;
+      background: #0c0c0c;
+      color: #f0f0f0;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 2rem;
+      background: #121212;
+      border-bottom: 1px solid #1f1f1f;
+    }
+
+    .logo img {
+      height: 52px;
+      border-radius: 10px;
+    }
+
+    nav a {
+      color: #ccc;
+      text-decoration: none;
+      font-weight: 600;
+      margin-left: 1.5rem;
+      transition: color 0.2s ease;
+    }
+
+    nav a:hover {
+      color: #00ffc6;
+    }
+
+    .main {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 4rem 2rem;
+      text-align: center;
+    }
+
+    .contact-box {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      padding: 2.5rem;
+      max-width: 550px;
+    }
+
+    .contact-box h1 {
+      font-size: 2rem;
+      color: #c084fc;
+      margin-bottom: 1rem;
+    }
+
+    .contact-box p {
+      font-size: 1.1rem;
+      color: #ccc;
+      margin-bottom: 2rem;
+    }
+
+    .twitter-button {
+      margin-top: 1rem;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1.5rem;
+      font-size: 0.85rem;
+      color: #777;
+    }
+
+    @media (max-width: 768px) {
+      .contact-box {
+        padding: 2rem 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo">
+      <a href="index.html"><img src="img/logo2.jpg" alt="Stat Kings HQ Logo"></a>
+    </div>
+    <nav>
+      <a href="about.html">About</a>
+      <a href="archive.html">Live Hub</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <div class="main">
+    <div class="contact-box">
+      <h1>📬 Contact Stat Kings HQ</h1>
+      <p>We’d love to hear from you. Whether it’s a collab idea, feedback on our bots, or just a hot take — shoot us a DM anytime!</p>
+      <div class="twitter-button">
+        <a href="https://twitter.com/StatKingsHQ?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-show-screen-name="false" data-show-count="false">Follow on X</a>
+        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    Stat Kings HQ – All stats auto-tracked & published. @StackKingsHQ
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About – Stat Kings HQ</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Outfit', sans-serif;
+      background: #0c0c0c;
+      color: #f0f0f0;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 2rem;
+      background: #121212;
+      border-bottom: 1px solid #1f1f1f;
+    }
+
+    .note {
+      font-size: 0.9rem;
+      color: #777;
+      margin-top: 3rem;
+      text-align: center;
+    }
+
+    .logo img {
+      height: 52px;
+      border-radius: 10px;
+    }
+
+    nav a {
+      color: #ccc;
+      text-decoration: none;
+      font-weight: 600;
+      margin-left: 1.5rem;
+      transition: color 0.2s ease;
+    }
+
+    nav a:hover {
+      color: #00ffc6;
+    }
+
+    main {
+      flex: 1;
+      padding: 3rem 2rem;
+      max-width: 800px;
+      margin: auto;
+    }
+
+    h1 {
+      color: #c084fc;
+      font-size: 2.4rem;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    h2 {
+      color: #00ffc6;
+      margin-top: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    p {
+      line-height: 1.7;
+      font-size: 1.05rem;
+      color: #ddd;
+    }
+
+    ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    li {
+      margin-bottom: 0.5rem;
+    }
+
+    li::before {
+      content: "➤ ";
+      color: #00ffc6;
+      font-weight: bold;
+    }
+
+    .twitter-button {
+      text-align: center;
+      margin-top: 1.5rem;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1.5rem;
+      font-size: 0.85rem;
+      color: #777;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo">
+      <a href="index.html"><img src="img/logo2.jpg" alt="Stat Kings HQ Logo"></a>
+    </div>
+    <nav>
+      <a href="about.html">About</a>
+      <a href="archive.html">Live Hub</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <h1>About Stat Kings HQ</h1>
+
+    <p><strong>Stat Kings HQ</strong> is a modern, automated hub for basketball stat fans. We use custom bots to track and post the most relevant, advanced, and nightly-changing NBA stats — built for fans who live for the numbers.</p>
+
+    <h2>What We Do</h2>
+    <p>Every night, our bots analyze NBA performances and deliver standout metrics — from clutch scoring to efficiency monsters, defensive beasts, and more. Our goal is to bring key insights to the forefront with zero fluff and maximum impact.</p>
+
+    <h2>Our Bots</h2>
+    <ul>
+      <li><strong>🔥 Stat Leaders Bot</strong> – Tracks nightly scoring, rebounds, assists, etc.</li>
+      <li><strong>⚡ Efficiency Bot</strong> – Highlights FG%, plus-minus, defense, triple-doubles.</li>
+      <li><strong>⏱️ Clutch Time Bot</strong> – 4th quarter kings and clutch team stats.</li>
+      <li><strong>👑 Season Leader Bot</strong> – Top scorers and stat leaders all season long.</li>
+      <li><strong>🧠 Trivia Bot</strong> – Drops stats-based trivia questions for NBA history lovers.</li>
+    </ul>
+
+    <h2>Technology</h2>
+    <p>Built with Python, Tweepy, HTML/CSS, and JSON automation — Stat Kings HQ is powered entirely by custom bots and up-to-date data pipelines.</p>
+
+    <h2>Follow Us on X</h2>
+    <p>Want real-time stats and bot drops in your feed? Follow us on X and stay updated with daily NBA data magic.</p>
+
+    <div class="twitter-button">
+      <a href="https://twitter.com/StatKingsHQ?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-show-screen-name="false" data-show-count="false">Follow @StatKingsHQ</a>
+      <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    </div>
+  </main>
+
+  <footer>
+    <p class="note">Stat Kings HQ – All stats auto-tracked & published. @StackKingsHQ</p>
+  </footer>
+
+</body>
+</html>
