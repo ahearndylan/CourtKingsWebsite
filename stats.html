@@ -6,10 +6,7 @@
   <title>Nightly Stat Kings – Stat Kings HQ</title>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
   <style>
-    * {
-      box-sizing: border-box;
-    }
-
+    * { box-sizing: border-box; }
     body {
       margin: 0;
       font-family: 'Outfit', sans-serif;
@@ -22,14 +19,12 @@
       align-items: center;
       position: relative;
     }
-
     .back-logo {
       position: absolute;
       top: 20px;
       left: 20px;
       z-index: 10;
     }
-
     .back-logo img {
       height: 52px;
       width: auto;
@@ -37,18 +32,13 @@
       box-shadow: 0 0 8px rgba(0,0,0,0.4);
       transition: transform 0.3s ease;
     }
-
-    .back-logo img:hover {
-      transform: scale(1.08);
-    }
-
+    .back-logo img:hover { transform: scale(1.08); }
     h1 {
       font-size: 2.5rem;
       font-weight: 800;
       margin-bottom: 1.5rem;
       text-align: center;
     }
-
     .grid-container {
       display: flex;
       gap: 2rem;
@@ -56,11 +46,9 @@
       width: 100%;
       flex-wrap: wrap;
     }
-
     .left, .right {
       background: rgba(255, 255, 255, 0.05);
       backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
       border: 1px solid rgba(255, 255, 255, 0.07);
       border-radius: 20px;
       padding: 2rem;
@@ -68,11 +56,7 @@
       min-width: 300px;
       animation: fadeIn 0.6s ease-out;
     }
-
-    .left {
-      flex: 2;
-    }
-
+    .left { flex: 2; }
     h2 {
       font-size: 1.4rem;
       color: #ffc107;
@@ -80,25 +64,21 @@
       border-bottom: 1px solid #333;
       padding-bottom: 0.5rem;
     }
-
     .night-block, .record {
       margin-bottom: 1.5rem;
       padding: 1rem;
       background-color: #222;
       border-radius: 10px;
     }
-
     .stat {
       font-weight: 600;
       color: #00ffd5;
       margin-bottom: 0.5rem;
     }
-
     .player {
       font-size: 1rem;
       color: #ddd;
     }
-
     .button-link {
       margin-top: 2rem;
       padding: 0.75rem 1.25rem;
@@ -110,80 +90,65 @@
       transition: background 0.2s ease;
       display: inline-block;
     }
-
-    .button-link:hover {
-      background-color: #00cbb0;
-    }
-
+    .button-link:hover { background-color: #00cbb0; }
     .centered {
       text-align: center;
       margin-top: 2rem;
     }
-
     .note {
       font-size: 0.9rem;
       color: #777;
       margin-top: 3rem;
       text-align: center;
     }
-
-    .night-block .player {
-  margin-bottom: .2rem;
-}
-
+    .night-block .player { margin-bottom: .2rem; }
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
     }
-
     @media (max-width: 768px) {
-      h1 {
-        font-size: 2rem;
-      }
-
-      .grid-container {
-        flex-direction: column;
-      }
-
-      .back-logo img {
-        height: 44px;
-      }
+      h1 { font-size: 2rem; }
+      .grid-container { flex-direction: column; }
+      .back-logo img { height: 44px; }
     }
   </style>
 </head>
 <body>
-
   <a href="index.html" class="back-logo">
     <img src="img/logo2.jpg" alt="Back to Home">
   </a>
-
   <h1>👑 Nightly Kings</h1>
-
   <div class="grid-container">
     <div class="left">
       <h2>🏆 Last 3 Nights</h2>
       <div id="leaders"></div>
     </div>
-
     <div class="right">
       <h2>📈 Stat Kings Wins</h2>
+      <div id="wins"></div>
+      <h2>👽 Season Highs</h2>
+      <div id="highs"></div>
     </div>
   </div>
-
   <div class="centered">
     <a href="statsfull.html" class="button-link" target="_blank">📁 Full Stat Kings History</a>
   </div>
-
   <p class="note">Stat Kings HQ – All stats auto-tracked & published. @StackKingsHQ</p>
-
   <script>
     fetch('stats.json')
       .then(res => res.json())
       .then(data => {
         const left = document.getElementById('leaders');
-        const right = document.querySelector('.right');
+        const winsDiv = document.getElementById('wins');
+        const highsDiv = document.getElementById('highs');
         const categories = ["points", "assists", "rebounds", "threept"];
         const wins = { points: {}, assists: {}, rebounds: {}, threept: {} };
+        const highs = {
+          points: { value: 0 },
+          assists: { value: 0 },
+          rebounds: { value: 0 },
+          threept: { value: 0 }
+        };
 
         data.nights.slice(0, 3).forEach(night => {
           const block = document.createElement('div');
@@ -200,13 +165,20 @@
 
         data.nights.forEach(night => {
           categories.forEach(cat => {
+            const val = night[cat].value;
             const player = night[cat].player;
             if (!wins[cat][player]) wins[cat][player] = 0;
             wins[cat][player]++;
+            if (val > highs[cat].value) {
+              highs[cat] = {
+                value: val,
+                player: night[cat].player,
+                team: night[cat].team
+              };
+            }
           });
         });
 
-        right.innerHTML = `<h2>📈 Stat Kings Wins</h2>`;
         categories.forEach(cat => {
           const emoji = { points: "🔥", assists: "🎯", rebounds: "💪", threept: "🏹" }[cat];
           const sorted = Object.entries(wins[cat]).sort((a, b) => b[1] - a[1]).slice(0, 3);
@@ -215,7 +187,18 @@
             block += `<div class="player">${i + 1}. ${player} – ${count} Wins</div>`;
           });
           block += `</div>`;
-          right.innerHTML += block;
+          winsDiv.innerHTML += block;
+        });
+
+        categories.forEach(cat => {
+          const emoji = { points: "🧨", assists: "🤝", rebounds: "🧲", threept: "🔫" }[cat];
+          const high = highs[cat];
+          const statName = cat === 'threept' ? '3PM' : cat.charAt(0).toUpperCase() + cat.slice(1);
+          const block = `<div class="record">
+            <div class="stat">${emoji} ${statName}</div>
+            <div class="player">${high.player} (${high.team}) – ${high.value} ${statName}</div>
+          </div>`;
+          highsDiv.innerHTML += block;
         });
       })
       .catch(err => {
