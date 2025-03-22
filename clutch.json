@@ -1,6 +1,29 @@
 {
     "nights": [
       {
+        "date": "2025-03-21",
+        "points": {
+          "player": "Cade Cunningham",
+          "team": "DET",
+          "value": 16
+        },
+        "fg": {
+          "player": "Anthony Black",
+          "team": "ORL",
+          "fg_pct": 60.0,
+          "fga": 5
+        },
+        "assists": {
+          "player": "Amen Thompson",
+          "team": "HOU",
+          "value": 2
+        },
+        "team_4q_diff": {
+          "abbr": "WAS",
+          "value": 16
+        }
+      },
+      {
         "date": "2025-03-20",
         "points": {
           "player": "Coby White",

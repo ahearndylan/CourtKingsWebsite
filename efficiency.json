@@ -1,6 +1,26 @@
 {
     "nights": [
       {
+        "date": "2025-03-21",
+        "efficiency": {
+          "player": "Franz Wagner",
+          "team": "ORL",
+          "fg_pct": 50.0,
+          "fga": 18
+        },
+        "plus_minus": {
+          "player": "Rudy Gobert",
+          "team": "MIN",
+          "value": 34
+        },
+        "defense": {
+          "player": "Amen Thompson",
+          "team": "HOU",
+          "stocks": 8
+        },
+        "triple_double": null
+      },
+      {
         "date": "2025-03-20",
         "efficiency": {
           "player": "OG Anunoby",
@@ -15,7 +35,7 @@
         },
         "defense": {
           "player": "Myles Turner",
-          "team": "",
+          "team": "IND",
           "stocks": 6
         },
         "triple_double": null
@@ -35,7 +55,7 @@
         },
         "defense": {
           "player": "Tari Eason",
-          "team": "",
+          "team": "HOU",
           "stocks": 6
         },
         "triple_double": {
@@ -61,7 +81,7 @@
         },
         "defense": {
           "player": "Draymond Green",
-          "team": "",
+          "team": "GSW",
           "stocks": 6
         },
         "triple_double": null
@@ -81,7 +101,7 @@
         },
         "defense": {
           "player": "Draymond Green",
-          "team": "",
+          "team": "GSW",
           "stocks": 8
         },
         "triple_double": {
