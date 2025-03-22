@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Live Feed – Stat Kings HQ</title>
+  <title>Live Hub – Stat Kings HQ</title>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
   <style>
     body {
@@ -64,13 +64,12 @@
     }
 
     .right {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  padding-top: 2rem;
-}
-
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding-top: 2rem;
+    }
 
     .right h2 {
       color: #ffc107;
@@ -108,11 +107,68 @@
       padding: 0 1rem;
     }
 
+    .analytics-panel {
+      margin-top: 3rem;
+      text-align: center;
+    }
+
+    .analytics-panel h3 {
+      font-size: 1.6rem;
+      margin-bottom: 1.5rem;
+      background: linear-gradient(to right, #00ffc6, #00c8ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .analytics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 1.5rem;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .analytics-grid .stat-card {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 16px;
+      padding: 1.2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+
+    .stat-label {
+      font-size: 0.9rem;
+      color: #aaa;
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-value {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #f0f0f0;
+    }
+
     footer {
       text-align: center;
       padding: 1.5rem;
       font-size: 0.85rem;
       color: #777;
+    }
+
+    #spotlight-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: radial-gradient(circle at center, transparent 180px, rgba(0,0,0,0.85) 200px);
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0;
+      transition: opacity 0.5s ease;
     }
 
     @media (max-width: 768px) {
@@ -148,17 +204,26 @@
   </header>
 
   <div class="grid">
-    <div class="left">
-      <!-- Elfsight Twitter Feed -->
-      <script src="https://static.elfsight.com/platform/platform.js" async></script>
-      <div class="elfsight-app-884b8042-a696-4787-b2fa-e5f78c03eb06" data-elfsight-app-lazy></div>
-    </div>
+    
 
     <div class="right">
       <h2>🏀 Player Spotlight</h2>
       <div id="player-spotlight">
         Loading player spotlight...
       </div>
+
+      <div class="analytics-panel">
+        <h3>📊 Stat Kings Analytics</h3>
+        <div class="analytics-grid" id="analytics-data">
+          Loading analytics...
+        </div>
+      </div>
+    </div>
+
+    <div class="left">
+      <!-- Elfsight Twitter Feed -->
+      <script src="https://static.elfsight.com/platform/platform.js" async></script>
+      <div class="elfsight-app-884b8042-a696-4787-b2fa-e5f78c03eb06" data-elfsight-app-lazy></div>
     </div>
   </div>
 
@@ -166,15 +231,18 @@
     &copy; 2025 Stat Kings HQ – All stats auto-tracked & published. @StackKingsHQ
   </footer>
 
+  <!-- Spotlight overlay -->
+  <div id="spotlight-overlay"></div>
+
   <script>
     async function loadPlayerSpotlight() {
       try {
         const response = await fetch('player.json');
         const players = await response.json();
-
+  
         const randomPlayer = players[Math.floor(Math.random() * players.length)];
         const { name, team, description, imageFile } = randomPlayer;
-
+  
         const spotlightDiv = document.getElementById('player-spotlight');
         spotlightDiv.innerHTML = `
           <img src="player_images/${imageFile}" alt="${name}">
@@ -182,13 +250,98 @@
           <div class="spotlight-team">${team}</div>
           <div class="spotlight-description">${description}</div>
         `;
+  
+        setTimeout(() => {
+          showSpotlightOnElement(spotlightDiv);
+        }, 400);
       } catch (error) {
         console.error('Error loading player spotlight:', error);
       }
     }
+  
+    function showSpotlightOnElement(el) {
+      const spotlight = document.getElementById('spotlight-overlay');
+      const rect = el.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+  
+      spotlight.style.background = `
+        radial-gradient(circle at ${centerX}px ${centerY}px, transparent 180px, rgba(0,0,0,0.85) 200px)
+      `;
+      spotlight.style.opacity = '1';
+  
+      setTimeout(() => {
+        spotlight.style.opacity = '0';
+      }, 1500);
+    }
+  
+    function getDaysSince(startDateStr) {
+      const startDate = new Date(startDateStr);
+      const today = new Date();
+      startDate.setHours(0, 0, 0, 0);
+      today.setHours(0, 0, 0, 0);
+      const diffTime = today - startDate;
+      return Math.max(0, Math.floor(diffTime / (1000 * 60 * 60 * 24)));
+    }
+  
+    function getAnalyticsData() {
+  const since = "2025-03-15"; // bot start date
+  const daysPassed = getDaysSince(since);
 
-    document.addEventListener('DOMContentLoaded', loadPlayerSpotlight);
+  const tweetsPosted = 44 + Math.max(0, (daysPassed - 8) * 3);
+  const recordsLogged = 21 + Math.max(0, (daysPassed - 8) * 4);
+  const playersTracked = 438;
+  const activeBots = 5;
+  const avgRuntime = "27.4s";
+
+  return {
+    tweetsPosted,
+    playersTracked,
+    activeBots,
+    recordsLogged,
+    daysActive: daysPassed,
+    avgRuntime
+  };
+}
+
+  
+    function displayAnalytics() {
+      const stats = getAnalyticsData();
+      const html = `
+        <div class="stat-card">
+          <div class="stat-label">Tweets Posted</div>
+          <div class="stat-value">${stats.tweetsPosted.toLocaleString()}</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Players Tracked</div>
+          <div class="stat-value">${stats.playersTracked}</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Active Bots</div>
+          <div class="stat-value">${stats.activeBots}</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Records Logged (SZN)</div>
+          <div class="stat-value">${stats.recordsLogged.toLocaleString()}</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Days Active</div>
+          <div class="stat-value">${stats.daysActive}</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Avg Bot Runtime</div>
+          <div class="stat-value">${stats.avgRuntime}</div>
+        </div>
+      `;
+      document.getElementById('analytics-data').innerHTML = html;
+    }
+  
+    document.addEventListener('DOMContentLoaded', () => {
+      loadPlayerSpotlight();
+      displayAnalytics();
+    });
   </script>
+  
 
 </body>
 </html>
