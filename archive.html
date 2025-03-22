@@ -6,8 +6,14 @@
   <title>Live Hub – Stat Kings HQ</title>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
   <style>
-    body {
+    html, body {
       margin: 0;
+      padding: 0;
+      width: 100%;
+      overflow-x: hidden;
+    }
+
+    body {
       font-family: 'Outfit', sans-serif;
       background: #0c0c0c;
       color: #f0f0f0;
@@ -17,6 +23,8 @@
     }
 
     header {
+      width: 100%;
+      box-sizing: border-box;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -28,6 +36,11 @@
     .logo img {
       height: 52px;
       border-radius: 10px;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
     }
 
     nav a {
@@ -48,6 +61,7 @@
       gap: 2rem;
       padding: 2rem;
       flex: 1;
+      box-sizing: border-box;
     }
 
     .left, .right {
@@ -171,23 +185,53 @@
       transition: opacity 0.5s ease;
     }
 
+    /* ✅ Mobile Responsiveness Fixes */
     @media (max-width: 768px) {
-      .grid {
-        flex-direction: column;
-      }
+  header {
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+  }
 
-      nav {
-        justify-content: center;
-        width: 100%;
-        margin-top: 1rem;
-      }
+  .logo {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 0.5rem;
+  }
 
-      .logo {
-        display: flex;
-        justify-content: center;
-        width: 100%;
-      }
-    }
+  .logo img {
+    height: 44px;
+  }
+
+  nav {
+    width: 100%;
+    justify-content: space-around;
+    display: flex;
+    flex-wrap: nowrap;
+  }
+
+  nav a {
+    margin-left: 0;
+    font-size: 0.95rem;
+  }
+
+  .grid {
+    flex-direction: column;
+    padding: 1.5rem 1rem;
+  }
+
+  .left {
+    min-width: unset;
+  }
+
+  .analytics-grid {
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 100%;
+    padding: 0 0.5rem;
+  }
+}
+
   </style>
 </head>
 <body>
@@ -204,8 +248,6 @@
   </header>
 
   <div class="grid">
-    
-
     <div class="right">
       <h2>🏀 Player Spotlight</h2>
       <div id="player-spotlight">
@@ -231,7 +273,6 @@
     &copy; 2025 Stat Kings HQ – All stats auto-tracked & published. @StackKingsHQ
   </footer>
 
-  <!-- Spotlight overlay -->
   <div id="spotlight-overlay"></div>
 
   <script>
@@ -239,10 +280,10 @@
       try {
         const response = await fetch('player.json');
         const players = await response.json();
-  
+
         const randomPlayer = players[Math.floor(Math.random() * players.length)];
         const { name, team, description, imageFile } = randomPlayer;
-  
+
         const spotlightDiv = document.getElementById('player-spotlight');
         spotlightDiv.innerHTML = `
           <img src="player_images/${imageFile}" alt="${name}">
@@ -250,7 +291,7 @@
           <div class="spotlight-team">${team}</div>
           <div class="spotlight-description">${description}</div>
         `;
-  
+
         setTimeout(() => {
           showSpotlightOnElement(spotlightDiv);
         }, 400);
@@ -258,23 +299,23 @@
         console.error('Error loading player spotlight:', error);
       }
     }
-  
+
     function showSpotlightOnElement(el) {
       const spotlight = document.getElementById('spotlight-overlay');
       const rect = el.getBoundingClientRect();
       const centerX = rect.left + rect.width / 2;
       const centerY = rect.top + rect.height / 2;
-  
+
       spotlight.style.background = `
         radial-gradient(circle at ${centerX}px ${centerY}px, transparent 180px, rgba(0,0,0,0.85) 200px)
       `;
       spotlight.style.opacity = '1';
-  
+
       setTimeout(() => {
         spotlight.style.opacity = '0';
       }, 1500);
     }
-  
+
     function getDaysSince(startDateStr) {
       const startDate = new Date(startDateStr);
       const today = new Date();
@@ -283,33 +324,32 @@
       const diffTime = today - startDate;
       return Math.max(0, Math.floor(diffTime / (1000 * 60 * 60 * 24)));
     }
-  
+
     function getAnalyticsData() {
-  const since = "2025-03-15"; // bot start date
-  const daysPassed = getDaysSince(since);
+      const since = "2025-03-15";
+      const daysPassed = getDaysSince(since);
 
-  const tweetsPosted = 44 + Math.max(0, (daysPassed - 8) * 3);
-  const recordsLogged = 21 + Math.max(0, (daysPassed - 8) * 4);
-  const playersTracked = 438;
-  const activeBots = 5;
-  const avgRuntime = "27.4s";
+      const tweetsPosted = 44 + Math.max(0, (daysPassed - 8) * 3);
+      const recordsLogged = 21 + Math.max(0, (daysPassed - 8) * 4);
+      const playersTracked = 438;
+      const activeBots = 5;
+      const avgRuntime = "27.4s";
 
-  return {
-    tweetsPosted,
-    playersTracked,
-    activeBots,
-    recordsLogged,
-    daysActive: daysPassed,
-    avgRuntime
-  };
-}
+      return {
+        tweetsPosted,
+        playersTracked,
+        activeBots,
+        recordsLogged,
+        daysActive: daysPassed,
+        avgRuntime
+      };
+    }
 
-  
     function displayAnalytics() {
       const stats = getAnalyticsData();
       const html = `
         <div class="stat-card">
-          <div class="stat-label">Tweets Posted</div>
+          <div class="stat-label">X Posts</div>
           <div class="stat-value">${stats.tweetsPosted.toLocaleString()}</div>
         </div>
         <div class="stat-card">
@@ -321,7 +361,7 @@
           <div class="stat-value">${stats.activeBots}</div>
         </div>
         <div class="stat-card">
-          <div class="stat-label">Records Logged (SZN)</div>
+          <div class="stat-label">Records Logged</div>
           <div class="stat-value">${stats.recordsLogged.toLocaleString()}</div>
         </div>
         <div class="stat-card">
@@ -335,13 +375,12 @@
       `;
       document.getElementById('analytics-data').innerHTML = html;
     }
-  
+
     document.addEventListener('DOMContentLoaded', () => {
       loadPlayerSpotlight();
       displayAnalytics();
     });
   </script>
-  
 
 </body>
 </html>

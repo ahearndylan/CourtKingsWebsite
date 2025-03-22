@@ -6,8 +6,14 @@
   <title>About – Stat Kings HQ</title>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
   <style>
-    body {
+    html, body {
       margin: 0;
+      padding: 0;
+      width: 100%;
+      overflow-x: hidden;
+    }
+
+    body {
       font-family: 'Outfit', sans-serif;
       background: #0c0c0c;
       color: #f0f0f0;
@@ -17,6 +23,8 @@
     }
 
     header {
+      width: 100%;
+      box-sizing: border-box;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -25,16 +33,14 @@
       border-bottom: 1px solid #1f1f1f;
     }
 
-    .note {
-      font-size: 0.9rem;
-      color: #777;
-      margin-top: 3rem;
-      text-align: center;
-    }
-
     .logo img {
       height: 52px;
       border-radius: 10px;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
     }
 
     nav a {
@@ -54,6 +60,7 @@
       padding: 3rem 2rem;
       max-width: 800px;
       margin: auto;
+      box-sizing: border-box;
     }
 
     h1 {
@@ -145,6 +152,49 @@
       font-size: 0.85rem;
       color: #777;
     }
+
+    .note {
+      font-size: 0.9rem;
+      color: #777;
+      margin-top: 3rem;
+      text-align: center;
+    }
+
+    /* ✅ Mobile Responsiveness Fixes */
+    @media (max-width: 600px) {
+  header {
+    padding: 1rem;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .logo {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 0.5rem;
+  }
+
+  .logo img {
+    height: 44px;
+  }
+
+  nav {
+    width: 100%;
+    justify-content: space-around;
+  }
+
+  nav a {
+    margin-left: 0;
+    font-size: 0.95rem;
+  }
+
+  main {
+    padding: 2rem 1rem;
+    max-width: 100%;
+  }
+}
+
   </style>
 </head>
 <body>
@@ -194,7 +244,6 @@
         Loading analytics...
       </div>
     </div>
-
   </main>
 
   <footer>
@@ -235,7 +284,7 @@
       const stats = getAnalyticsData();
       const html = `
         <div class="stat-card">
-          <div class="stat-label">Tweets Posted</div>
+          <div class="stat-label">X Posts</div>
           <div class="stat-value">${stats.tweetsPosted.toLocaleString()}</div>
         </div>
         <div class="stat-card">
@@ -247,7 +296,7 @@
           <div class="stat-value">${stats.activeBots}</div>
         </div>
         <div class="stat-card">
-          <div class="stat-label">Records Logged (SZN)</div>
+          <div class="stat-label">Records Logged</div>
           <div class="stat-value">${stats.recordsLogged.toLocaleString()}</div>
         </div>
         <div class="stat-card">
