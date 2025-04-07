@@ -128,6 +128,9 @@
 
     <div class="right">
       <h2>🏆 Clutch Leaders</h2>
+      <div id="wins"></div>
+      <h2>👽 Season Highs</h2>
+      <div id="highs"></div>
     </div>
   </div>
 
@@ -138,7 +141,6 @@
   <p class="note">Court Kings HQ – All stats auto-tracked & published. @CourtKingsHQ</p>
 
   <script>
-
     function formatDate(isoDate) {
       const d = new Date(isoDate);
       const month = String(d.getMonth() + 1).padStart(2, '0');
@@ -165,9 +167,18 @@
       }
 
       const left = document.getElementById("leaders");
-      const right = document.querySelector(".right");
-      const stats = { points: {}, fg: {}, assists: {}, teams: {} };
+      const winsDiv = document.getElementById("wins");
+      const highsDiv = document.getElementById("highs");
 
+      const stats = { points: {}, fg: {}, assists: {}, teams: {} };
+      const highs = {
+        points: { value: 0 },
+        fg: { fg_pct: 0 },
+        assists: { value: 0 },
+        team: { value: -Infinity }
+      };
+
+      // Render last 3 nights only
       data.slice(0, 3).forEach(row => {
         const night = row.data;
         const block = document.createElement("div");
@@ -180,18 +191,42 @@
           ${night.team_4q_diff ? `<div class="stat">📈 Best 4Q Team</div><div class="player">${night.team_4q_diff.abbr}: +${night.team_4q_diff.value}</div>` : ""}
         `;
         left.appendChild(block);
+      });
 
+      // Loop over ALL data for wins + highs
+      data.forEach(row => {
+        const night = row.data;
+
+        // Wins
         stats.points[night.points.player] = (stats.points[night.points.player] || 0) + 1;
         stats.fg[night.fg.player] = (stats.fg[night.fg.player] || 0) + 1;
         stats.assists[night.assists.player] = (stats.assists[night.assists.player] || 0) + 1;
         if (night.team_4q_diff) {
           const abbr = night.team_4q_diff.abbr;
           stats.teams[abbr] = (stats.teams[abbr] || 0) + 1;
+
+          if (night.team_4q_diff.value > highs.team.value) {
+            highs.team = {
+              abbr,
+              value: night.team_4q_diff.value
+            };
+          }
+        }
+
+        // Season Highs
+        if (night.points.value > highs.points.value) {
+          highs.points = { ...night.points };
+        }
+        if (night.fg.fga >= 4 && night.fg.fg_pct > highs.fg.fg_pct) {
+          highs.fg = { ...night.fg };
+        }
+        if (night.assists.value > highs.assists.value) {
+          highs.assists = { ...night.assists };
         }
       });
 
       const labels = {
-        points: "🚀 Most Wins – 4Q Scoring",
+        points: "🚀 Most Wins – 4Q Points",
         fg: "💎 Most Wins – 4Q FG%",
         assists: "🧠 Most Wins – 4Q Assists",
         teams: "📈 Most Wins – Best 4Q Teams"
@@ -204,8 +239,28 @@
           html += `<div class="player">${i + 1}. ${name} – ${count} Wins</div>`;
         });
         html += "</div>";
-        right.innerHTML += html;
+        winsDiv.innerHTML += html;
       }
+
+      // Render season highs
+      highsDiv.innerHTML = `
+        <div class="record">
+          <div class="stat">🧨 4Q Points</div>
+          <div class="player">${highs.points.player} (${highs.points.team}) – ${highs.points.value} PTS</div>
+        </div>
+        <div class="record">
+          <div class="stat">⚡ Best 4Q FG% (min 4 FGA)</div>
+          <div class="player">${highs.fg.player} (${highs.fg.team}) – ${highs.fg.fg_pct}% FG</div>
+        </div>
+        <div class="record">
+          <div class="stat">🧬 Most 4Q Assists</div>
+          <div class="player">${highs.assists.player} (${highs.assists.team}) – ${highs.assists.value} AST</div>
+        </div>
+        <div class="record">
+          <div class="stat">💪 Best 4Q Team Performance</div>
+          <div class="player">${highs.team.abbr} – +${highs.team.value}</div>
+        </div>
+      `;
     }
 
     loadData();

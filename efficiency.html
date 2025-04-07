@@ -7,9 +7,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -39,9 +37,7 @@
       transition: transform 0.3s ease;
     }
 
-    .back-logo img:hover {
-      transform: scale(1.08);
-    }
+    .back-logo img:hover { transform: scale(1.08); }
 
     h1 {
       font-size: 2.5rem;
@@ -61,7 +57,6 @@
     .left, .right {
       background: rgba(255, 255, 255, 0.05);
       backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
       border: 1px solid rgba(255, 255, 255, 0.07);
       border-radius: 20px;
       padding: 2rem;
@@ -70,9 +65,7 @@
       animation: fadeIn 0.6s ease-out;
     }
 
-    .left {
-      flex: 2;
-    }
+    .left { flex: 2; }
 
     h2 {
       font-size: 1.4rem;
@@ -113,9 +106,7 @@
       display: inline-block;
     }
 
-    .button-link:hover {
-      background-color: #00cbb0;
-    }
+    .button-link:hover { background-color: #00cbb0; }
 
     .centered {
       text-align: center;
@@ -135,17 +126,9 @@
     }
 
     @media (max-width: 768px) {
-      h1 {
-        font-size: 2rem;
-      }
-
-      .grid-container {
-        flex-direction: column;
-      }
-
-      .back-logo img {
-        height: 44px;
-      }
+      h1 { font-size: 2rem; }
+      .grid-container { flex-direction: column; }
+      .back-logo img { height: 44px; }
     }
   </style>
 </head>
@@ -164,6 +147,9 @@
 
     <div class="right">
       <h2>📈 Court Kings Wins</h2>
+      <div id="wins"></div>
+      <h2>👽 Season Highs</h2>
+      <div id="highs"></div>
     </div>
   </div>
 
@@ -174,7 +160,6 @@
   <p class="note">Court Kings HQ – All stats auto-tracked & published. @CourtKingsHQ</p>
 
   <script>
-
     function formatDate(isoDate) {
       const d = new Date(isoDate);
       const month = String(d.getMonth() + 1).padStart(2, '0');
@@ -182,8 +167,6 @@
       const year = d.getFullYear();
       return `${month}/${day}/${year}`;
     }
-
-
 
     const supabase = window.supabase.createClient(
       'https://fjtxowbjnxclzcogostk.supabase.co',
@@ -204,9 +187,15 @@
 
       const nights = data.map(entry => ({ date: entry.date, ...entry.data }));
       const left = document.getElementById('leaders');
-      const right = document.querySelector('.right');
+      const winsDiv = document.getElementById('wins');
+      const highsDiv = document.getElementById('highs');
       const categories = ["efficiency", "plus_minus", "defense", "triple_double"];
       const counts = { efficiency: {}, plus_minus: {}, defense: {}, triple_double: {} };
+      const highs = {
+        efficiency: { fg_pct: 0 },
+        plus_minus: { value: -Infinity },
+        defense: { stocks: 0 }
+      };
 
       nights.slice(0, 3).forEach(night => {
         const block = document.createElement('div');
@@ -230,13 +219,23 @@
             counts[cat][player]++;
           }
         });
+
+        if (night.efficiency?.fg_pct >= highs.efficiency.fg_pct && night.efficiency?.fga >= 15) {
+          highs.efficiency = { ...night.efficiency };
+        }
+        if (night.plus_minus?.value > highs.plus_minus.value) {
+          highs.plus_minus = { ...night.plus_minus };
+        }
+        if (night.defense?.stocks > highs.defense.stocks) {
+          highs.defense = { ...night.defense };
+        }
       });
 
       const categoryLabels = {
-        efficiency: "⚡ Most Efficient Scorer",
-        plus_minus: "📈 Best +/-",
-        defense: "🛡️ Defensive Beast",
-        triple_double: "👑 Triple-Double Royalty"
+        efficiency: "⚡ Most Wins - Efficient Scorer",
+        plus_minus: "📈 Most Wins - Best +/-",
+        defense: "🛡️ Most Wins - Defensive Beast",
+        triple_double: "👑 Most Wins - Triple-Double Royalty"
       };
 
       categories.forEach(cat => {
@@ -250,9 +249,34 @@
             block += `<div class="player">${i + 1}. ${name} – ${count} Wins</div>`;
           });
           block += `</div>`;
-          right.innerHTML += block;
+          winsDiv.innerHTML += block;
         }
       });
+
+      // Season Highs
+      if (highs.efficiency.player) {
+        highsDiv.innerHTML += `
+          <div class="record">
+            <div class="stat">🎯FG% (min 15 FGA)</div>
+            <div class="player">${highs.efficiency.player} (${highs.efficiency.team}) – ${highs.efficiency.fg_pct}% FG</div>
+          </div>`;
+      }
+
+      if (highs.plus_minus.player) {
+        highsDiv.innerHTML += `
+          <div class="record">
+            <div class="stat">🧮 Plus/Minus</div>
+            <div class="player">${highs.plus_minus.player} (${highs.plus_minus.team}) – +${highs.plus_minus.value}</div>
+          </div>`;
+      }
+
+      if (highs.defense.player) {
+        highsDiv.innerHTML += `
+          <div class="record">
+            <div class="stat">🦾 BLK+STL</div>
+            <div class="player">${highs.defense.player} (${highs.defense.team}) – ${highs.defense.stocks} STL+BLK</div>
+          </div>`;
+      }
     }
 
     loadData();

@@ -200,13 +200,15 @@
       categories.forEach(cat => {
         const emoji = { points: "🔥", assists: "🎯", rebounds: "💪", threept: "🏹" }[cat];
         const sorted = Object.entries(wins[cat]).sort((a, b) => b[1] - a[1]).slice(0, 3);
-        let block = `<div class="record"><div class="stat">${emoji} Most Wins – ${cat.charAt(0).toUpperCase() + cat.slice(1)}</div>`;
+        const label = cat === "threept" ? "3PM" : cat.charAt(0).toUpperCase() + cat.slice(1);
+        let block = `<div class="record"><div class="stat">${emoji} Most Wins – ${label}</div>`;
         sorted.forEach(([player, count], i) => {
           block += `<div class="player">${i + 1}. ${player} – ${count} Wins</div>`;
         });
         block += `</div>`;
         winsDiv.innerHTML += block;
       });
+
   
       categories.forEach(cat => {
         const emoji = { points: "🧨", assists: "🤝", rebounds: "🧲", threept: "🔫" }[cat];
