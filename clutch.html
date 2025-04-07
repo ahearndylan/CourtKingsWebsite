@@ -138,6 +138,15 @@
   <p class="note">Court Kings HQ – All stats auto-tracked & published. @CourtKingsHQ</p>
 
   <script>
+
+    function formatDate(isoDate) {
+      const d = new Date(isoDate);
+      const month = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      const year = d.getFullYear();
+      return `${month}/${day}/${year}`;
+    }
+
     const supabase = window.supabase.createClient(
       'https://fjtxowbjnxclzcogostk.supabase.co',
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZqdHhvd2JqbnhjbHpjb2dvc3RrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI2MDE5NTgsImV4cCI6MjA1ODE3Nzk1OH0.LPkFw-UX6io0F3j18Eefd1LmeAGGXnxL4VcCLOR_c1Q'
@@ -164,7 +173,7 @@
         const block = document.createElement("div");
         block.className = "night-block";
         block.innerHTML = `
-          <h3>${row.date}</h3>
+          <h3>${formatDate(row.date)}</h3>
           <div class="stat">🚀 4Q Scoring</div><div class="player">${night.points.player} (${night.points.team}) – ${night.points.value} PTS</div>
           <div class="stat">💎 4Q FG%</div><div class="player">${night.fg.player} (${night.fg.team}) – ${night.fg.fg_pct}% FG (${night.fg.fga} FGA)</div>
           <div class="stat">🧠 4Q Assists</div><div class="player">${night.assists.player} (${night.assists.team}) – ${night.assists.value} AST</div>

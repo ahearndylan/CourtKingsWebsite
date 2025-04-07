@@ -174,6 +174,17 @@
   <p class="note">Court Kings HQ – All stats auto-tracked & published. @CourtKingsHQ</p>
 
   <script>
+
+    function formatDate(isoDate) {
+      const d = new Date(isoDate);
+      const month = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      const year = d.getFullYear();
+      return `${month}/${day}/${year}`;
+    }
+
+
+
     const supabase = window.supabase.createClient(
       'https://fjtxowbjnxclzcogostk.supabase.co',
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZqdHhvd2JqbnhjbHpjb2dvc3RrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI2MDE5NTgsImV4cCI6MjA1ODE3Nzk1OH0.LPkFw-UX6io0F3j18Eefd1LmeAGGXnxL4VcCLOR_c1Q'
@@ -201,7 +212,7 @@
         const block = document.createElement('div');
         block.className = 'night-block';
         block.innerHTML = `
-          <h3>${night.date}</h3>
+          <h3>${formatDate(night.date)}</h3>
           <div class="stat">⚡ Most Efficient Scorer</div><div class="player">${night.efficiency.player} (${night.efficiency.team}) – ${night.efficiency.fg_pct}% FG (${night.efficiency.fga} FGA)</div>
           <div class="stat">📈 Best +/-</div><div class="player">${night.plus_minus.player} (${night.plus_minus.team}) – +${night.plus_minus.value}</div>
           <div class="stat">🛡️ Defensive Beast</div><div class="player">${night.defense.player} (${night.defense.team}) – ${night.defense.stocks} STL+BLK</div>
