@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Scoring Kings – Stat Kings HQ</title>
+  <title>Scoring Kings – Court Kings HQ</title>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; }
@@ -110,7 +110,7 @@
 <body>
 
   <a href="index.html" class="back-logo">
-    <img src="img/logo2.jpg" alt="Back to Home">
+    <img src="img/logo6.png" alt="Back to Home">
   </a>
 
   <h1>🏀 Season Scoring Kings</h1>
@@ -121,7 +121,7 @@
     <div id="player-list">Loading...</div>
   </div>
 
-  <p class="note">Stat Kings HQ – All stats auto-tracked & published. @StackKingsHQ</p>
+  <p class="note">Court Kings HQ – All stats auto-tracked & published. @CourtKingsHQ</p>
 
   <script>
     const SUPABASE_URL = 'https://fjtxowbjnxclzcogostk.supabase.co/rest/v1/seasonkings?order=date.desc&limit=1';
@@ -157,7 +157,7 @@
         const medal = medals[i] || `${i + 1}.`;
         const div = document.createElement('div');
         div.className = 'player';
-        div.textContent = `${medal} ${p.name} (${p.team}): ${p.ppg} PPG | ${p.points} PTS`;
+        div.textContent = `${medal} ${p.name} (${p.team}): ${p.points} PTS | ${p.ppg} PPG`;
         container.appendChild(div);
       });
     })
