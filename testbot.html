@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Test a Bot – Court Kings HQ</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: radial-gradient(circle at top left, #0f0f0f, #000);
+      color: #f0f0f0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 2rem;
+      background: #121212;
+      border-bottom: 1px solid #1f1f1f;
+    }
+    .logo img {
+      height: 60px;
+      border-radius: 10px;
+    }
+    nav {
+      display: flex;
+      gap: 1.5rem;
+    }
+    nav a {
+      text-decoration: none;
+      color: #ccc;
+      font-weight: 600;
+    }
+    nav a:hover {
+      color: #00ffc6;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: auto;
+      padding: 3rem 2rem;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      background: linear-gradient(to right, #00ffc6, #00aaff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 1rem;
+    }
+    .sub {
+      color: #aaa;
+      font-size: 1.1rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .module {
+      background: #101010;
+      border: 1px solid #1e1e1e;
+      border-radius: 14px;
+      padding: 1.5rem;
+      box-shadow: 0 0 12px rgba(0,255,198,0.05);
+      position: relative;
+    }
+    .module h2 {
+      color: #00ffc6;
+      font-size: 1.4rem;
+      margin-bottom: 0.8rem;
+    }
+    .module p {
+      color: #ccc;
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    .module button {
+      margin-top: 1rem;
+      padding: 0.6rem 1.2rem;
+      background: #00ffc6;
+      color: #000;
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    .module button:hover {
+      background: #00d9ae;
+    }
+
+    .terminal {
+      background: #0a0a0a;
+      border-radius: 10px;
+      font-family: monospace;
+      font-size: 0.85rem;
+      padding: 1rem;
+      color: #00ffc6;
+      height: 140px;
+      overflow-y: auto;
+      border: 1px solid #222;
+      box-shadow: inset 0 0 8px #00ffc633;
+    }
+    footer {
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.9rem;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <a href="index.html"><img src="img/logo6.png" alt="Court Kings HQ Logo"></a>
+    </div>
+    <nav>
+      <a href="about.html">About</a>
+      <a href="archive.html">Live Hub</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <div class="container">
+    <h1>⚙️ Bot Testing Lab</h1>
+    <div class="sub">Interact with our Court Kings bots in a sandboxed environment. Preview what they see, how they think, and what they'd post.</div>
+
+    <div class="grid">
+      <div class="module">
+        <h2>Nightly Simulation</h2>
+        <p>Preview how the bots analyze a full NBA slate of games. Tap below to run a mock simulation with randomized stats.</p>
+        <button onclick="runSimulation()">Run Nightly Bot Sim</button>
+      </div>
+
+      <div class="module">
+        <h2>Stat Decoder</h2>
+        <p>Enter a fake or real stat line and the bots will evaluate it: Would it make the cut for a tweet?</p>
+        <input type="text" id="statline" placeholder="e.g. 36 pts, 13 reb, 5 ast" style="margin-top: 1rem; width: 100%; padding: 0.6rem; border-radius: 6px; border: 1px solid #333; background: #1a1a1a; color: #eee;">
+        <button onclick="decodeStatLine()">Analyze</button>
+        <div id="decoder-response" style="margin-top: 1rem; font-size: 0.9rem; color: #ccc;"></div>
+      </div>
+
+      <div class="module">
+        <h2>Bot Output Terminal</h2>
+        <p>See how bots construct tweet logic from raw data.</p>
+        <div class="terminal" id="terminal-output">Awaiting simulation...</div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    &copy; 2025 Court Kings HQ – Powered by advanced stat bots. @CourtKingsHQ
+  </footer>
+
+  <script>
+    function runSimulation() {
+      const terminal = document.getElementById('terminal-output');
+      terminal.innerHTML = `
+        [BOT] Pulling 12 NBA box scores...<br>
+        [BOT] Parsing stat leaders by category...<br>
+        [BOT] Top scorer: J. Embiid – 42 PTS<br>
+        [BOT] Best efficiency: K. Durant – 81% FG<br>
+        [BOT] Tweet output constructed successfully.`;
+    }
+
+    function decodeStatLine() {
+      const input = document.getElementById('statline').value.toLowerCase();
+      const response = document.getElementById('decoder-response');
+      if (input.includes('pts') && input.includes('reb')) {
+        response.innerText = '🔥 This would be flagged by the Nightly or Efficiency Bot for possible highlight!';
+      } else {
+        response.innerText = '📎 This stat line may not meet our thresholds for posting.';
+      }
+    }
+  </script>
+</body>
+</html>
