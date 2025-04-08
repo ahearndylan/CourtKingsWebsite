@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -103,6 +103,8 @@
       max-width: 1100px;
       margin: 0 auto;
       width: 100%;
+      padding-bottom: 0;
+      margin-bottom: 30px;
     }
 
     .card {
@@ -155,19 +157,47 @@
       color: inherit;
     }
 
+    .live-hub-promo {
+      margin: 2rem auto 0;
+      text-align: center;
+      font-size: 1.05rem;
+      color: #ccc;
+      max-width: 800px;
+      padding: 1rem 1.5rem;
+      margin-top: 0;
+      background: rgba(0, 255, 198, 0.05);
+      border: 1px solid rgba(0, 255, 198, 0.15);
+      border-radius: 12px;
+      box-shadow: inset 0 0 8px rgba(0, 255, 198, 0.08);
+    }
+
+    .live-hub-promo a {
+      color: #00ffc6;
+      font-weight: 600;
+      text-decoration: none;
+      margin-left: 0.4rem;
+    }
+
+    .live-hub-promo a:hover {
+      text-decoration: underline;
+    }
+
     .follow-twitter {
       display: flex;
       justify-content: center;
       margin: 2rem 0 1rem;
+      margin-top: 25px;
+      margin-bottom: 0;
     }
 
     footer {
       margin-top: auto;
       text-align: center;
       padding: 2rem;
-      padding-bottom: 20px;
+      padding-bottom: 10px;
       font-size: 0.85rem;
       color: #666;
+      margin-top: 0;
     }
 
     @keyframes slamIn {
@@ -258,6 +288,11 @@
     </a>
   </section>
 
+  <section class="live-hub-promo">
+    <p>📡 Bot Analytics → <a href="archive.html">Live Hub</a></p>
+  </section>
+
+
   <div class="follow-twitter">
     <a href="https://twitter.com/CourtKingsHQ?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-show-screen-name="false" data-show-count="false">Follow @CourtKingsHQ</a>
   </div>
@@ -266,5 +301,6 @@
   <footer>
     &copy; 2025 Court Kings HQ – All stats auto-tracked & published. @CourtKingsHQ
   </footer>
+
 </body>
 </html>

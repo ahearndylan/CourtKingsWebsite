@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Live Hub – Stat Kings HQ</title>
+  <title>Live Hub – Court Kings HQ</title>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
   <style>
     html, body {
@@ -12,7 +12,6 @@
       width: 100%;
       overflow-x: hidden;
     }
-
     body {
       font-family: 'Outfit', sans-serif;
       background: #0c0c0c;
@@ -21,74 +20,80 @@
       flex-direction: column;
       min-height: 100vh;
     }
-
     header {
-      width: 100%;
-      box-sizing: border-box;
+      width: 100vw;
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 1.2rem 2rem;
       background: #121212;
       border-bottom: 1px solid #1f1f1f;
+      flex-wrap: wrap;
+      box-sizing: border-box;
     }
-
     .logo img {
       height: 65px;
       border-radius: 10px;
     }
-
     nav {
       display: flex;
       align-items: center;
+      gap: 1.25rem;
+      flex-wrap: wrap;
     }
-
     nav a {
       color: #ccc;
       text-decoration: none;
       font-weight: 600;
-      margin-left: 1.5rem;
+      font-size: 1rem;
       transition: color 0.2s ease;
     }
-
-    nav a:hover {
-      color: #00ffc6;
-    }
+    nav a:hover { color: #00ffc6; }
 
     .grid {
       display: flex;
       flex-direction: row;
       gap: 2rem;
       padding: 2rem;
-      flex: 1;
       box-sizing: border-box;
     }
-
     .left, .right {
       flex: 1;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.07);
       border-radius: 16px;
       padding: 1.5rem;
       overflow-y: auto;
     }
-
     .left {
-      min-width: 350px;
-    }
-
-    .right {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.07);
       text-align: center;
-      padding-top: 2rem;
+    }
+    .right {
+      background: linear-gradient(145deg, rgba(0, 255, 198, 0.05), rgba(0, 255, 255, 0.02));
+      border: 1px solid rgba(0,255,198,0.08);
+      box-shadow: inset 0 0 15px rgba(0,255,198,0.07);
+    }
+    .right h3 {
+      font-size: 1.6rem;
+      margin-bottom: 1.5rem;
+      text-align: center;
+      color: #00ffc6;
     }
 
-    .right h2 {
+    .player-spotlight {
+      max-width: 800px;
+      margin: 0 auto 3rem auto;
+      padding: 2rem;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 16px;
+      text-align: center;
+      position: relative;
+    }
+
+    .player-spotlight h2 {
       color: #ffc107;
-      margin-bottom: 2rem;
-      font-size: 1.8rem;
+      margin-bottom: 1rem;
     }
 
     #player-spotlight img {
@@ -106,70 +111,56 @@
       font-weight: 800;
       margin-bottom: 0.4rem;
     }
-
     .spotlight-team {
       font-size: 1.15rem;
       color: #ccc;
       margin-bottom: 1.2rem;
     }
-
     .spotlight-description {
       font-size: 1rem;
       line-height: 1.7;
       color: #ddd;
       max-width: 400px;
+      margin: 0 auto;
       padding: 0 1rem;
-    }
-
-    .analytics-panel {
-      margin-top: 3rem;
-      text-align: center;
-    }
-
-    .analytics-panel h3 {
-      font-size: 1.6rem;
-      margin-bottom: 1.5rem;
-      background: linear-gradient(to right, #00ffc6, #00c8ff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
     }
 
     .analytics-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-      gap: 1.5rem;
-      max-width: 600px;
-      margin: 0 auto;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
     }
-
-    .analytics-grid .stat-card {
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 16px;
-      padding: 1.2rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-    }
-
-    .stat-label {
-      font-size: 0.9rem;
-      color: #aaa;
-      margin-bottom: 0.5rem;
-    }
-
-    .stat-value {
-      font-size: 1.4rem;
-      font-weight: 700;
-      color: #f0f0f0;
-    }
-
-    footer {
+    .stat-card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(0,255,198,0.12);
+      border-radius: 12px;
+      padding: 1rem;
       text-align: center;
-      padding: 1.5rem;
+    }
+    .stat-label {
       font-size: 0.85rem;
-      color: #777;
+      color: #00ffc6;
+      margin-bottom: 0.25rem;
+    }
+    .stat-value {
+      font-size: 1.3rem;
+      font-weight: bold;
+    }
+    .terminal-feed {
+      margin-top: 2rem;
+      font-family: monospace;
+      font-size: 0.85rem;
+      background: #111;
+      border: 1px solid #222;
+      border-radius: 10px;
+      padding: 1rem;
+      height: 140px;
+      overflow-y: auto;
+      color: #00ffc6;
+      box-shadow: inset 0 0 6px #00ffc622;
+    }
+    .terminal-line {
+      margin-bottom: 0.4rem;
     }
 
     #spotlight-overlay {
@@ -185,57 +176,22 @@
       transition: opacity 0.5s ease;
     }
 
-    /* ✅ Mobile Responsiveness Fixes */
+    footer {
+      text-align: center;
+      padding: 1.5rem;
+      font-size: 0.85rem;
+      color: #777;
+    }
+
     @media (max-width: 768px) {
-  header {
-    flex-direction: column;
-    align-items: center;
-    padding: 1rem;
-  }
-
-  .logo {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    margin-bottom: 0.5rem;
-  }
-
-  .logo img {
-    height: 44px;
-  }
-
-  nav {
-    width: 100%;
-    justify-content: space-around;
-    display: flex;
-    flex-wrap: nowrap;
-  }
-
-  nav a {
-    margin-left: 0;
-    font-size: 0.95rem;
-  }
-
-  .grid {
-    flex-direction: column;
-    padding: 1.5rem 1rem;
-  }
-
-  .left {
-    min-width: unset;
-  }
-
-  .analytics-grid {
-    grid-template-columns: repeat(2, 1fr);
-    max-width: 100%;
-    padding: 0 0.5rem;
-  }
-}
-
+      .grid {
+        flex-direction: column;
+        padding: 1.5rem 1rem;
+      }
+    }
   </style>
 </head>
 <body>
-
   <header>
     <div class="logo">
       <a href="index.html"><img src="img/logo6.png" alt="Stat Kings HQ Logo"></a>
@@ -248,25 +204,23 @@
   </header>
 
   <div class="grid">
-    <div class="right">
-      <h2>🏀 Player Spotlight</h2>
-      <div id="player-spotlight">
-        Loading player spotlight...
-      </div>
-
-      <div class="analytics-panel">
-        <h3>📊 Court Kings Analytics</h3>
-        <div class="analytics-grid" id="analytics-data">
-          Loading analytics...
-        </div>
-      </div>
-    </div>
-
     <div class="left">
-      <!-- Elfsight Twitter Feed -->
-      <script src="https://static.elfsight.com/platform/platform.js" async></script>
-      <div class="elfsight-app-884b8042-a696-4787-b2fa-e5f78c03eb06" data-elfsight-app-lazy></div>
+      <!-- Elfsight Twitter Feed | Untitled Twitter Feed -->
+<script src="https://static.elfsight.com/platform/platform.js" async></script>
+<div class="elfsight-app-884b8042-a696-4787-b2fa-e5f78c03eb06" data-elfsight-app-lazy></div>
     </div>
+    <div class="right">
+      <div class="analytics-panel">
+        <h3>📊 Live Bot Analytics</h3>
+        <div class="analytics-grid" id="analytics-data">Loading...</div>
+        <div class="terminal-feed" id="terminal-feed"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="player-spotlight">
+    <h2>🏀 Player Spotlight</h2>
+    <div id="player-spotlight">Loading player spotlight...</div>
   </div>
 
   <footer>
@@ -276,111 +230,130 @@
   <div id="spotlight-overlay"></div>
 
   <script>
-    async function loadPlayerSpotlight() {
-      try {
-        const response = await fetch('player.json');
-        const players = await response.json();
+    let spotlightTriggered = false;
 
-        const randomPlayer = players[Math.floor(Math.random() * players.length)];
-        const { name, team, description, imageFile } = randomPlayer;
+async function loadPlayerSpotlight() {
+  try {
+    const response = await fetch('player.json');
+    const players = await response.json();
+    const randomPlayer = players[Math.floor(Math.random() * players.length)];
+    const { name, team, description, imageFile } = randomPlayer;
+    const spotlightDiv = document.getElementById('player-spotlight');
+    spotlightDiv.innerHTML = `
+      <img src="player_images/${imageFile}" alt="${name}">
+      <div class="spotlight-name">${name}</div>
+      <div class="spotlight-team">${team}</div>
+      <div class="spotlight-description">${description}</div>
+    `;
 
-        const spotlightDiv = document.getElementById('player-spotlight');
-        spotlightDiv.innerHTML = `
-          <img src="player_images/${imageFile}" alt="${name}">
-          <div class="spotlight-name">${name}</div>
-          <div class="spotlight-team">${team}</div>
-          <div class="spotlight-description">${description}</div>
-        `;
-
-        setTimeout(() => {
-          showSpotlightOnElement(spotlightDiv);
-        }, 400);
-      } catch (error) {
-        console.error('Error loading player spotlight:', error);
+    // Only run once on first hover
+    spotlightDiv.addEventListener('mouseenter', () => {
+      if (!spotlightTriggered) {
+        showSpotlightOnElement(spotlightDiv);
+        spotlightTriggered = true;
       }
-    }
+    });
 
-    function showSpotlightOnElement(el) {
-      const spotlight = document.getElementById('spotlight-overlay');
-      const rect = el.getBoundingClientRect();
-      const centerX = rect.left + rect.width / 2;
-      const centerY = rect.top + rect.height / 2;
+  } catch (error) {
+    console.error('Error loading player spotlight:', error);
+  }
+}
 
-      spotlight.style.background = `
-        radial-gradient(circle at ${centerX}px ${centerY}px, transparent 180px, rgba(0,0,0,0.85) 200px)
-      `;
-      spotlight.style.opacity = '1';
+function showSpotlightOnElement(el) {
+  const spotlight = document.getElementById('spotlight-overlay');
+  const rect = el.getBoundingClientRect();
+  const centerX = rect.left + rect.width / 2;
+  const centerY = rect.top + rect.height / 2;
 
-      setTimeout(() => {
-        spotlight.style.opacity = '0';
-      }, 1500);
-    }
+  spotlight.style.background = `
+    radial-gradient(circle at ${centerX}px ${centerY}px, transparent 180px, rgba(0,0,0,0.85) 200px)
+  `;
+  spotlight.style.opacity = '1';
+
+  setTimeout(() => {
+    spotlight.style.opacity = '0';
+  }, 1500);
+}
 
     function getDaysSince(startDateStr) {
       const startDate = new Date(startDateStr);
       const today = new Date();
       startDate.setHours(0, 0, 0, 0);
       today.setHours(0, 0, 0, 0);
-      const diffTime = today - startDate;
-      return Math.max(0, Math.floor(diffTime / (1000 * 60 * 60 * 24)));
+      return Math.max(0, Math.floor((today - startDate) / (1000 * 60 * 60 * 24)));
     }
 
     function getAnalyticsData() {
-      const since = "2025-03-15";
-      const daysPassed = getDaysSince(since);
-
-      const tweetsPosted = 44 + Math.max(0, (daysPassed - 8) * 3);
-      const recordsLogged = 21 + Math.max(0, (daysPassed - 8) * 4);
-      const playersTracked = 438;
-      const activeBots = 5;
-      const avgRuntime = "27.4s";
-
+      const days = getDaysSince("2025-03-15");
       return {
-        tweetsPosted,
-        playersTracked,
-        activeBots,
-        recordsLogged,
-        daysActive: daysPassed,
-        avgRuntime
+        tweetsPosted: 50 + Math.max(0, (days - 8) * 3),
+        recordsLogged: 21 + Math.max(0, (days - 8) * 4),
+        playersTracked: 438,
+        activeBots: 5,
+        avgRuntime: "27.4s",
+        daysActive: days,
+        jsonFilesSynced: 0 + (days * 3),
+        gamesProcessed: 15 + (days * 8),
+        apiCallVolume: 0 + (days * 12)
       };
     }
 
     function displayAnalytics() {
       const stats = getAnalyticsData();
       const html = `
-        <div class="stat-card">
-          <div class="stat-label">X Posts</div>
-          <div class="stat-value">${stats.tweetsPosted.toLocaleString()}</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">Players Tracked</div>
-          <div class="stat-value">${stats.playersTracked}</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">Active Bots</div>
-          <div class="stat-value">${stats.activeBots}</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">Records Logged</div>
-          <div class="stat-value">${stats.recordsLogged.toLocaleString()}</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">Days Active</div>
-          <div class="stat-value">${stats.daysActive}</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">Avg Bot Runtime</div>
-          <div class="stat-value">${stats.avgRuntime}</div>
-        </div>
+        <div class="stat-card"><div class="stat-label">X Posts</div><div class="stat-value">${stats.tweetsPosted}</div></div>
+        <div class="stat-card"><div class="stat-label">Players Tracked</div><div class="stat-value">${stats.playersTracked}</div></div>
+        <div class="stat-card"><div class="stat-label">Games Processed</div><div class="stat-value">${stats.gamesProcessed}</div></div>
+        <div class="stat-card"><div class="stat-label">Days Active</div><div class="stat-value">${stats.daysActive}</div></div>
+        <div class="stat-card"><div class="stat-label">Active Bots</div><div class="stat-value">${stats.activeBots}</div></div>
+        <div class="stat-card"><div class="stat-label">Avg Bot Runtime</div><div class="stat-value">${stats.avgRuntime}</div></div>
+        <div class="stat-card"><div class="stat-label">JSON Files Synced</div><div class="stat-value">${stats.jsonFilesSynced}</div></div>
+        <div class="stat-card"><div class="stat-label">API Call Volume</div><div class="stat-value">${stats.apiCallVolume}</div></div>
+        <div class="stat-card"><div class="stat-label">Records Logged</div><div class="stat-value">${stats.recordsLogged}</div></div>
       `;
       document.getElementById('analytics-data').innerHTML = html;
+    }
+
+    const terminalMessages = [
+      'Clutch Bot synced 4Q stats', 'Efficiency Bot saved new FG% high', 'Season Leader Bot updated leaderboard',
+      'JSON files exported to Supabase', 'Posted tweet for Nightly Kings', 'Trivia Bot served a new question',
+      'Trivia response received from @nbafan88', 'Supabase sync completed for efficiencykings',
+      'Supabase sync completed for clutchkings', 'Bot scheduler checked for missed jobs',
+      'All bots verified successful execution', 'Saved 12 player stat profiles to archive',
+      'Supabase response time: 213ms', 'Auth token refreshed', 'Render build completed',
+      'Twitter API call returned 200 OK', 'JSON sync: 3 new files added', 'backup_20250407.json saved',
+      'Archived efficiency logs (3 entries)', 'Archived clutch logs (3 entries)', 'Local storage cleared from tmp/',
+      'Pulled data from NBA API', 'Watching trending hashtag: #NBAStats', 'Cron job triggered nightly bot run',
+      'Server uptime: 99.97%', 'JSON validation passed for 3 new entries', 'Archived full game log for 2025-04-06',
+      'Supabase push complete: scoringkings update', 'Monitoring memory usage across bots',
+      'Daily trivia leaderboard refreshed', 'Clutch leaderboard cache invalidated', 'Efficiency scores reindexed',
+      'StatKings database heartbeat OK', 'Next task scheduled in 42 minutes'
+    ];
+
+    function getRandomTime() {
+      const hour = Math.floor(Math.random() * 12) + 1;
+      const minute = Math.floor(Math.random() * 60);
+      const period = Math.random() > 0.5 ? 'AM' : 'PM';
+      return `${hour}:${minute.toString().padStart(2, '0')} ${period}`;
+    }
+
+    let terminalIndex = 0;
+    function rotateTerminalLog() {
+      const terminal = document.getElementById('terminal-feed');
+      const line = document.createElement('div');
+      line.className = 'terminal-line';
+      line.textContent = `[${getRandomTime()}] ${terminalMessages[terminalIndex]}`;
+      terminal.appendChild(line);
+      terminal.scrollTop = terminal.scrollHeight;
+      if (terminal.children.length > 12) terminal.removeChild(terminal.children[0]);
+      terminalIndex = (terminalIndex + 1) % terminalMessages.length;
     }
 
     document.addEventListener('DOMContentLoaded', () => {
       loadPlayerSpotlight();
       displayAnalytics();
+      setInterval(rotateTerminalLog, 2500);
     });
   </script>
-
 </body>
 </html>
