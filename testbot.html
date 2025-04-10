@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Test a Bot – Court Kings HQ</title>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
   <style>
@@ -45,7 +45,6 @@
       margin: auto;
       padding: 3rem 2rem;
     }
-
     h1 {
       font-size: 2.5rem;
       background: linear-gradient(to right, #00ffc6, #00aaff);
@@ -59,19 +58,39 @@
       margin-bottom: 2.5rem;
     }
 
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    .tabs {
+      display: flex;
       gap: 2rem;
+      margin-bottom: 2rem;
+    }
+    .tabs button {
+      background: none;
+      border: none;
+      color: #ccc;
+      font-weight: bold;
+      font-size: 1rem;
+      cursor: pointer;
+      padding-bottom: 0.4rem;
+      border-bottom: 2px solid transparent;
+    }
+    .tabs button.active {
+      color: #00ffc6;
+      border-color: #00ffc6;
     }
 
+    .mode {
+      display: none;
+    }
+    .mode.active {
+      display: block;
+    }
     .module {
       background: #101010;
       border: 1px solid #1e1e1e;
       border-radius: 14px;
       padding: 1.5rem;
+      margin-bottom: 2rem;
       box-shadow: 0 0 12px rgba(0,255,198,0.05);
-      position: relative;
     }
     .module h2 {
       color: #00ffc6;
@@ -82,34 +101,38 @@
       color: #ccc;
       font-size: 0.95rem;
       line-height: 1.5;
+      margin-bottom: 1rem;
     }
-
+    .module input, .module select {
+      width: 100%;
+      padding: 0.6rem;
+      border-radius: 6px;
+      background: #1a1a1a;
+      color: #eee;
+      border: 1px solid #333;
+      margin-bottom: 1rem;
+    }
     .module button {
-      margin-top: 1rem;
-      padding: 0.6rem 1.2rem;
       background: #00ffc6;
       color: #000;
+      padding: 0.6rem 1.2rem;
       border: none;
       border-radius: 6px;
       font-weight: bold;
       cursor: pointer;
-      transition: background 0.3s ease;
     }
     .module button:hover {
       background: #00d9ae;
     }
-
-    .terminal {
+    .output {
+      margin-top: 1rem;
       background: #0a0a0a;
-      border-radius: 10px;
+      padding: 1rem;
+      border: 1px solid #222;
+      border-radius: 8px;
+      color: #00ffc6;
       font-family: monospace;
       font-size: 0.85rem;
-      padding: 1rem;
-      color: #00ffc6;
-      height: 140px;
-      overflow-y: auto;
-      border: 1px solid #222;
-      box-shadow: inset 0 0 8px #00ffc633;
     }
     footer {
       text-align: center;
@@ -132,55 +155,89 @@
   </header>
 
   <div class="container">
-    <h1>⚙️ Bot Testing Lab</h1>
-    <div class="sub">Interact with our Court Kings bots in a sandboxed environment. Preview what they see, how they think, and what they'd post.</div>
+    <h1>🤖 Test a Bot</h1>
+    <div class="sub">Experiment with Court Kings HQ stat bots: tweak thresholds, simulate battles, and explore how they think.</div>
 
-    <div class="grid">
+    <div class="tabs">
+      <button class="tab-btn active" data-target="playground">🧪 Playground</button>
+      <button class="tab-btn" data-target="arena">🥊 Bot Arena</button>
+    </div>
+
+    <div id="playground" class="mode active">
       <div class="module">
-        <h2>Nightly Simulation</h2>
-        <p>Preview how the bots analyze a full NBA slate of games. Tap below to run a mock simulation with randomized stats.</p>
-        <button onclick="runSimulation()">Run Nightly Bot Sim</button>
+        <h2>Customize Bot Logic</h2>
+        <label>Minimum Points</label>
+        <input type="range" id="minPoints" min="10" max="50" value="30">
+        <label>Minimum FG%</label>
+        <input type="range" id="minFG" min="30" max="90" value="60">
+        <label>Stat Line</label>
+        <input type="text" id="playgroundStat" placeholder="e.g. 34 pts, 10 reb, 6 ast">
+        <button onclick="runPlayground()">Run Analysis</button>
+        <div class="output" id="playgroundOutput"></div>
       </div>
+    </div>
 
+    <div id="arena" class="mode">
       <div class="module">
-        <h2>Stat Decoder</h2>
-        <p>Enter a fake or real stat line and the bots will evaluate it: Would it make the cut for a tweet?</p>
-        <input type="text" id="statline" placeholder="e.g. 36 pts, 13 reb, 5 ast" style="margin-top: 1rem; width: 100%; padding: 0.6rem; border-radius: 6px; border: 1px solid #333; background: #1a1a1a; color: #eee;">
-        <button onclick="decodeStatLine()">Analyze</button>
-        <div id="decoder-response" style="margin-top: 1rem; font-size: 0.9rem; color: #ccc;"></div>
-      </div>
-
-      <div class="module">
-        <h2>Bot Output Terminal</h2>
-        <p>See how bots construct tweet logic from raw data.</p>
-        <div class="terminal" id="terminal-output">Awaiting simulation...</div>
+        <h2>Enter a Stat Line</h2>
+        <input type="text" id="arenaStat" placeholder="e.g. 34 pts, 10 reb, 6 ast">
+        <button onclick="runArena()">Simulate Bot Reactions</button>
+        <div class="output" id="arenaOutput"></div>
       </div>
     </div>
   </div>
 
   <footer>
-    &copy; 2025 Court Kings HQ – Powered by advanced stat bots. @CourtKingsHQ 
+    &copy; 2025 Court Kings HQ – Powered by advanced stat bots. @CourtKingsHQ
   </footer>
 
   <script>
-    function runSimulation() {
-      const terminal = document.getElementById('terminal-output');
-      terminal.innerHTML = `
-        [BOT] Pulling 12 NBA box scores...<br>
-        [BOT] Parsing stat leaders by category...<br>
-        [BOT] Top scorer: J. Embiid – 42 PTS<br>
-        [BOT] Best efficiency: K. Durant – 81% FG<br>
-        [BOT] Tweet output constructed successfully.`;
+    const tabs = document.querySelectorAll('.tab-btn');
+    const modes = document.querySelectorAll('.mode');
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => t.classList.remove('active'));
+        modes.forEach(m => m.classList.remove('active'));
+        tab.classList.add('active');
+        document.getElementById(tab.dataset.target).classList.add('active');
+      });
+    });
+
+    function runPlayground() {
+      const stat = document.getElementById('playgroundStat').value.toLowerCase();
+      const minPts = parseInt(document.getElementById('minPoints').value);
+      const minFG = parseInt(document.getElementById('minFG').value);
+      const output = document.getElementById('playgroundOutput');
+
+      let ptsMatch = stat.match(/(\d+)\s*pts/);
+      let fgMatch = stat.match(/(\d+)%\s*fg/);
+      let pts = ptsMatch ? parseInt(ptsMatch[1]) : 0;
+      let fg = fgMatch ? parseInt(fgMatch[1]) : 0;
+
+      if (pts >= minPts && fg >= minFG) {
+        output.innerText = `✅ This stat line meets your custom logic and would be tweeted!`;
+      } else {
+        output.innerText = `❌ Stat line rejected under current bot settings.`;
+      }
     }
 
-    function decodeStatLine() {
-      const input = document.getElementById('statline').value.toLowerCase();
-      const response = document.getElementById('decoder-response');
-      if (input.includes('pts') && input.includes('reb')) {
-        response.innerText = '🔥 This would be flagged by the Nightly or Efficiency Bot for possible highlight!';
-      } else {
-        response.innerText = '📎 This stat line may not meet our thresholds for posting.';
-      }
+    function runArena() {
+      const stat = document.getElementById('arenaStat').value.toLowerCase();
+      const output = document.getElementById('arenaOutput');
+
+      let reactions = '';
+
+      // Scoring Bot
+      reactions += `🔥 Scoring Bot: ${(stat.includes('pts') && parseInt(stat) >= 30) ? 'Approved – big scoring night!' : 'Pass – not enough points.'}<br>`;
+
+      // Efficiency Bot
+      reactions += `⚡ Efficiency Bot: ${(stat.includes('%') && parseInt(stat.match(/(\d+)%/)) >= 60) ? 'Love it – high FG%' : 'Pass – needs more efficiency.'}<br>`;
+
+      // Clutch Bot
+      reactions += `🚀 Clutch Bot: ${stat.includes('4th') ? 'Flagged for 4Q dominance!' : 'No clutch moments detected.'}<br>`;
+
+      output.innerHTML = reactions;
     }
   </script>
 </body>
