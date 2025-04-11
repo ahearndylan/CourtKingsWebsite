@@ -161,10 +161,11 @@
 
   <script>
     function formatDate(isoDate) {
-      const d = new Date(isoDate);
-      const month = String(d.getMonth() + 1).padStart(2, '0');
-      const day = String(d.getDate()).padStart(2, '0');
-      const year = d.getFullYear();
+      // Force parse the date at noon UTC to avoid timezone shift
+      const d = new Date(isoDate + 'T12:00:00Z');
+      const month = String(d.getUTCMonth() + 1).padStart(2, '0');
+      const day = String(d.getUTCDate()).padStart(2, '0');
+      const year = d.getUTCFullYear();
       return `${month}/${day}/${year}`;
     }
 

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NBA Schedule Test – Court Kings HQ</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 2rem;
+      font-family: 'Outfit', sans-serif;
+      background: #0c0c0c;
+      color: #f0f0f0;
+      text-align: center;
+    }
+    h1 {
+      color: #00ffc6;
+      margin-bottom: 2rem;
+    }
+    .game {
+      margin-bottom: 1rem;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      padding: 1rem;
+      border-radius: 12px;
+      max-width: 400px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Today's NBA Schedule</h1>
+
+<div id="schedule">Loading schedule...</div>
+
+<script>
+async function loadSchedule() {
+  const today = new Date().toISOString().split('T')[0];
+  const apiURL = `https://www.balldontlie.io/api/v1/games?start_date=${today}&end_date=${today}`;
+  const url = `https://thingproxy.freeboard.io/fetch/${apiURL}`;
+
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
+    const games = data.data;
+
+    const container = document.getElementById('schedule');
+    container.innerHTML = "";
+
+    if (games.length === 0) {
+      container.innerHTML = "No NBA games scheduled today.";
+      return;
+    }
+
+    games.forEach(game => {
+      const home = game.home_team.full_name;
+      const away = game.visitor_team.full_name;
+      const utcTime = new Date(game.date);
+
+      const options = { timeZone: 'America/New_York', hour: 'numeric', minute: '2-digit' };
+      const timeET = utcTime.toLocaleTimeString('en-US', options);
+
+      const div = document.createElement('div');
+      div.className = 'game';
+      div.textContent = `${away} vs ${home} – ${timeET} ET`;
+      container.appendChild(div);
+    });
+
+  } catch (error) {
+    console.error("Error loading NBA schedule:", error);
+    document.getElementById('schedule').innerText = "Failed to load schedule.";
+  }
+}
+
+loadSchedule();
+
+
+</script>
+
+</body>
+</html>
