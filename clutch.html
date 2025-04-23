@@ -191,7 +191,7 @@
           <div class="stat">🚀 4Q Scoring</div><div class="player">${night.points.player} (${night.points.team}) – ${night.points.value} PTS</div>
           <div class="stat">💎 4Q FG%</div><div class="player">${night.fg.player} (${night.fg.team}) – ${night.fg.fg_pct}% FG (${night.fg.fga} FGA)</div>
           <div class="stat">🧠 4Q Assists</div><div class="player">${night.assists.player} (${night.assists.team}) – ${night.assists.value} AST</div>
-          ${night.team_4q_diff ? `<div class="stat">📈 Best 4Q Team</div><div class="player">${night.team_4q_diff.abbr}: +${night.team_4q_diff.value}</div>` : ""}
+          ${night.team_4q_diff ? `<div class="stat">📈 Best 4Q Team</div><div class="player">${night.team_4q_diff.abbr} - +${night.team_4q_diff.value}</div>` : ""}
         `;
         left.appendChild(block);
       });
