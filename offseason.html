@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Offseason – Court Kings HQ</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      overflow-x: hidden;
+    }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: #0c0c0c;
+      color: #f0f0f0;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    header {
+      width: 100%;
+      box-sizing: border-box;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 2rem;
+      background: #121212;
+      border-bottom: 1px solid #1f1f1f;
+    }
+
+    .logo img {
+      height: 65px;
+      border-radius: 10px;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+    }
+
+    nav a {
+      color: #ccc;
+      text-decoration: none;
+      font-weight: 600;
+      margin-left: 1.5rem;
+      transition: color 0.2s ease;
+    }
+
+    nav a:hover {
+      color: #00ffc6;
+    }
+
+    main {
+      flex: 1;
+      padding: 2rem;
+      box-sizing: border-box;
+    }
+
+    h1 {
+      text-align: center;
+      color: #00ffc6;
+      font-size: 2.2rem;
+      margin-bottom: 2rem;
+    }
+
+    .container {
+      display: flex;
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .column {
+      flex: 1;
+      background: #111;
+      border-radius: 10px;
+      padding: 1rem;
+      overflow-y: auto;
+      max-height: 78vh;
+      border: 1px solid #222;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .column h2 {
+      text-align: center;
+      font-size: 1.4rem;
+      color: #c084fc;
+      margin-bottom: 1rem;
+    }
+
+    .search-bar {
+      margin-bottom: 1rem;
+      width: 90%;
+    }
+
+    .search-bar input {
+      width: 100%;
+      padding: 0.7rem 1rem;
+      border-radius: 8px;
+      border: none;
+      font-size: 1rem;
+    }
+
+    .search-message {
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
+      color: #ff5c5c;
+      text-align: center;
+    }
+
+    .rookie-card, .leader-card {
+      background: #1a1a1a;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      border-radius: 10px;
+      border: 1px solid #333;
+    }
+
+    .rookie-card h3, .leader-card h3 {
+      margin: 0 0 0.5rem;
+    }
+
+    .rookie-card h3 {
+      color: #00ffc6;
+    }
+
+    .leader-card h3 {
+      color: #00ffc6;
+    }
+
+    .rookie-card p, .leader-card p {
+      margin: 0.25rem 0;
+      font-size: 0.95rem;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1.5rem;
+      font-size: 0.85rem;
+      color: #777;
+    }
+
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        align-items: center;
+        padding: 1rem;
+      }
+
+      .logo {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        margin-bottom: 0.5rem;
+      }
+
+      .logo img {
+        height: 44px;
+      }
+
+      nav {
+        width: 100%;
+        justify-content: space-around;
+        flex-wrap: nowrap;
+      }
+
+      nav a {
+        margin-left: 0;
+        font-size: 0.95rem;
+      }
+
+      .container {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo">
+      <a href="index.html"><img src="img/logo6.png" alt="Court Kings HQ Logo"></a>
+    </div>
+    <nav>
+      <a href="about.html">About</a>
+      <a href="archive.html">Live Hub</a>
+      <a href="trivia.html">Trivia</a>
+      <a href="offseason.html">Offseason</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <h1>🏀 Offseason Royalty – Court Kings HQ</h1>
+
+    <div class="container">
+      <div class="column">
+        <h2>👑 Historic Draft Picks</h2>
+        <div class="search-bar">
+          <input type="text" id="searchInput" placeholder="Search for a rookie (e.g. Curry)" />
+          <p id="searchMessage" class="search-message"></p>
+        </div>
+        <div id="rookieList"></div>
+      </div>
+
+      <div class="column">
+        <h2>📜 NBA All-Time Leaders</h2>
+        <div id="leadersList"></div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    Court Kings HQ – All stats auto-tracked & published. @CourtKingsHQ
+  </footer>
+
+  <script>
+    async function loadData() {
+      const [rookieRes, leadersRes] = await Promise.all([
+        fetch("draft_picks.json"),
+        fetch("leaders_data.json")
+      ]);
+      const rookies = await rookieRes.json();
+      const leaders = await leadersRes.json();
+  
+      renderRookies(rookies);
+      renderLeaders(leaders);
+    }
+  
+    function renderRookies(rookies) {
+      const rookieList = document.getElementById('rookieList');
+      const message = document.getElementById('searchMessage');
+      rookieList.innerHTML = '';
+      rookies.forEach(player => {
+        const div = document.createElement('div');
+        div.className = 'rookie-card';
+        div.id = player.player.toLowerCase().replace(/\s+/g, '');
+        div.innerHTML = `
+          <h3>${player.player}</h3>
+          <p><strong>Year:</strong> ${player.year} | <strong>Pick:</strong> #${player.pick}</p>
+          <p><strong>Team:</strong> ${player.team}</p>
+          <p><strong>Career:</strong> ${player.career}</p>
+        `;
+        rookieList.appendChild(div);
+      });
+
+      document.getElementById("searchInput").addEventListener("keydown", function(e) {
+        if (e.key === "Enter") {
+            const input = e.target.value.trim().toLowerCase();
+            const allCards = document.querySelectorAll('.rookie-card');
+            let found = false;
+
+            for (let card of allCards) {
+            const playerName = card.querySelector('h3').textContent.toLowerCase();
+            if (playerName.includes(input)) {
+                card.scrollIntoView({ behavior: "smooth", block: "center" });
+                message.textContent = '';
+                found = true;
+                break;
+            }
+            }
+
+if (!found) {
+  message.textContent = `No rookie record found for "${e.target.value}"`;
+}
+
+        }
+      });
+    }
+  
+    function renderLeaders(leaders) {
+      const leadersList = document.getElementById('leadersList');
+      leadersList.innerHTML = '';
+  
+      const medals = ['🥇', '🥈', '🥉'];
+  
+      for (const category in leaders) {
+        const div = document.createElement('div');
+        div.className = 'leader-card';
+  
+        const entries = leaders[category]
+          .map((name, index) => {
+            if (index < 3) {
+              return `<p>${medals[index]} ${name}</p>`;
+            } else {
+              return `<p>${index + 1}. ${name}</p>`;
+            }
+          })
+          .join('');
+  
+        div.innerHTML = `
+          <h3>${category.replace(/_/g, ' ').toUpperCase()}</h3>
+          ${entries}
+        `;
+        leadersList.appendChild(div);
+      }
+    }
+  
+    loadData();
+  </script>
+</body>
+</html>

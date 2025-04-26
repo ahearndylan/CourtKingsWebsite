@@ -233,6 +233,7 @@
       <a href="about.html">About</a>
       <a href="archive.html">Live Hub</a>
       <a href="trivia.html">Trivia</a>
+      <a href="offseason.html">Offseason</a>
       <a href="contact.html">Contact</a>
     </nav>
   </header>
@@ -332,6 +333,7 @@ function showSpotlightOnElement(el) {
         recordsLogged: 21 + Math.max(0, (days - 8) * 4),
         playersTracked: 438,
         activeBots: 5,
+        totalBots: 9,
         avgRuntime: "27.4s",
         daysActive: days,
         jsonFilesSynced: 0 + (days * 3),
@@ -343,11 +345,11 @@ function showSpotlightOnElement(el) {
     function displayAnalytics() {
       const stats = getAnalyticsData();
       const html = `
-        <div class="stat-card"><div class="stat-label">X Posts</div><div class="stat-value">${stats.tweetsPosted}</div></div>
+        <div class="stat-card"><div class="stat-label">Days Active</div><div class="stat-value">${stats.daysActive}</div></div>
         <div class="stat-card"><div class="stat-label">Players Tracked</div><div class="stat-value">${stats.playersTracked}</div></div>
         <div class="stat-card"><div class="stat-label">Games Processed</div><div class="stat-value">${stats.gamesProcessed}</div></div>
-        <div class="stat-card"><div class="stat-label">Days Active</div><div class="stat-value">${stats.daysActive}</div></div>
         <div class="stat-card"><div class="stat-label">Active Bots</div><div class="stat-value">${stats.activeBots}</div></div>
+        <div class="stat-card"><div class="stat-label">Total Bots</div><div class="stat-value">${stats.totalBots}</div></div>
         <div class="stat-card"><div class="stat-label">Avg Bot Runtime</div><div class="stat-value">${stats.avgRuntime}</div></div>
         <div class="stat-card"><div class="stat-label">JSON Files Synced</div><div class="stat-value">${stats.jsonFilesSynced}</div></div>
         <div class="stat-card"><div class="stat-label">API Call Volume</div><div class="stat-value">${stats.apiCallVolume}</div></div>
