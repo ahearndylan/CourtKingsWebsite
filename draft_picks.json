@@ -414,5 +414,165 @@
         "team": "San Antonio Spurs",
         "career": "Generational Prospect \u2022 Shot-Blocking Phenom",
         "used": false
+      },
+      {
+        "year": 1984,
+        "pick": 1,
+        "player": "Hakeem Olajuwon",
+        "team": "Houston Rockets",
+        "career": "2× Champ • MVP • All-Time Blocks Leader",
+        "used": false
+      },
+      {
+        "year": 1987,
+        "pick": 5,
+        "player": "Scottie Pippen",
+        "team": "Seattle SuperSonics (traded to Bulls)",
+        "career": "6× Champ • Elite Defender • HOF",
+        "used": false
+      },
+      {
+        "year": 1981,
+        "pick": 3,
+        "player": "Isiah Thomas",
+        "team": "Detroit Pistons",
+        "career": "2× Champ • Finals MVP • Pistons Leader",
+        "used": false
+      },
+      {
+        "year": 1993,
+        "pick": 3,
+        "player": "Penny Hardaway",
+        "team": "Golden State Warriors (traded to Magic)",
+        "career": "4× All-Star • Magic Duo • Injuries Derailed",
+        "used": false
+      },
+      {
+        "year": 2001,
+        "pick": 1,
+        "player": "Kwame Brown",
+        "team": "Washington Wizards",
+        "career": "Top Pick • Bust Label • Longevity",
+        "used": false
+      },
+      {
+        "year": 1996,
+        "pick": 5,
+        "player": "Ray Allen",
+        "team": "Minnesota Timberwolves (traded to Bucks)",
+        "career": "2× Champ • 3PT Legend • HOF",
+        "used": false
+      },
+      {
+        "year": 1988,
+        "pick": 6,
+        "player": "Hersey Hawkins",
+        "team": "Los Angeles Clippers",
+        "career": "NBA All-Star • Scoring Threat • 900+ Games",
+        "used": false
+      },
+      {
+        "year": 2004,
+        "pick": 5,
+        "player": "Devin Harris",
+        "team": "Washington Wizards (traded to Mavericks)",
+        "career": "All-Star • NBA Finalist • Floor Leader",
+        "used": false
+      },
+      {
+        "year": 1992,
+        "pick": 24,
+        "player": "Latrell Sprewell",
+        "team": "Golden State Warriors",
+        "career": "4× All-Star • Knicks Finals Run • Controversial",
+        "used": false
+      },
+      {
+        "year": 1999,
+        "pick": 16,
+        "player": "Ron Artest",
+        "team": "Chicago Bulls",
+        "career": "DPOY • NBA Champ • Fierce Defender",
+        "used": false
+      },
+      {
+        "year": 1995,
+        "pick": 3,
+        "player": "Jerry Stackhouse",
+        "team": "Philadelphia 76ers",
+        "career": "2× All-Star • 29.8 PPG Season • Journeyman",
+        "used": false
+      },
+      {
+        "year": 1994,
+        "pick": 2,
+        "player": "Jason Kidd",
+        "team": "Dallas Mavericks",
+        "career": "Champ • 10× All-Star • 2nd All-Time Assists",
+        "used": false
+      },
+      {
+        "year": 2005,
+        "pick": 30,
+        "player": "David Lee",
+        "team": "New York Knicks",
+        "career": "NBA Champ • All-Star • Double-Double Machine",
+        "used": false
+      },
+      {
+        "year": 2006,
+        "pick": 21,
+        "player": "Rajon Rondo",
+        "team": "Phoenix Suns (traded to Celtics)",
+        "career": "2× Champ • Elite IQ • Assist Maestro",
+        "used": false
+      },
+      {
+        "year": 2013,
+        "pick": 15,
+        "player": "Giannis Antetokounmpo",
+        "team": "Milwaukee Bucks",
+        "career": "2× MVP • Champ • Greek Freak",
+        "used": false
+      },
+      {
+        "year": 1993,
+        "pick": 3,
+        "player": "Jamal Mashburn",
+        "team": "Dallas Mavericks",
+        "career": "20 PPG Scorer • Smooth Forward • Injuries",
+        "used": false
+      },
+      {
+        "year": 2002,
+        "pick": 9,
+        "player": "Amar'e Stoudemire",
+        "team": "Phoenix Suns",
+        "career": "6× All-Star • High-Flying PF • All-NBA",
+        "used": false
+      },
+      {
+        "year": 2014,
+        "pick": 3,
+        "player": "Joel Embiid",
+        "team": "Philadelphia 76ers",
+        "career": "MVP • 7× All-Star • Scoring Leader",
+        "used": false
+      },
+      {
+        "year": 2000,
+        "pick": 1,
+        "player": "Kenyon Martin",
+        "team": "New Jersey Nets",
+        "career": "All-Star • Defensive Anchor • Finals Runs",
+        "used": false
+      },
+      {
+        "year": 1990,
+        "pick": 1,
+        "player": "Derrick Coleman",
+        "team": "New Jersey Nets",
+        "career": "Rookie of the Year • All-Star • Versatile Big",
+        "used": false
       }
   ]

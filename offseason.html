@@ -145,6 +145,33 @@
       color: #777;
     }
 
+    .debate-wrapper {
+  max-width: 700px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.column.debate-column {
+  min-height: 200px; /* Adjust based on how tall the AI message + buttons usually get */
+}
+
+
+.typing-dots::after {
+  content: '';
+  display: inline-block;
+  width: 1ch;
+  animation: dots 1s steps(3, end) infinite;
+  vertical-align: bottom;
+}
+
+@keyframes dots {
+  0%   { content: ''; }
+  33%  { content: '.'; }
+  66%  { content: '..'; }
+  100% { content: '...'; }
+}
+
+
     @media (max-width: 768px) {
       header {
         flex-direction: column;
@@ -198,6 +225,21 @@
   <main>
     <h1>🏀 Offseason Royalty 👑</h1>
 
+
+
+    
+    <div class="debate-wrapper">
+      <div class="column debate-column">
+        <h2>⚔️ Prime Debate – Court Kings AI</h2>
+        <div id="debateBox">
+          <p style="text-align:center;">Loading debate...</p>
+        </div>
+      </div>
+    </div>
+    
+    
+
+
     <div class="container">
       <div class="column">
         <h2>👑 Historic Draft Picks</h2>
@@ -213,6 +255,10 @@
         <div id="leadersList"></div>
       </div>
     </div>
+
+
+
+
   </main>
 
   <footer>
@@ -220,6 +266,129 @@
   </footer>
 
   <script>
+
+    let legends = [];
+    
+    async function loadLegends() {
+      const res = await fetch("legends.json");
+      legends = await res.json();
+      loadNewDebate();
+    }
+    
+    function loadNewDebate() {
+      const container = document.getElementById("debateBox");
+      container.innerHTML = "";
+      const selected = getRandomThree(legends);
+    
+      const title = document.createElement("h3");
+      title.innerHTML = "Which of these legends had the most dominant prime?";
+      title.style.textAlign = "center";
+      title.style.marginBottom = "2rem";
+      container.appendChild(title);
+    
+      const buttonGroup = document.createElement("div");
+      buttonGroup.style.display = "flex";
+      buttonGroup.style.justifyContent = "center";
+      buttonGroup.style.gap = "1rem";
+      buttonGroup.style.flexWrap = "wrap";
+      buttonGroup.style.marginTop = "1rem";
+    
+      selected.forEach(player => {
+        const btn = document.createElement("button");
+        btn.textContent = `👑 ${player.player}`;
+        btn.style.padding = "0.75rem 1.2rem";
+        btn.style.fontSize = "1rem";
+        btn.style.borderRadius = "8px";
+        btn.style.border = "none";
+        btn.style.background = "#222";
+        btn.style.color = "#f0f0f0";
+        btn.style.cursor = "pointer";
+    
+        btn.onclick = () => runAIEvaluation(player.player, selected.map(p => p.player));
+        buttonGroup.appendChild(btn);
+      });
+    
+      container.appendChild(buttonGroup);
+    }
+    
+    function getRandomThree(arr) {
+      const shuffled = [...arr].sort(() => 0.5 - Math.random());
+      return shuffled.slice(0, 3);
+    }
+    
+    // Randomized AI messages
+    const agreeMessages = [
+      (name) => `✅ Court Kings AI agrees — <strong>${name}</strong> was a beast in his prime.`,
+      (name) => `🤝 Court Kings AI stands with <strong>${name}</strong>. A true icon of his era.`,
+      (name) => `🟢 Court Kings AI says <strong>${name}</strong> owned his prime years.`,
+      (name) => `🏆 No doubt — <strong>${name}</strong> dominated his prime.`,
+      (name) => `🔥 <strong>${name}</strong> gets the Court Kings AI stamp of dominance.`
+    ];
+    
+    const disagreeMessages = [
+      (name) => `❌ Court Kings AI disagrees — <strong>${name}</strong> was the real king of that era.`,
+      (name) => `⛔ Court Kings AI thinks <strong>${name}</strong> had the edge in their prime.`,
+      (name) => `🚫 Court Kings AI goes with <strong>${name}</strong> for prime greatness.`,
+      (name) => `🟥 Respectfully, Court Kings AI says <strong>${name}</strong> was more dominant.`,
+      (name) => `🔻 Not quite — Court Kings AI crowns <strong>${name}</strong> instead.`
+    ];
+    
+    function runAIEvaluation(userPick, options) {
+      const container = document.getElementById("debateBox");
+      container.innerHTML = "";
+    
+      // Show spinner or typing animation
+      const loading = document.createElement("p");
+      loading.innerHTML = `🤖 Court Kings AI is analyzing your pick<span class="typing-dots">...</span>`;
+      loading.style.textAlign = "center";
+      loading.style.fontWeight = "600";
+      loading.style.marginTop = "1rem";
+      container.appendChild(loading);
+    
+      setTimeout(() => {
+        const aiPick = pickBestPrime(options);
+        container.innerHTML = "";
+    
+        const msg = document.createElement("p");
+        msg.style.textAlign = "center";
+        msg.style.marginTop = "1rem";
+        msg.style.fontWeight = "600";
+    
+        if (userPick === aiPick) {
+          const randomAgree = agreeMessages[Math.floor(Math.random() * agreeMessages.length)];
+          msg.innerHTML = randomAgree(userPick);
+        } else {
+          const randomDisagree = disagreeMessages[Math.floor(Math.random() * disagreeMessages.length)];
+          msg.innerHTML = randomDisagree(aiPick);
+        }
+    
+        container.appendChild(msg);
+    
+        // Show result for 7 seconds
+        setTimeout(() => {
+          loadNewDebate();
+        }, 7000);
+      }, 4500);
+    }
+    
+    function pickBestPrime(players) {
+  let bestPlayer = null;
+  let bestTier = -1;
+
+  players.forEach(name => {
+    const match = legends.find(p => p.player === name); // <- FIXED: use 'player' not 'name'
+    if (match && typeof match.tier === "number" && match.tier > bestTier) {
+      bestTier = match.tier;
+      bestPlayer = match.player; // match.player ensures it returns the right casing
+    }
+  });
+
+  return bestPlayer || players[0];
+}
+
+    
+    loadLegends();
+    
     async function loadData() {
       const [rookieRes, leadersRes] = await Promise.all([
         fetch("draft_picks.json"),
@@ -227,11 +396,11 @@
       ]);
       const rookies = await rookieRes.json();
       const leaders = await leadersRes.json();
-  
+    
       renderRookies(rookies);
       renderLeaders(leaders);
     }
-  
+    
     function renderRookies(rookies) {
       const rookieList = document.getElementById('rookieList');
       const message = document.getElementById('searchMessage');
@@ -248,41 +417,40 @@
         `;
         rookieList.appendChild(div);
       });
-
+    
       document.getElementById("searchInput").addEventListener("keydown", function(e) {
         if (e.key === "Enter") {
-            const input = e.target.value.trim().toLowerCase();
-            const allCards = document.querySelectorAll('.rookie-card');
-            let found = false;
-
-            for (let card of allCards) {
+          const input = e.target.value.trim().toLowerCase();
+          const allCards = document.querySelectorAll('.rookie-card');
+          let found = false;
+    
+          for (let card of allCards) {
             const playerName = card.querySelector('h3').textContent.toLowerCase();
             if (playerName.includes(input)) {
-                card.scrollIntoView({ behavior: "smooth", block: "center" });
-                message.textContent = '';
-                found = true;
-                break;
+              card.scrollIntoView({ behavior: "smooth", block: "center" });
+              message.textContent = '';
+              found = true;
+              break;
             }
-            }
-
-if (!found) {
-  message.textContent = `No rookie record found for "${e.target.value}"`;
-}
-
+          }
+    
+          if (!found) {
+            message.textContent = `No rookie record found for "${e.target.value}"`;
+          }
         }
       });
     }
-  
+    
     function renderLeaders(leaders) {
       const leadersList = document.getElementById('leadersList');
       leadersList.innerHTML = '';
-  
+    
       const medals = ['🥇', '🥈', '🥉'];
-  
+    
       for (const category in leaders) {
         const div = document.createElement('div');
         div.className = 'leader-card';
-  
+    
         const entries = leaders[category]
           .map((name, index) => {
             if (index < 3) {
@@ -292,7 +460,7 @@ if (!found) {
             }
           })
           .join('');
-  
+    
         div.innerHTML = `
           <h3>${category.replace(/_/g, ' ').toUpperCase()}</h3>
           ${entries}
@@ -300,8 +468,9 @@ if (!found) {
         leadersList.appendChild(div);
       }
     }
-  
+    
     loadData();
-  </script>
+    </script>
+    
 </body>
 </html>

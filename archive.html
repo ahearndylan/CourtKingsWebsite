@@ -80,6 +80,27 @@
       color: #00ffc6;
     }
 
+    .leftb, .rightb {
+      flex: 1;
+      border-radius: 16px;
+      padding: 1.5rem;
+      overflow-y: auto;
+    }
+    .rightb {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.07);
+      text-align: center;
+    }
+    .leftb {
+      background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.07);
+  text-align: center;
+
+  display: flex;              /* 👈 enable flex layout */
+  align-items: center;        /* 👈 vertical centering */
+  justify-content: center;    /* 👈 horizontal centering (optional) */
+    }
+
     .player-spotlight {
       max-width: 800px;
       margin: 0 auto 3rem auto;
@@ -154,7 +175,7 @@
       border: 1px solid #222;
       border-radius: 10px;
       padding: 1rem;
-      height: 140px;
+      height: 280px;
       overflow-y: auto;
       color: #00ffc6;
       box-shadow: inset 0 0 6px #00ffc622;
@@ -221,6 +242,57 @@
 }
 
 
+
+.bot-center-title {
+  font-size: 1.6rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  color: #00ffc6;
+}
+
+.bot-group {
+  margin-bottom: 2.5rem;
+}
+
+.bot-group h4 {
+  color: #ffc107;
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid #333;
+  padding-bottom: 0.3rem;
+}
+
+.bot-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 1rem;
+}
+
+.bot-card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px;
+  padding: 1rem;
+  text-align: left;
+  box-shadow: 0 2px 6px rgba(0,255,198,0.08);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.bot-name {
+  font-weight: 600;
+  font-size: 0.98rem;
+  margin-bottom: 0.5rem;
+  color: #f0f0f0;
+}
+
+.bot-meta {
+  font-size: 0.85rem;
+  color: #aaa;
+}
+
+
     
   </style>
 </head>
@@ -248,23 +320,90 @@
       </div>
     
   
-  </div>
-    <div class="right">
+    </div>
 
+
+
+      <div class="right">
+        <h3 class="bot-center-title">📡 Bot Control Center</h3>
+      
+        <div class="bot-group">
+          <h4>🏀 CKHQ – Regular Season</h4>
+          <div class="bot-grid">
+            <div class="bot-card"><span class="bot-name">🔥 Bot 1 – Nightly Stats</span><div class="bot-meta">✅ Live • 1:15 AM</div></div>
+            <div class="bot-card"><span class="bot-name">⚡ Bot 2 – Efficiency</span><div class="bot-meta">✅ Live • 1:10 AM</div></div>
+            <div class="bot-card"><span class="bot-name">⏱️ Bot 3 – Clutch</span><div class="bot-meta">✅ Live • 1:12 AM</div></div>
+            <div class="bot-card"><span class="bot-name">👑 Bot 4 – Scoring Leaders</span><div class="bot-meta">⏸️ Paused</div></div>
+          </div>
+        </div>
+      
+        <div class="bot-group">
+          <h4>🌴 CKHQ – Offseason</h4>
+          <div class="bot-grid">
+            <div class="bot-card"><span class="bot-name">🧠 Bot 5 – Trivia</span><div class="bot-meta">⏸️ Paused</div></div>
+            <div class="bot-card"><span class="bot-name">🍼 Bot 6 – Rookie Stats</span><div class="bot-meta">⏸️ Paused</div></div>
+            <div class="bot-card"><span class="bot-name">🥊 Bot 7 – Prime Debate</span><div class="bot-meta">⏸️ Paused</div></div>
+            <div class="bot-card"><span class="bot-name">📈 Bot 8 – All-Time Leaders</span><div class="bot-meta">⏸️ Paused</div></div>
+            <div class="bot-card"><span class="bot-name">🎯 Bot 9 – Draft</span><div class="bot-meta">⏸️ Paused</div></div>
+          </div>
+        </div>
+      
+        <div class="bot-group">
+          <h4>🎯 CKHQ – Playoffs</h4>
+          <div class="bot-grid">
+            <div class="bot-card"><span class="bot-name">📜 Bot 10 – OTD</span><div class="bot-meta">✅ Live • 2 PM</div></div>
+            <div class="bot-card"><span class="bot-name">📊 Bot 11 – Series Stats</span><div class="bot-meta">✅ Live • 10 AM</div></div>
+            <div class="bot-card"><span class="bot-name">🔥 Bot 12 – Points Leaders</span><div class="bot-meta">✅ Live • 6 PM / every 5 days</div></div>
+            <div class="bot-card"><span class="bot-name">🗓️ Bot 13 – Calendar</span><div class="bot-meta">✅ Live • 12 PM</div></div>
+            <div class="bot-card"><span class="bot-name">🏁 Bot 14 – Game Results</span><div class="bot-meta">✅ Live • 12 PM–3 AM</div></div>
+          </div>
+        </div>      
+      
+      
+    </div>
+
+
+
+
+
+
+
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+  <div class="grid">
+    <div class="leftb">
 
       
-      <!-- Elfsight Twitter Feed | Untitled Twitter Feed -->
-      <script src="https://static.elfsight.com/platform/platform.js" async></script>
-      <div class="elfsight-app-7e8ea192-cecc-4ec3-b40c-d7603c23f7d1" data-elfsight-app-lazy></div>
+      <div class="player-spotlight">
+        <h2>🏀 Player Spotlight</h2>
+        <div id="player-spotlight">Loading player spotlight...</div>
+      </div>
+  
+    </div>
+    <div class="rightb">
+
+    <!-- Elfsight Twitter Feed | Untitled Twitter Feed -->
+    <script src="https://static.elfsight.com/platform/platform.js" async></script>
+    <div class="elfsight-app-7e8ea192-cecc-4ec3-b40c-d7603c23f7d1" data-elfsight-app-lazy></div>
+
+
     
     
     </div>
   </div>
 
-  <div class="player-spotlight">
-    <h2>🏀 Player Spotlight</h2>
-    <div id="player-spotlight">Loading player spotlight...</div>
-  </div>
+  
 
   <footer>
     &copy; 2025 Court Kings HQ – All stats auto-tracked & published. @CourtKingsHQ
@@ -332,13 +471,16 @@ function showSpotlightOnElement(el) {
         tweetsPosted: 50 + Math.max(0, (days - 8) * 3),
         recordsLogged: 21 + Math.max(0, (days - 8) * 4),
         playersTracked: 438,
-        activeBots: 5,
-        totalBots: 9,
+        activeBots: 8,
+        totalBots: 14,
         avgRuntime: "27.4s",
         daysActive: days,
         jsonFilesSynced: 0 + (days * 3),
         gamesProcessed: 15 + (days * 8),
-        apiCallVolume: 0 + (days * 12)
+        apiCallVolume: 0 + (days * 12),
+        env: 3,
+        successrate: 97.4,
+        trigger: 1
       };
     }
 
@@ -354,25 +496,49 @@ function showSpotlightOnElement(el) {
         <div class="stat-card"><div class="stat-label">JSON Files Synced</div><div class="stat-value">${stats.jsonFilesSynced}</div></div>
         <div class="stat-card"><div class="stat-label">API Call Volume</div><div class="stat-value">${stats.apiCallVolume}</div></div>
         <div class="stat-card"><div class="stat-label">Records Logged</div><div class="stat-value">${stats.recordsLogged}</div></div>
+
+        <div class="stat-card"><div class="stat-label">Active Environments</div><div class="stat-value">${stats.env}</div></div>
+        <div class="stat-card"><div class="stat-label">Uptime Success Rate</div><div class="stat-value">${stats.successrate}%</div></div>
+        <div class="stat-card"><div class="stat-label">Last Cron Trigger</div><div class="stat-value">${stats.trigger}:15 AM</div></div>
+
       `;
       document.getElementById('analytics-data').innerHTML = html;
     }
 
     const terminalMessages = [
-      'Clutch Bot synced 4Q stats', 'Efficiency Bot saved new FG% high', 'Season Leader Bot updated leaderboard',
-      'JSON files exported to Supabase', 'Posted tweet for Nightly Kings', 'Trivia Bot served a new question',
-      'Trivia response received from @nbafan88', 'Supabase sync completed for efficiencykings',
-      'Supabase sync completed for clutchkings', 'Bot scheduler checked for missed jobs',
-      'All bots verified successful execution', 'Saved 12 player stat profiles to archive',
-      'Supabase response time: 213ms', 'Auth token refreshed', 'Render build completed',
-      'Twitter API call returned 200 OK', 'JSON sync: 3 new files added', 'backup_20250407.json saved',
-      'Archived efficiency logs (3 entries)', 'Archived clutch logs (3 entries)', 'Local storage cleared from tmp/',
-      'Pulled data from NBA API', 'Watching trending hashtag: #NBAStats', 'Cron job triggered nightly bot run',
-      'Server uptime: 99.97%', 'JSON validation passed for 3 new entries', 'Archived full game log for 2025-04-06',
-      'Supabase push complete: scoringkings update', 'Monitoring memory usage across bots',
-      'Daily trivia leaderboard refreshed', 'Clutch leaderboard cache invalidated', 'Efficiency scores reindexed',
-      'StatKings database heartbeat OK', 'Next task scheduled in 42 minutes'
-    ];
+  // Original
+  'Clutch Bot synced 4Q stats', 'Efficiency Bot saved new FG% high', 'Season Leader Bot updated leaderboard',
+  'JSON files exported to Supabase', 'Posted tweet for Nightly Kings', 'Trivia Bot served a new question',
+  'Trivia response received from @nbafan88', 'Supabase sync completed for efficiencykings',
+  'Supabase sync completed for clutchkings', 'Bot scheduler checked for missed jobs',
+  'All bots verified successful execution', 'Saved 12 player stat profiles to archive',
+  'Supabase response time: 213ms', 'Auth token refreshed', 'Render build completed',
+  'Twitter API call returned 200 OK', 'JSON sync: 3 new files added', 'backup_20250407.json saved',
+  'Archived efficiency logs (3 entries)', 'Archived clutch logs (3 entries)', 'Local storage cleared from tmp/',
+  'Pulled data from NBA API', 'Watching trending hashtag: #NBAStats', 'Cron job triggered nightly bot run',
+  'Server uptime: 99.97%', 'JSON validation passed for 3 new entries', 'Archived full game log for 2025-04-06',
+  'Supabase push complete: scoringkings update', 'Monitoring memory usage across bots',
+  'Daily trivia leaderboard refreshed', 'Clutch leaderboard cache invalidated', 'Efficiency scores reindexed',
+  'CourtKingsHQ database heartbeat OK', 'Next task scheduled in 42 minutes',
+
+  // NEW — Offseason + Playoffs + Remaining bots
+  'Draft Bot posted new player spotlight', 'Prime Debate Bot posted new poll',
+  'All-Time Leaders Bot cycled to Steals category', 'Trivia Bot leaderboard updated',
+  'Trivia Bot recorded 6/6 score from @ballfan23', 'Rookie Bot logged new stat leaders',
+  'Draft Bot JSON updated (1 new player)', 'Series Stats Bot calculated series MVP',
+  'Playoff Calendar Bot posted today’s matchups', 'Points Leader Bot tweeted top scorer from GSW-HOU',
+  'OTD Bot posted Reggie Miller 8-pts-in-9-sec moment', 'Game Results Bot posted 3 final scores',
+  'Series Stats Bot detected completed series (DEN 4–3 LAC)', 'Draft Bot rotation advanced to next player',
+  'Supabase sync completed for playoffscores', 'Supabase sync completed for triviakings',
+  'Supabase sync completed for rookiekings', 'Supabase sync completed for seriesroyalty',
+  'All bots ran within 15 seconds of schedule', 'New environment logs streamed to dashboard',
+  'Trivia Bot removed duplicate scores', 'Bot 12 (Playoff Points) skipped – no games yesterday',
+  'Draft Bot: no repeats in 28 days', 'Prime Debate Bot archived last 7 polls',
+  'Supabase push complete: alltimekings update', 'All cron triggers executed successfully',
+  'Internal cache refreshed across 3 environments', 'Bot 14 detected 4 completed games',
+  'Daily bot uptime at 100%', 'Final stats uploaded to Supabase (84 entries)',
+  'All-Time Leaders bot advanced to MVP Awards', 'New backup saved: playoff_logs_2025-05-05.json'
+];
 
     function getRandomTime() {
       const hour = Math.floor(Math.random() * 12) + 1;
