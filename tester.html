@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Stat Sprint – Court Kings HQ</title>
+  <style>
+    body {
+      margin: 0;
+      background: linear-gradient(to right, #0a0a0a, #1a1a1a);
+      color: #fff;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .game-box {
+      text-align: center;
+      max-width: 600px;
+      padding: 40px;
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 20px;
+      box-shadow: 0 0 30px rgba(255, 85, 0, 0.1);
+      backdrop-filter: blur(10px);
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+      color: #ff5e00;
+    }
+
+    .stat {
+      font-size: 1.4rem;
+      margin-bottom: 20px;
+    }
+
+    .choices {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .choices button {
+      background: #121212;
+      border: 2px solid #ff5e00;
+      padding: 12px;
+      border-radius: 10px;
+      color: white;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+    }
+
+    .choices button:hover {
+      background: #ff5e00;
+      transform: scale(1.02);
+    }
+
+    .status {
+      margin-top: 20px;
+      font-size: 1.1rem;
+      color: #aaa;
+    }
+
+    #startBtn {
+      background: #ff5e00;
+      color: white;
+      font-size: 1.1rem;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 20px;
+      display: block;
+    }
+
+    .fade-out {
+      animation: fadeOut 0.5s forwards;
+    }
+
+    @keyframes fadeOut {
+      to {
+        opacity: 0;
+        transform: scale(0.95);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="game-box" id="game">
+    <h1>🏀 Stat Sprint</h1>
+    <div class="stat" id="stat">Press Start to Begin</div>
+    <div class="choices" id="choices"></div>
+    <div class="status" id="status">Get ready to test your NBA stat speed!</div>
+    <button id="startBtn">Start Game</button>
+  </div>
+
+  <script>
+    const statDisplay = document.getElementById("stat");
+    const choicesContainer = document.getElementById("choices");
+    const statusDisplay = document.getElementById("status");
+    const startBtn = document.getElementById("startBtn");
+
+    const questions = [
+      {
+        stat: "Most Points in a Game",
+        correct: "Wilt Chamberlain",
+        options: ["Wilt Chamberlain", "Kobe Bryant", "Devin Booker"]
+      },
+      {
+        stat: "Most Career Assists",
+        correct: "John Stockton",
+        options: ["Chris Paul", "John Stockton", "Jason Kidd"]
+      },
+      {
+        stat: "Most Triple-Doubles",
+        correct: "Russell Westbrook",
+        options: ["Oscar Robertson", "LeBron James", "Russell Westbrook"]
+      },
+      {
+        stat: "Most 3PM in a Season",
+        correct: "Stephen Curry",
+        options: ["Klay Thompson", "Stephen Curry", "James Harden"]
+      },
+      {
+        stat: "Most Career Blocks",
+        correct: "Hakeem Olajuwon",
+        options: ["Hakeem Olajuwon", "Dikembe Mutombo", "Mark Eaton"]
+      }
+    ];
+
+    let streak = 0;
+    let timer;
+    let timeLimit = 3000; // 3 seconds
+
+    function startGame() {
+      startBtn.style.display = "none";
+      streak = 0;
+      nextQuestion();
+    }
+
+    function nextQuestion() {
+      clearTimeout(timer);
+      const q = questions[Math.floor(Math.random() * questions.length)];
+      statDisplay.textContent = q.stat;
+      choicesContainer.innerHTML = "";
+      statusDisplay.textContent = `🔥 Streak: ${streak}`;
+
+      shuffle(q.options).forEach(option => {
+        const btn = document.createElement("button");
+        btn.textContent = option;
+        btn.onclick = () => handleAnswer(option === q.correct);
+        choicesContainer.appendChild(btn);
+      });
+
+      timer = setTimeout(() => {
+        endGame("⏱️ Time's up!");
+      }, timeLimit);
+    }
+
+    function handleAnswer(correct) {
+      clearTimeout(timer);
+      if (correct) {
+        streak++;
+        nextQuestion();
+      } else {
+        endGame("❌ Wrong answer!");
+      }
+    }
+
+    function endGame(reason) {
+      statDisplay.textContent = reason;
+      statusDisplay.textContent = `Final Streak: ${streak}`;
+      choicesContainer.innerHTML = "";
+      startBtn.style.display = "block";
+    }
+
+    function shuffle(arr) {
+      return [...arr].sort(() => Math.random() - 0.5);
+    }
+
+    startBtn.onclick = startGame;
+  </script>
+</body>
+</html>
