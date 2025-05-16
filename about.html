@@ -194,6 +194,46 @@
     max-width: 100%;
   }
 }
+.support-mobile {
+  display: none;
+  width: 100%;
+  text-align: center;
+  margin-top: 0.4rem;
+  margin-bottom: 0.8rem;
+}
+
+.support-link {
+  background: #ffc107;
+  color: #000;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 0.9rem;
+  display: inline-block;
+  outline: none;
+  box-shadow: none;
+  -webkit-tap-highlight-color: transparent; /* ← removes iOS yellow tap effect */
+}
+
+
+
+
+.support-desktop {
+  color: #ffc107;
+  font-weight: 600;
+}
+
+@media (max-width: 600px) {
+  .support-mobile {
+    display: block;
+  }
+  .support-desktop {
+    display: none;
+  }
+}
+
+
 
   </style>
 </head>
@@ -203,13 +243,21 @@
     <div class="logo">
       <a href="index.html"><img src="img/logo6.png" alt="Stat Kings HQ Logo"></a>
     </div>
+
+    <div class="support-mobile">
+      <a href="https://buymeacoffee.com/courtkingshq" target="_blank" class="support-link">☕ Support</a>
+    </div>
+
+
     <nav>
       <a href="about.html">About</a>
       <a href="archive.html">Live Hub</a>
       <a href="trivia.html">Trivia</a>
       <a href="offseason.html">Offseason</a>
       <a href="contact.html">Contact</a>
+      <a href="https://buymeacoffee.com/courtkingshq" target="_blank" class="support-desktop">☕ Support</a>
     </nav>
+
   </header>
 
   <main>
@@ -220,33 +268,84 @@
     <h2>What We Do</h2>
     <p>Every night, our bots analyze NBA performances and deliver standout metrics — from clutch scoring to efficiency monsters, defensive beasts, and more. Our goal is to bring key insights to the forefront with zero fluff and maximum impact.</p>
 
-    <h2>Our Bots</h2>
+    <h2>Our Bot Environments</h2>
 
-    <h3 style="color:#c084fc;">🏀 Court Kings HQ: Regular Season</h3>
+    <h3 style="color:#c084fc;">
+      <a href="archive.html#regular" style="color:#c084fc; text-decoration: none;">🏀 Court Kings HQ: Regular Season</a>
+    </h3>
     <ul>
       <li><strong>🔥 Nightly Stats Bot</strong> – Tracks nightly leaders in points, assists, rebounds, and threes.</li>
       <li><strong>⚡ Efficiency Bot</strong> – Highlights efficient scoring, plus-minus stars, defense, and triple-doubles.</li>
       <li><strong>⏱️ Clutch Time Bot</strong> – Focuses on 4th quarter stats: points, FG%, assists, and best team finishes.</li>
       <li><strong>👑 Season Scoring Leader Bot</strong> – Tracks top scorers all season by PPG and total points.</li>
-    </ul>
+      <li><strong>⏳ Milestone Watch Bot</strong> – Monitors players nearing major career milestones in certain statistics.</li>
+    </ul>    
 
-    <h3 style="color:#c084fc;">☀️ Court Kings HQ: Offseason</h3>
-    <ul>
-      <li><strong>🧠 Trivia Bot</strong> – Posts challenging NBA trivia questions with a live leaderboard.</li>
-      <li><strong>🍼 Rookie Stats Bot</strong> – Showcases memorable stat lines from past rookie seasons.</li>
-      <li><strong>🥊 Prime Debate Bot</strong> – Runs “Start-Bench-Cut” polls comparing three legendary players.</li>
-      <li><strong>📈 All-Time Leaders Bot</strong> – Cycles through NBA all-time top 5s in major categories.</li>
-      <li><strong>🎯 Draft Throwback Bot</strong> – Spotlights a random notable NBA draft pick daily.</li>
-    </ul>
 
-    <h3 style="color:#c084fc;">🏆 Court Kings HQ: Playoffs Edition</h3>
+    <h3 style="color:#c084fc;">
+      <a href="archive.html#playoffs" style="color:#c084fc; text-decoration: none;">⚔️ Court Kings HQ: Playoffs Edition</a>
+    </h3>
     <ul>
       <li><strong>📅 Calendar Bot</strong> – Posts each day’s NBA playoff schedule.</li>
       <li><strong>📊 Game Results Bot</strong> – Tweets final scores and series updates live during games.</li>
       <li><strong>🏆 Series Royalty Bot</strong> – Announces completed series and top player performances.</li>
       <li><strong>🔥 Playoff Points Leader Bot</strong> – Tracks the current leading scorer of the postseason.</li>
       <li><strong>📜 On This Day Bot</strong> – Shares a historic NBA playoff moment tied to today’s date.</li>
+      <li><strong>🎯 Assist Leaders Bot</strong> – Tracks top assist leaders in the playoffs.</li>
+      <li><strong>💪 Rebound Leaders Bot</strong> – Tracks top rebounders in all playoff games.</li>
+      <li><strong>🛡️ Steal Leaders Bot</strong> – Highlights players leading in playoff steals.</li>
+      <li><strong>🧱 Block Leaders Bot</strong> – Highlights players leading in playoff blocks.</li>
+      <li><strong>👑 Spotlight Bot</strong> – Features a standout playoff performer.</li>
     </ul>
+
+
+
+
+    <h3 style="color:#c084fc;">
+      <a href="archive.html#finals" style="color:#c084fc; text-decoration: none;">🥇 Court Kings HQ: Finals Edition</a>
+    </h3>
+    <ul>
+      <li><strong>🔥 Nightly Stats Bot</strong> – Posts top Finals stat lines from each game.</li>
+      <li><strong>⚡ Efficiency Bot</strong> – Highlights the most efficient scorer and top +/- in the Finals.</li>
+      <li><strong>⏱️ Clutch Bot</strong> – Tracks 4th quarter scoring and assists during Finals games.</li>
+      <li><strong>👑 Scoring Leaders Bot</strong> – Ranks the top scorers across the entire NBA Finals series.</li>
+      <li><strong>🏆 MVP Debate Bot</strong> – Monitors Finals MVP contenders and standout performances.</li>
+    </ul>
+
+
+
+    <h3 style="color:#c084fc;">
+      <a href="archive.html#offseason" style="color:#c084fc; text-decoration: none;">🌴 Court Kings HQ: Offseason</a>
+    </h3>
+    <ul>
+      <li><strong>🧠 Trivia Bot</strong> – Posts challenging NBA trivia questions with a live leaderboard.</li>
+      <li><strong>🍼 Rookie Stats Bot</strong> – Showcases memorable stat lines from past rookie seasons.</li>
+      <li><strong>🥊 Prime Debate Bot</strong> – Runs “Start-Bench-Cut” polls comparing three legendary players.</li>
+      <li><strong>📈 All-Time Leaders Bot</strong> – Cycles through NBA all-time top 5s in major categories.</li>
+      <li><strong>🎯 Draft Throwback Bot</strong> – Spotlights a random notable NBA draft pick daily.</li>
+      <li><strong>🎮 2K Sim Bot</strong> – Runs simulated NBA team matchups using 2K-style logic of past NBA Champions.</li>
+    </ul>
+
+    <h2>Support the Project</h2>
+    <p>
+      Court Kings HQ is a fully independent, data-powered project run with no outside funding. 
+      If you enjoy the bots, site features, or just want to help us grow — you can support our work below.
+    </p>
+    <div style="text-align: center; margin-top: 1rem;">
+      <a href="https://buymeacoffee.com/courtkingshq" target="_blank" style="
+        background: #ffc107;
+        color: #000;
+        font-weight: 600;
+        padding: 10px 20px;
+        border-radius: 8px;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 1rem;
+      ">
+        ☕ Buy Me a Coffee
+      </a>
+    </div>
+
 
 
     <h2>Technology</h2>

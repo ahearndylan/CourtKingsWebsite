@@ -293,6 +293,76 @@
 }
 
 
+.collapsible-toggle {
+  cursor: pointer;
+  user-select: none;
+  position: relative;
+  padding-right: 1.5rem;
+}
+
+.collapsible-toggle::after {
+  content: "▼";
+  position: absolute;
+  right: 0;
+  top: 0;
+  color: #aaa;
+  transition: transform 0.3s ease;
+}
+
+.collapsible-toggle.collapsed::after {
+  transform: rotate(-90deg);
+}
+
+.collapsible-content {
+  max-height: 1000px;
+  overflow: hidden;
+  transition: max-height 0.4s ease;
+}
+
+.collapsible-content.collapsed {
+  max-height: 0;
+  overflow: hidden;
+  padding: 0;
+  margin: 0;
+}
+
+.support-mobile {
+  display: none;
+  width: 100%;
+  text-align: center;
+  margin-top: 0.4rem;
+  margin-bottom: 0.8rem;
+}
+
+.support-link {
+  background: #ffc107;
+  color: #000;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 0.9rem;
+  display: inline-block;
+  outline: none;
+  box-shadow: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.support-desktop {
+  color: #ffc107;
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .support-mobile {
+    display: block;
+  }
+
+  .support-desktop {
+    display: none;
+  }
+}
+
     
   </style>
 </head>
@@ -301,13 +371,20 @@
     <div class="logo">
       <a href="index.html"><img src="img/logo6.png" alt="Stat Kings HQ Logo"></a>
     </div>
+
+    <div class="support-mobile">
+      <a href="https://buymeacoffee.com/courtkingshq" target="_blank" class="support-link">☕ Support</a>
+    </div>
+
     <nav>
       <a href="about.html">About</a>
       <a href="archive.html">Live Hub</a>
       <a href="trivia.html">Trivia</a>
       <a href="offseason.html">Offseason</a>
       <a href="contact.html">Contact</a>
+      <a href="https://buymeacoffee.com/courtkingshq" target="_blank" class="support-desktop">☕ Support</a>
     </nav>
+
   </header>
 
   <div class="grid">
@@ -328,37 +405,54 @@
         <h3 class="bot-center-title">📡 Bot Control Center</h3>
       
         <div class="bot-group">
-          <h4>🏀 CKHQ – Regular Season</h4>
-          <div class="bot-grid">
+          <h4 id="regular" class="collapsible-toggle collapsed">🏀 CKHQ – Regular Season</h4>
+          <div class="bot-grid collapsible-content collapsed">
             <div class="bot-card"><span class="bot-name">🔥 Bot 1 – Nightly Stats</span><div class="bot-meta">✅ Live • 1:15 AM</div></div>
             <div class="bot-card"><span class="bot-name">⚡ Bot 2 – Efficiency</span><div class="bot-meta">✅ Live • 1:10 AM</div></div>
             <div class="bot-card"><span class="bot-name">⏱️ Bot 3 – Clutch</span><div class="bot-meta">✅ Live • 1:12 AM</div></div>
-            <div class="bot-card"><span class="bot-name">👑 Bot 4 – Scoring Leaders</span><div class="bot-meta">⏸️ Paused</div></div>
+            <div class="bot-card"><span class="bot-name">👑 Bot 4 – Scoring Leaders</span><div class="bot-meta">⏸️ Paused · Manual</div></div>
+            <div class="bot-card"><span class="bot-name">⏳ Bot 27 – Milestone Watch</span><div class="bot-meta">⏸️ Paused · Manual</div></div>
           </div>
         </div>
       
         <div class="bot-group">
-          <h4>🌴 CKHQ – Offseason</h4>
-          <div class="bot-grid">
-            <div class="bot-card"><span class="bot-name">🧠 Bot 5 – Trivia</span><div class="bot-meta">⏸️ Paused</div></div>
-            <div class="bot-card"><span class="bot-name">🍼 Bot 6 – Rookie Stats</span><div class="bot-meta">⏸️ Paused</div></div>
-            <div class="bot-card"><span class="bot-name">🥊 Bot 7 – Prime Debate</span><div class="bot-meta">⏸️ Paused</div></div>
-            <div class="bot-card"><span class="bot-name">📈 Bot 8 – All-Time Leaders</span><div class="bot-meta">⏸️ Paused</div></div>
-            <div class="bot-card"><span class="bot-name">🎯 Bot 9 – Draft</span><div class="bot-meta">⏸️ Paused</div></div>
-          </div>
-        </div>
-      
-        <div class="bot-group">
-          <h4>🎯 CKHQ – Playoffs</h4>
-          <div class="bot-grid">
+          <h4 id="playoffs" class="collapsible-toggle">🎯 CKHQ – Playoffs</h4>
+          <div class="bot-grid collapsible-content">
             <div class="bot-card"><span class="bot-name">📜 Bot 10 – OTD</span><div class="bot-meta">✅ Live • 2 PM</div></div>
             <div class="bot-card"><span class="bot-name">📊 Bot 11 – Series Stats</span><div class="bot-meta">✅ Live • 10 AM</div></div>
-            <div class="bot-card"><span class="bot-name">🔥 Bot 12 – Points Leaders</span><div class="bot-meta">✅ Live • 6 PM / every 5 days</div></div>
+            <div class="bot-card"><span class="bot-name">🔥 Bot 12 – Points Leaders</span><div class="bot-meta">✅ Live • 6 PM / every 3 days</div></div>
             <div class="bot-card"><span class="bot-name">🗓️ Bot 13 – Calendar</span><div class="bot-meta">✅ Live • 12 PM</div></div>
             <div class="bot-card"><span class="bot-name">🏁 Bot 14 – Game Results</span><div class="bot-meta">✅ Live • 12 PM–3 AM</div></div>
+            <div class="bot-card"><span class="bot-name">🎯 Bot 20 – Assist Leaders</span><div class="bot-meta">✅ Live</div></div>
+            <div class="bot-card"><span class="bot-name">💪 Bot 21 – Rebound Leaders</span><div class="bot-meta">✅ Live</div></div>
+            <div class="bot-card"><span class="bot-name">🛡️ Bot 22 – Steal Leaders</span><div class="bot-meta">✅ Live</div></div>
+            <div class="bot-card"><span class="bot-name">🧱 Bot 23 – Block Leaders</span><div class="bot-meta">✅ Live</div></div>
+            <div class="bot-card"><span class="bot-name">👑 Bot 24 – Spotlight</span><div class="bot-meta">✅ Live</div></div>
           </div>
-        </div>      
+        </div>  
+        
+        <div class="bot-group">
+          <h4 id="finals" class="collapsible-toggle collapsed">🎯 CKHQ – Finals</h4>
+          <div class="bot-grid collapsible-content collapsed">
+            <div class="bot-card"><span class="bot-name">🔥 Bot 15 – Nightly Stats</span><div class="bot-meta">⏸️ Paused · Manual</div></div>
+            <div class="bot-card"><span class="bot-name">⚡ Bot 16 – Efficiency</span><div class="bot-meta">⏸️ Paused · Manual</div></div>
+            <div class="bot-card"><span class="bot-name">⏱️ Bot 17 – Clutch</span><div class="bot-meta">⏸️ Paused · Manual</div></div>
+            <div class="bot-card"><span class="bot-name">👑 Bot 18 – Scoring Leaders</span><div class="bot-meta">⏸️ Paused · Manual</div></div>
+            <div class="bot-card"><span class="bot-name">🏆 Bot 19 – MVP Debate</span><div class="bot-meta">⏸️ Paused · Manual</div></div>
+          </div>
+        </div>   
       
+        <div class="bot-group">
+          <h4 id="offseason" class="collapsible-toggle collapsed">🌴 CKHQ – Offseason</h4>
+          <div class="bot-grid collapsible-content collapsed">
+            <div class="bot-card"><span class="bot-name">🧠 Bot 5 – Trivia</span><div class="bot-meta">⏸️ Paused · Manual</div></div>
+            <div class="bot-card"><span class="bot-name">🍼 Bot 6 – Rookie Stats</span><div class="bot-meta">⏸️ Paused · Manual</div></div>
+            <div class="bot-card"><span class="bot-name">🥊 Bot 7 – Prime Debate</span><div class="bot-meta">⏸️ Paused · Manual</div></div>
+            <div class="bot-card"><span class="bot-name">📈 Bot 8 – All-Time Leaders</span><div class="bot-meta">⏸️ Paused · Manual</div></div>
+            <div class="bot-card"><span class="bot-name">🎯 Bot 9 – Draft</span><div class="bot-meta">⏸️ Paused · Manual</div></div>
+            <div class="bot-card"><span class="bot-name">🎮 Bot 26 – 2k Simulator</span><div class="bot-meta">⏸️ Paused · Manual</div></div>
+          </div>
+        </div>
       
     </div>
 
@@ -412,6 +506,50 @@
   <div id="spotlight-overlay"></div>
 
   <script>
+
+    document.querySelectorAll('.collapsible-toggle').forEach(toggle => {
+      toggle.addEventListener('click', () => {
+        // Close all others
+        document.querySelectorAll('.collapsible-toggle').forEach(otherToggle => {
+          if (otherToggle !== toggle) {
+            otherToggle.classList.add('collapsed');
+            const otherContent = otherToggle.nextElementSibling;
+            otherContent.classList.add('collapsed');
+          }
+        });
+
+        // Toggle the clicked one
+        toggle.classList.toggle('collapsed');
+        const content = toggle.nextElementSibling;
+        content.classList.toggle('collapsed');
+      });
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const hash = window.location.hash;
+      if (hash) {
+        const toggle = document.querySelector(`${hash}.collapsible-toggle`);
+        const content = toggle?.nextElementSibling;
+
+        // Collapse others
+        document.querySelectorAll('.collapsible-toggle').forEach(t => t.classList.add('collapsed'));
+        document.querySelectorAll('.collapsible-content').forEach(c => c.classList.add('collapsed'));
+
+        // Expand target
+        if (toggle && content) {
+          toggle.classList.remove('collapsed');
+          content.classList.remove('collapsed');
+        }
+      }
+    });
+
+
+
+
+
+
+
+
     let spotlightTriggered = false;
 
 async function loadPlayerSpotlight() {
@@ -472,13 +610,13 @@ function showSpotlightOnElement(el) {
         recordsLogged: 21 + Math.max(0, (days - 8) * 4),
         playersTracked: 438,
         activeBots: 8,
-        totalBots: 14,
+        totalBots: 27,
         avgRuntime: "27.4s",
         daysActive: days,
         jsonFilesSynced: 0 + (days * 3),
         gamesProcessed: 15 + (days * 8),
         apiCallVolume: 0 + (days * 12),
-        env: 3,
+        env: 5,
         successrate: 97.4,
         trigger: 1
       };
@@ -490,8 +628,8 @@ function showSpotlightOnElement(el) {
         <div class="stat-card"><div class="stat-label">Days Active</div><div class="stat-value">${stats.daysActive}</div></div>
         <div class="stat-card"><div class="stat-label">Players Tracked</div><div class="stat-value">${stats.playersTracked}</div></div>
         <div class="stat-card"><div class="stat-label">Games Processed</div><div class="stat-value">${stats.gamesProcessed}</div></div>
-        <div class="stat-card"><div class="stat-label">Active Bots</div><div class="stat-value">${stats.activeBots}</div></div>
         <div class="stat-card"><div class="stat-label">Total Bots</div><div class="stat-value">${stats.totalBots}</div></div>
+        <div class="stat-card"><div class="stat-label">Active Bots</div><div class="stat-value">${stats.activeBots}</div></div>
         <div class="stat-card"><div class="stat-label">Avg Bot Runtime</div><div class="stat-value">${stats.avgRuntime}</div></div>
         <div class="stat-card"><div class="stat-label">JSON Files Synced</div><div class="stat-value">${stats.jsonFilesSynced}</div></div>
         <div class="stat-card"><div class="stat-label">API Call Volume</div><div class="stat-value">${stats.apiCallVolume}</div></div>

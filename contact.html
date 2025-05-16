@@ -136,6 +136,43 @@
         padding: 2rem 1.2rem;
       }
     }
+
+    .support-mobile {
+  display: none;
+  width: 100%;
+  text-align: center;
+  margin-top: 0.4rem;
+  margin-bottom: 0.8rem;
+}
+
+.support-link {
+  background: #ffc107;
+  color: #000;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 0.9rem;
+  display: inline-block;
+  outline: none;
+  box-shadow: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.support-desktop {
+  color: #ffc107;
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .support-mobile {
+    display: block;
+  }
+  .support-desktop {
+    display: none;
+  }
+}
+
   </style>
 </head>
 <body>
@@ -144,12 +181,18 @@
     <div class="logo">
       <a href="index.html"><img src="img/logo6.png" alt="Stat Kings HQ Logo"></a>
     </div>
+
+    <div class="support-mobile">
+      <a href="https://buymeacoffee.com/courtkingshq" target="_blank" class="support-link">☕ Support</a>
+    </div>
+
     <nav>
       <a href="about.html">About</a>
       <a href="archive.html">Live Hub</a>
       <a href="trivia.html">Trivia</a>
       <a href="offseason.html">Offseason</a>
       <a href="contact.html">Contact</a>
+      <a href="https://buymeacoffee.com/courtkingshq" target="_blank" class="support-desktop">☕ Support</a>
     </nav>
   </header>
 
@@ -161,6 +204,23 @@
         <a href="https://twitter.com/CourtKingsHQ?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-show-screen-name="false" data-show-count="false">Follow on X</a>
         <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
       </div>
+      <div style="margin-top: 2.5rem;">
+        
+        <a href="https://buymeacoffee.com/courtkingshq" target="_blank" style="
+          background: #ffc107;
+          color: #000;
+          font-weight: 600;
+          padding: 10px 20px;
+          border-radius: 8px;
+          text-decoration: none;
+          display: inline-block;
+          margin-top: 0.5rem;
+          font-size: 1rem;
+        ">
+          ☕ Buy Me a Coffee
+        </a>
+      </div>
+
     </div>
   </div>
 

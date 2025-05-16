@@ -111,7 +111,7 @@
       background: var(--card-bg);
       border: 1px solid #1e1e1e;
       border-radius: 16px;
-      padding: 2rem;
+      padding: 1.5rem;
       transition: all 0.3s ease;
       position: relative;
       overflow: hidden;
@@ -198,6 +198,7 @@
       font-size: 0.85rem;
       color: #666;
       margin-top: 0;
+
     }
 
     @keyframes slamIn {
@@ -248,6 +249,49 @@
         gap: 0.5rem;
       }
     }
+
+    .support-nav {
+      display: none;
+      width: 100%;
+      text-align: center;
+      margin-top: 0.25rem;
+    }
+
+    @media (max-width: 768px) {
+      .support-nav {
+        display: block;
+      }
+
+      nav.main-nav {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1rem;
+      }
+    }
+
+    .support-mobile {
+  display: none;
+  width: 100%;
+  text-align: center;
+  margin-top: 0.25rem;
+}
+
+@media (max-width: 768px) {
+  .support-desktop {
+    display: none;
+  }
+
+  .support-mobile {
+    display: block;
+  }
+
+  nav.main-nav {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+  }
+}
+
   </style>
 </head>
 <body>
@@ -256,14 +300,23 @@
     <div class="logo-container">
       <img src="img/logo6.png" alt="Stat Kings HQ Logo">
     </div>
-    <nav>
+
+    <div class="support-mobile">
+      <a href="https://buymeacoffee.com/courtkingshq" target="_blank" style="color: #ffc107;">☕ Support</a>
+    </div>
+
+    <nav class="main-nav">
       <a href="about.html">About</a>
       <a href="archive.html">Live Hub</a>
       <a href="trivia.html">Trivia</a>
       <a href="offseason.html">Offseason</a>
       <a href="contact.html">Contact</a>
+      <a href="https://buymeacoffee.com/courtkingshq" target="_blank" class="support-desktop" style="color: #ffc107;">☕ Support</a>
     </nav>
+
+    
   </header>
+
 
   <section class="intro">
     <h1>Daily Stat Bot Leaders</h1>
@@ -295,10 +348,15 @@
   </section>
 
 
-  <div class="follow-twitter">
-    <a href="https://twitter.com/CourtKingsHQ?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-show-screen-name="false" data-show-count="false">Follow @CourtKingsHQ</a>
-  </div>
-  <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+  <div class="follow-twitter" style="gap: 1rem;">
+  <a href="https://twitter.com/CourtKingsHQ?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-show-screen-name="false" data-show-count="false">Follow @CourtKingsHQ</a>
+
+  <a href="https://buymeacoffee.com/courtkingshq" target="_blank" style="background: #ffc107; color: #000; font-weight: 600; padding: 6px 14px; border-radius: 6px; text-decoration: none; font-size: 0.9rem; display: flex; align-items: center;">
+    ☕ Buy Me a Coffee
+  </a>
+</div>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
 
   <footer>
     © 2025 Court Kings HQ – All stats auto-tracked & published. @CourtKingsHQ
