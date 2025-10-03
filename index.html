@@ -156,31 +156,62 @@
       text-decoration: none;
       color: inherit;
     }
+/* --- TWO PILL BUTTONS UNDER THE CARDS --- */
+.promo-row{
+  display:flex;
+  justify-content:center;
+  gap:1rem;
+  flex-wrap:wrap;
+  margin:0.74rem auto 0;
+  max-width:900px;
+}
 
-    .live-hub-promo {
-      margin: 2rem auto 0;
-      text-align: center;
-      font-size: 1.05rem;
-      color: #ccc;
-      max-width: 800px;
-      padding: 1rem 1.5rem;
-      margin-top: 0;
-      background: rgba(0, 255, 198, 0.05);
-      border: 1px solid rgba(0, 255, 198, 0.15);
-      border-radius: 12px;
-      box-shadow: inset 0 0 8px rgba(0, 255, 198, 0.08);
-    }
+.promo-pill{
+  display:inline-flex;
+  align-items:center;
+  gap:.5rem;
+  padding:.85rem 1.25rem;
+  border-radius:14px;
+  background:rgba(0,255,198,.06);
+  border:1px solid rgba(0,255,198,.18);
+  box-shadow:inset 0 0 8px rgba(0,255,198,.08);
+  color:#ccc;
+  font-size:1rem;
+  font-weight:600;
+  text-decoration:none;
+  white-space:nowrap;           /* keeps text on one line */
+  transition:transform .15s ease, box-shadow .15s ease;
+}
 
-    .live-hub-promo a {
-      color: #00ffc6;
-      font-weight: 600;
-      text-decoration: none;
-      margin-left: 0.4rem;
-    }
+.promo-pill span{               /* the highlighted action text */
+  color:var(--primary);         /* teal for Live Hub */
+}
 
-    .live-hub-promo a:hover {
-      text-decoration: underline;
-    }
+.promo-pill:hover{
+  transform:translateY(-2px);
+  box-shadow:0 8px 20px rgba(0,255,198,.08);
+}
+
+/* Gold themed betting pill */
+.promo-pill.betting{
+  background:rgba(255,193,7,.08);
+  border-color:rgba(255,193,7,.25);
+  box-shadow:inset 0 0 8px rgba(255,193,7,.15);
+}
+
+.promo-pill.betting span{
+  color:#ffc107;                /* gold for The Royal Slip */
+}
+
+.promo-pill.betting:hover{
+  box-shadow:0 8px 20px rgba(255,193,7,.12);
+}
+
+/* Slightly tighter on small phones */
+@media (max-width:480px){
+  .promo-pill{ font-size:.95rem; }
+}
+
 
     .follow-twitter {
       display: flex;
@@ -343,9 +374,18 @@
     </a>
   </section>
 
-  <section class="live-hub-promo">
-    <p>📡 Bot Analytics → <a href="archive.html">Live Hub</a></p>
-  </section>
+
+<section class="promo-row">
+  <a class="promo-pill" href="archive.html">
+    📡 Bot Analytics → <span>Live Hub</span>
+  </a>
+
+  <a class="promo-pill betting" href="betting.html">
+    💰 Crown Picks → <span>The Royal Slip</span>
+  </a>
+</section>
+
+
 
 
   <div class="follow-twitter" style="gap: 1rem;">

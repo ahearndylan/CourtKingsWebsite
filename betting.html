@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CKHQ — Crown Picks (Coming Soon)</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --primary:#00ffc6;      /* CKHQ teal */
+      --accent:#c084fc;       /* CKHQ purple */
+      --gold:#ffc107;         /* Betting gold */
+      --bg:#0c0c0c;
+      --surface:#121212;
+      --card:#151515;
+    }
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{
+      font-family:'Outfit',sans-serif;
+      background:var(--bg);
+      color:#fff;
+      min-height:100vh;
+      display:flex;
+      flex-direction:column;
+    }
+
+    /* Header / Nav (same structure as index) */
+    header{
+      display:flex;justify-content:space-between;align-items:center;
+      padding:1rem 2rem;background:var(--surface);border-bottom:1px solid #1f1f1f;flex-wrap:wrap;
+    }
+    .logo-container img{
+      height:68px;border-radius:12px;box-shadow:0 0 8px rgba(0,0,0,.4);
+    }
+    nav{display:flex;gap:1.2rem;margin-top:.5rem}
+    nav a{color:#ccc;text-decoration:none;font-weight:600;transition:color .2s}
+    nav a:hover{color:var(--primary)}
+    .support-desktop{color:var(--gold)!important}
+
+    /* Hero */
+    .hero{
+      text-align:center;padding:4rem 1.25rem 2rem;position:relative;overflow:hidden;
+    }
+    .hero h1{
+      font-size:2.6rem;line-height:1.15;margin-bottom:.6rem;
+      color:#fff;text-shadow:0 0 22px rgba(0,255,198,.08);
+    }
+    .hero .sub{
+      font-size:1.15rem;color:#bbb;margin-bottom:1.4rem;
+    }
+    .badge-row{
+      display:flex;justify-content:center;gap:.6rem;flex-wrap:wrap;margin:.5rem 0 1.25rem;
+    }
+    .badge{
+      font-size:.9rem;font-weight:700;letter-spacing:.2px;
+      padding:.45rem .7rem;border-radius:999px;border:1px solid rgba(255,193,7,.35);
+      background:rgba(255,193,7,.08);color:#ffd559;white-space:nowrap;
+    }
+
+    /* Coming Soon card */
+    .card{
+      width:min(880px,92%);
+      margin:0 auto 2rem;
+      background:linear-gradient(180deg, rgba(21,21,21,1) 0%, rgba(12,12,12,1) 100%);
+      border:1px solid #1e1e1e;border-radius:18px;padding:1.6rem 1.4rem;
+      box-shadow:0 10px 30px rgba(0,0,0,.35), inset 0 0 14px rgba(255,193,7,.06);
+    }
+    .coming{
+      display:flex;align-items:center;gap:.6rem;justify-content:center;margin-bottom:.4rem;
+      font-weight:800;color:#fff;font-size:1.2rem;
+    }
+    .coming .dot{
+      width:10px;height:10px;border-radius:50%;
+      background:radial-gradient(circle at 30% 30%, #fff 0%, #ffd25a 35%, #ffb300 70%);
+      box-shadow:0 0 12px rgba(255,193,7,.7);
+      animation:pulse 1.6s infinite ease-in-out;
+    }
+    @keyframes pulse{
+      0%,100%{transform:scale(1);opacity:1}
+      50%{transform:scale(1.25);opacity:.75}
+    }
+    .card p{
+      color:#c9c9c9;text-align:center;font-size:1.02rem;line-height:1.55;max-width:720px;margin:.4rem auto 0;
+    }
+
+    /* Feature chips */
+    .chips{
+      display:flex;justify-content:center;gap:.6rem;flex-wrap:wrap;margin:1rem auto 0;max-width:780px;
+    }
+    .chip{
+      padding:.42rem .7rem;border-radius:12px;background:#0f0f0f;border:1px solid #232323;color:#bfbfbf;font-size:.92rem;
+    }
+
+    /* CTA buttons */
+    .cta-row{
+      display:flex;justify-content:center;gap:.8rem;flex-wrap:wrap;margin:1.5rem auto 0;
+    }
+    .btn{
+      display:inline-flex;align-items:center;gap:.5rem;
+      padding:.8rem 1.1rem;border-radius:12px;text-decoration:none;font-weight:700;
+      border:1px solid rgba(0,255,198,.25);background:rgba(0,255,198,.08);color:#eafff9;
+      transition:transform .15s ease, box-shadow .15s ease;
+    }
+    .btn:hover{transform:translateY(-2px);box-shadow:0 10px 20px rgba(0,255,198,.08)}
+    .btn.gold{border-color:rgba(255,193,7,.35);background:rgba(255,193,7,.10);color:#fff3d4}
+    .btn.gold:hover{box-shadow:0 10px 20px rgba(255,193,7,.12)}
+    .btn.secondary{border-color:#2a2a2a;background:#131313;color:#cfcfcf}
+
+    /* Footer */
+    footer{margin-top:auto;text-align:center;padding:2rem 1rem 1.2rem;color:#666;font-size:.86rem}
+
+    /* Mobile tweaks */
+    @media (max-width:768px){
+      .hero{padding:3rem 1rem 1.2rem}
+      .hero h1{font-size:2.1rem}
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="logo-container">
+      <a href="index.html" aria-label="Back to Home">
+        <img src="img/logo6.png" alt="Court Kings HQ Logo">
+      </a>
+    </div>
+    <nav class="main-nav">
+      <a href="about.html">About</a>
+      <a href="archive.html">Live Hub</a>
+      <a href="trivia.html">Trivia</a>
+      <a href="offseason.html">Offseason</a>
+      <a href="contact.html">Contact</a>
+      <a href="https://buymeacoffee.com/courtkingshq" target="_blank" class="support-desktop">☕ Support</a>
+    </nav>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="badge-row">
+      <span class="badge">👑 Crown Picks</span>
+    </div>
+    <h1>💵 The Royal Slip — Coming Soon</h1>
+    <div class="sub">
+        Betting Insights: Smart, data-driven selections built from advanced NBA stat tracking.
+  <br/>— powered by the CKHQ bots. @CourtKingsHQ
+</div>
+
+  </section>
+
+  <!-- Coming Soon Card -->
+  <section class="card">
+    <div class="coming"><span class="dot"></span> Building the Royal Slip</div>
+    <p>
+      We’re putting the finishing touches on a new betting experience:
+      daily **Crown Picks**, transparent records, and a clean “Royal Slip”
+      presentation—crafted with the same CKHQ accuracy and polish you’re used to.
+    </p>
+
+    <div class="chips">
+      <span class="chip">📈 Data-backed picks</span>
+      <span class="chip">🧮 Confidence cues</span>
+      <span class="chip">📊 Season W-L tracking</span>
+      <span class="chip">🔔 Daily updates</span>
+    </div>
+
+    
+  </section>
+
+  <!-- Optional X widget (keeps page light if omitted) -->
+  <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+  <footer>
+    © 2025 Court Kings HQ – All stats auto-tracked & published. @CourtKingsHQ
+  </footer>
+</body>
+</html>
