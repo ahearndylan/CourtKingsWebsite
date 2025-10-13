@@ -28,82 +28,78 @@
       display: inline-block;
       z-index: 10;
     }
-
     .back-logo img {
-      height: 52px;
-      width: auto;
-      border-radius: 12px;
+      height: 52px; width: auto; border-radius: 12px;
       box-shadow: 0 0 8px rgba(0,0,0,0.4);
       transition: transform 0.3s ease;
     }
+    .back-logo img:hover { transform: scale(1.08); }
 
-    .back-logo img:hover {
-      transform: scale(1.08);
-    }
-
-    h1 {
-      font-size: 2.7rem;
-      font-weight: 800;
-      margin-bottom: 0.5rem;
-      text-align: center;
-    }
-
-    .date-label {
-      font-size: 1rem;
-      color: #aaa;
-      margin-bottom: 2.5rem;
-    }
+    h1 { font-size: 2.7rem; font-weight: 800; margin-bottom: 0.5rem; text-align: center; }
+    .date-label { font-size: 1rem; color: #aaa; margin-bottom: 2.5rem; }
 
     .leader-box {
-      background: rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.07);
-      border-radius: 20px;
-      padding: 2.5rem;
-      width: 100%;
-      max-width: 850px;
-      box-shadow: 0 0 25px rgba(0, 255, 170, 0.12);
-      animation: fadeIn 0.6s ease-out;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 20px;
+  padding: 2.5rem;
+  width: 100%;
+  max-width: 850px;
+  box-shadow: 0 0 25px rgba(0, 255, 170, 0.12);
+  animation: fadeIn 0.6s ease-out;
+  margin-bottom: 1.75rem;
+
+
     }
+
+    /* NEW: Winner box — slightly smaller, lighter, and with a gold accent */
+.winner-box {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 215, 0, 0.2);
+  border-radius: 16px;
+  padding: 1.6rem 2rem;
+  width: 100%;
+  max-width: 720px;
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.12);
+  animation: fadeIn 0.8s ease-out;
+  margin-top: -0.5rem;
+}
+
+.winner-box .stat {
+  color: #ffd700; /* gold accent title */
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.winner-box .player {
+  font-size: 1rem;
+  color: #ddd;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  padding: 0.45rem 0;
+}
 
     .stat {
-      font-size: 1.5rem;
-      color: #ffc107;
-      font-weight: 600;
-      margin-bottom: 1.5rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
+      font-size: 1.5rem; color: #ffc107; font-weight: 600;
+      margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem;
     }
 
-    .player {
-      font-size: 1.15rem;
-      padding: 0.6rem 0;
-      border-bottom: 1px solid #333;
-    }
+    .player { font-size: 1.15rem; padding: 0.6rem 0; border-bottom: 1px solid #333; }
+    .player:last-child { border-bottom: none; }
 
-    .player:last-child {
-      border-bottom: none;
-    }
+    .note { text-align: center; font-size: 0.9rem; color: #777; margin-top: 1.5rem; }
 
-    .note {
-      text-align: center;
-      font-size: 0.9rem;
-      color: #777;
-      margin-top: 3rem;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+    @keyframes fadeIn { from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);} }
 
     @media (max-width: 700px) {
-      .leader-box { padding: 1.5rem; }
-      .stat { font-size: 1.3rem; }
-      .player { font-size: 1rem; }
-      .back-logo img { height: 44px; }
+      .leader-box{ padding: 1.5rem; }
+      .stat{ font-size: 1.3rem; }
+      .player{ font-size: 1rem; }
+      .back-logo img{ height: 44px; }
     }
   </style>
 </head>
@@ -116,55 +112,113 @@
   <h1>🏀 Season Scoring Kings</h1>
   <div class="date-label" id="season-date"></div>
 
+  <!-- MAIN: Top Season Scorers -->
   <div class="leader-box" id="leader-block">
     <div class="stat">🔥 Top Season Scorers</div>
     <div id="player-list">Loading...</div>
   </div>
 
+  <!-- NEW: Past Winners -->
+  <div class="winner-box" id="winners-block">
+    <div class="stat">🏆 Past Winners</div>
+    <div id="winners-list"></div>
+  </div>
+
   <p class="note">© 2025 Court Kings HQ – All stats auto-tracked & published. @CourtKingsHQ</p>
 
   <script>
-    const SUPABASE_URL = 'https://fjtxowbjnxclzcogostk.supabase.co/rest/v1/seasonkings?order=date.desc&limit=1';
-    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZqdHhvd2JqbnhjbHpjb2dvc3RrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI2MDE5NTgsImV4cCI6MjA1ODE3Nzk1OH0.LPkFw-UX6io0F3j18Eefd1LmeAGGXnxL4VcCLOR_c1Q'; 
+    // --------- Config ----------
+    const SUPABASE_URL =
+      'https://fjtxowbjnxclzcogostk.supabase.co/rest/v1/seasonkings?order=date.desc&limit=1';
+    const SUPABASE_KEY =
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZqdHhvd2JqbnhjbHpjb2dvc3RrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI2MDE5NTgsImV4cCI6MjA1ODE3Nzk1OH0.LPkFw-UX6io0F3j18Eefd1LmeAGGXnxL4VcCLOR_c1Q';
 
-    fetch(SUPABASE_URL, {
-      headers: {
-        apikey: SUPABASE_KEY,
-        Authorization: `Bearer ${SUPABASE_KEY}`
-      }
-    })
-    .then(res => res.json())
-    .then(rows => {
-      const dateLabel = document.getElementById('season-date');
-      const container = document.getElementById('player-list');
-      container.innerHTML = '';
+    // Simple local list you can extend later
+    const PAST_WINNERS = [
+      { season: '2024–25', text: '🥇 Shai Gilgeous-Alexander (OKC): 2484 PTS | 32.7 PPG' }
+      // Add more like:
+      // { season: '2023–24', text: '🥇 Player Name (TEAM): #### PTS | ##.# PPG' },
+    ];
 
-      if (!rows || !rows.length) {
-        container.innerHTML = 'No data found';
+    function renderPastWinners() {
+      const box = document.getElementById('winners-list');
+      box.innerHTML = '';
+      if (!PAST_WINNERS.length) {
+        box.innerHTML = '<div class="player">No past winners listed yet.</div>';
         return;
       }
-
-      const entry = rows[0];
-      const rawDate = entry.date;
-      const dateObj = new Date(rawDate);
-      const options = { month: 'short', day: 'numeric', year: 'numeric' };
-      dateLabel.textContent = `As of ${dateObj.toLocaleDateString('en-US', options)}`;
-
-      const players = entry.data.leaders;
-      const medals = ['🥇', '🥈', '🥉'];
-
-      players.forEach((p, i) => {
-        const medal = medals[i] || `${i + 1}.`;
+      PAST_WINNERS.forEach(w => {
         const div = document.createElement('div');
         div.className = 'player';
-        div.textContent = `${medal} ${p.name} (${p.team}): ${p.points} PTS | ${p.ppg} PPG`;
+        div.textContent = `${w.text}`;
+        box.appendChild(div);
+      });
+    }
+
+    function renderPlaceholders(container, message = 'NBA 2025–26 season coming soon') {
+      const medals = ['🥇','🥈','🥉','4.'];
+      medals.forEach(m => {
+        const div = document.createElement('div');
+        div.className = 'player';
+        div.textContent = `${m} ${message}`;
         container.appendChild(div);
       });
+    }
+
+    function formatAsOf(dateStr) {
+      const d = new Date(dateStr);
+      if (isNaN(d.getTime())) return '';
+      const opts = { month: 'short', day: 'numeric', year: 'numeric' };
+      return `As of ${d.toLocaleDateString('en-US', opts)}`;
+    }
+
+    // --------- Fetch latest leaders from Supabase ----------
+    fetch(SUPABASE_URL, {
+      headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` }
     })
-    .catch(err => {
-      console.error("Failed to load from Supabase:", err);
-      document.getElementById('player-list').innerText = "Unable to load season leaders.";
-    });
+      .then(res => res.json())
+      .then(rows => {
+        const dateLabel = document.getElementById('season-date');
+        const container = document.getElementById('player-list');
+        container.innerHTML = '';
+
+        // No rows? Preseason placeholder
+        if (!rows || !rows.length) {
+          dateLabel.textContent = 'Season starting soon';
+          renderPlaceholders(container);
+          return;
+        }
+
+        const entry = rows[0];
+        if (!entry || !entry.data || !entry.data.leaders || !entry.data.leaders.length) {
+          dateLabel.textContent = entry?.date ? formatAsOf(entry.date) : 'Season starting soon';
+          renderPlaceholders(container);
+          return;
+        }
+
+        // Render real data
+        dateLabel.textContent = formatAsOf(entry.date);
+        const players = entry.data.leaders;
+        const medals = ['🥇', '🥈', '🥉'];
+
+        players.forEach((p, i) => {
+          const medal = medals[i] || `${i + 1}.`;
+          const div = document.createElement('div');
+          div.className = 'player';
+          div.textContent = `${medal} ${p.name} (${p.team}): ${p.points} PTS | ${p.ppg} PPG`;
+          container.appendChild(div);
+        });
+      })
+      .catch(err => {
+        console.error('Failed to load from Supabase:', err);
+        document.getElementById('season-date').textContent = 'Season starting soon';
+        const container = document.getElementById('player-list');
+        container.innerHTML = '';
+        renderPlaceholders(container, 'Unable to load data (will update automatically)');
+      })
+      .finally(() => {
+        renderPastWinners();
+      });
   </script>
 </body>
 </html>
