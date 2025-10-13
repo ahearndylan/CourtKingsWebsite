@@ -233,6 +233,14 @@
   }
 }
 
+/* Indent bot lists under each environment heading */
+section.env ul {
+  margin-left: .5rem;
+  padding-left: 1rem;
+  border-left: 2px solid rgba(255,255,255,0.1);
+}
+
+
 
 
   </style>
@@ -270,61 +278,82 @@
 
     <h2>Our Bot Environments</h2>
 
-    <h3 style="color:#c084fc;">
-      <a href="archive.html#regular" style="color:#c084fc; text-decoration: none;">🏀 Court Kings HQ: Regular Season</a>
-    </h3>
-    <ul>
-      <li><strong>🔥 Nightly Stats Bot</strong> – Tracks nightly leaders in points, assists, rebounds, and threes.</li>
-      <li><strong>⚡ Efficiency Bot</strong> – Highlights efficient scoring, plus-minus stars, defense, and triple-doubles.</li>
-      <li><strong>⏱️ Clutch Time Bot</strong> – Focuses on 4th quarter stats: points, FG%, assists, and best team finishes.</li>
-      <li><strong>👑 Season Scoring Leader Bot</strong> – Tracks top scorers all season by PPG and total points.</li>
-      <li><strong>⏳ Milestone Watch Bot</strong> – Monitors players nearing major career milestones in certain statistics.</li>
-    </ul>    
+    <section class="env">
+      <h3 style="color:#c084fc;">
+        <a href="archive.html#regular" style="color:#c084fc; text-decoration: none;">🏀 Court Kings HQ: Regular Season</a>
+      </h3>
+      <ul>
+        <li><strong>🔥 Nightly Stats Bot</strong> – Tracks nightly leaders in points, assists, rebounds, and threes.</li>
+        <li><strong>⚡ Efficiency Bot</strong> – Highlights efficient scoring, plus-minus stars, defense, and triple-doubles.</li>
+        <li><strong>⏱️ Clutch Time Bot</strong> – Focuses on 4th quarter stats: points, FG%, assists, and best team finishes.</li>
+        <li><strong>👑 Season Scoring Leader Bot</strong> – Tracks top scorers all season by PPG and total points.</li>
+        <li><strong>📅 Calendar Bot</strong> – Posts each day’s NBA schedule.</li>
+        <li><strong>⏳ Milestone Watch Bot</strong> – Monitors players nearing major career milestones in certain statistics.</li>
+      </ul>  
+    </section>  
 
-
-    <h3 style="color:#c084fc;">
-      <a href="archive.html#playoffs" style="color:#c084fc; text-decoration: none;">⚔️ Court Kings HQ: Playoffs Edition</a>
-    </h3>
-    <ul>
-      <li><strong>📅 Calendar Bot</strong> – Posts each day’s NBA playoff schedule.</li>
-      <li><strong>📊 Game Results Bot</strong> – Tweets final scores and series updates live during games.</li>
-      <li><strong>🏆 Series Royalty Bot</strong> – Announces completed series and top player performances.</li>
-      <li><strong>🔥 Playoff Points Leader Bot</strong> – Tracks the current leading scorer of the postseason.</li>
-      <li><strong>📜 On This Day Bot</strong> – Shares a historic NBA playoff moment tied to today’s date.</li>
-      <li><strong>🎯 Assist Leaders Bot</strong> – Tracks top assist leaders in the playoffs.</li>
-      <li><strong>💪 Rebound Leaders Bot</strong> – Tracks top rebounders in all playoff games.</li>
-      <li><strong>🛡️ Steal Leaders Bot</strong> – Highlights players leading in playoff steals.</li>
-      <li><strong>🧱 Block Leaders Bot</strong> – Highlights players leading in playoff blocks.</li>
-      <li><strong>👑 Spotlight Bot</strong> – Features a standout playoff performer.</li>
-    </ul>
-
-
-
-
-    <h3 style="color:#c084fc;">
-      <a href="archive.html#finals" style="color:#c084fc; text-decoration: none;">🥇 Court Kings HQ: Finals Edition</a>
-    </h3>
-    <ul>
-      <li><strong>🔥 Nightly Stats Bot</strong> – Posts top Finals stat lines from each game.</li>
-      <li><strong>⚡ Efficiency Bot</strong> – Highlights the most efficient scorer and top +/- in the Finals.</li>
-      <li><strong>⏱️ Clutch Bot</strong> – Tracks 4th quarter scoring and assists during Finals games.</li>
-      <li><strong>👑 Scoring Leaders Bot</strong> – Ranks the top scorers across the entire NBA Finals series.</li>
-      <li><strong>🏆 MVP Debate Bot</strong> – Monitors Finals MVP contenders and standout performances.</li>
-    </ul>
+    <section class="env">
+      <h3 style="color:#c084fc;">
+        <a href="archive.html#playoffs" style="color:#c084fc; text-decoration: none;">⚔️ Court Kings HQ: Playoffs Edition</a>
+      </h3>
+      <ul>
+        <li><strong>📅 Calendar Bot</strong> – Posts each day’s NBA playoff schedule.</li>
+        <li><strong>📊 Game Results Bot</strong> – Tweets final scores and series updates live during games.</li>
+        <li><strong>🏆 Series Royalty Bot</strong> – Announces completed series and top player performances.</li>
+        <li><strong>🔥 Playoff Points Leader Bot</strong> – Tracks the current leading scorer of the postseason.</li>
+        <li><strong>📜 On This Day Bot</strong> – Shares a historic NBA playoff moment tied to today’s date.</li>
+        <li><strong>🎯 Assist Leaders Bot</strong> – Tracks top assist leaders in the playoffs.</li>
+        <li><strong>💪 Rebound Leaders Bot</strong> – Tracks top rebounders in all playoff games.</li>
+        <li><strong>🛡️ Steal Leaders Bot</strong> – Highlights players leading in playoff steals.</li>
+        <li><strong>🧱 Block Leaders Bot</strong> – Highlights players leading in playoff blocks.</li>
+        <li><strong>👑 Spotlight Bot</strong> – Features a standout playoff performer.</li>
+      </ul>
+    </section>
 
 
 
-    <h3 style="color:#c084fc;">
-      <a href="archive.html#offseason" style="color:#c084fc; text-decoration: none;">🌴 Court Kings HQ: Offseason</a>
-    </h3>
-    <ul>
-      <li><strong>🧠 Trivia Bot</strong> – Posts challenging NBA trivia questions with a live leaderboard.</li>
-      <li><strong>🍼 Rookie Stats Bot</strong> – Showcases memorable stat lines from past rookie seasons.</li>
-      <li><strong>🥊 Prime Debate Bot</strong> – Runs “Start-Bench-Cut” polls comparing three legendary players.</li>
-      <li><strong>📈 All-Time Leaders Bot</strong> – Cycles through NBA all-time top 5s in major categories.</li>
-      <li><strong>🎯 Draft Throwback Bot</strong> – Spotlights a random notable NBA draft pick daily.</li>
-      <li><strong>🎮 2K Sim Bot</strong> – Runs simulated NBA team matchups using 2K-style logic of past NBA Champions.</li>
-    </ul>
+    <section class="env">
+      <h3 style="color:#c084fc;">
+        <a href="archive.html#finals" style="color:#c084fc; text-decoration: none;">🥇 Court Kings HQ: Finals Edition</a>
+      </h3>
+      <ul>
+        <li><strong>🔥 Nightly Stats Bot</strong> – Posts top Finals stat lines from each game.</li>
+        <li><strong>⚡ Efficiency Bot</strong> – Highlights the most efficient scorer and top +/- in the Finals.</li>
+        <li><strong>⏱️ Clutch Bot</strong> – Tracks 4th quarter scoring and assists during Finals games.</li>
+        <li><strong>👑 Scoring Leaders Bot</strong> – Ranks the top scorers across the entire NBA Finals series.</li>
+        <li><strong>🏆 MVP Debate Bot</strong> – Monitors Finals MVP contenders and standout performances.</li>
+        <li><strong>🎯 Assist Leaders Bot</strong> – Tracks top assist leaders in the NBA Finals.</li>
+        <li><strong>💪 Rebound Leaders Bot</strong> – Tracks top rebounders in all NBA Finals games.</li>
+        <li><strong>🛡️ Steal Leaders Bot</strong> – Highlights players leading in NBA Finals steals.</li>
+        <li><strong>🧱 Block Leaders Bot</strong> – Highlights players leading in NBA Finals blocks.</li>
+      </ul>
+    </section>
+
+
+    <section class="env">
+      <h3 style="color:#c084fc;">
+        <a href="archive.html#offseason" style="color:#c084fc; text-decoration: none;">🌴 Court Kings HQ: Offseason</a>
+      </h3>
+      <ul>
+        <li><strong>🧠 Trivia Bot</strong> – Posts challenging NBA trivia questions with a live leaderboard.</li>
+        <li><strong>🍼 Rookie Stats Bot</strong> – Showcases memorable stat lines from past rookie seasons.</li>
+        <li><strong>🥊 Prime Debate Bot</strong> – Runs “Start-Bench-Cut” polls comparing three legendary players.</li>
+        <li><strong>📈 All-Time Leaders Bot</strong> – Cycles through NBA all-time top 5s in major categories.</li>
+        <li><strong>🎯 Draft Throwback Bot</strong> – Spotlights a random notable NBA draft pick daily.</li>
+        <li><strong>🎮 2K Sim Bot</strong> – Runs simulated NBA team matchups using 2K-style logic of past NBA Champions.</li>
+        <li><strong>🎈 Birthday Bot</strong> – Celebrates NBA Players on their Birthday.</li>
+        <li><strong>⏱️ Season Countdown</strong> – A running countdown to the tip of the NBA Regular Season</li>
+      </ul>
+    </section>
+
+    <section class="env">
+      <h3 style="color:#c084fc;">
+        <a href="archive.html#offseason" style="color:#c084fc; text-decoration: none;">💰 Court Kings HQ: Bets</a>
+      </h3>
+      <ul>
+        <li><strong>💵 Bot $</strong> – Coming Soon...</li>
+      </ul>
+    </section>
 
     <h2>Support the Project</h2>
     <p>

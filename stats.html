@@ -135,98 +135,131 @@
   </div>
   <p class="note">© 2025 Court Kings HQ – All stats auto-tracked & published. @CourtKingsHQ</p>
   <script>
+  // ---- Configure your season window here ----
+  const SEASON_START = '2025-10-21'; // TODO: set to actual 2025–26 regular-season start date
+  const SUPABASE_URL = 'https://fjtxowbjnxclzcogostk.supabase.co/rest/v1/nightlykings';
+  const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZqdHhvd2JqbnhjbHpjb2dvc3RrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI2MDE5NTgsImV4cCI6MjA1ODE3Nzk1OH0.LPkFw-UX6io0F3j18Eefd1LmeAGGXnxL4VcCLOR_c1Q';
+
+  // Build filtered URL: only rows on/after SEASON_START, newest first
+  const URL = `${SUPABASE_URL}?select=*&date=gte.${SEASON_START}&order=date.desc`;
 
   function formatDate(isoDate) {
-      // Force parse the date at noon UTC to avoid timezone shift
-      const d = new Date(isoDate + 'T12:00:00Z');
-      const month = String(d.getUTCMonth() + 1).padStart(2, '0');
-      const day = String(d.getUTCDate()).padStart(2, '0');
-      const year = d.getUTCFullYear();
-      return `${month}/${day}/${year}`;
+    // Force parse the date at noon UTC to avoid timezone shift
+    const d = new Date(isoDate + 'T12:00:00Z');
+    const month = String(d.getUTCMonth() + 1).padStart(2, '0');
+    const day = String(d.getUTCDate()).padStart(2, '0');
+    const year = d.getUTCFullYear();
+    return `${month}/${day}/${year}`;
+  }
+
+  fetch(URL, {
+    headers: {
+      "apikey": SUPABASE_KEY
+      // If you prefer, you can also include Authorization:
+      // "Authorization": `Bearer ${SUPABASE_KEY}`
     }
+  })
+  .then(res => res.json())
+  .then(rows => {
+    const left = document.getElementById('leaders');
+    const winsDiv = document.getElementById('wins');
+    const highsDiv = document.getElementById('highs');
+    left.innerHTML = winsDiv.innerHTML = highsDiv.innerHTML = '';
+
+    const categories = ["points", "assists", "rebounds", "threept"];
+    const wins = { points: {}, assists: {}, rebounds: {}, threept: {} };
+    const highs = {
+      points: { value: 0 },
+      assists: { value: 0 },
+      rebounds: { value: 0 },
+      threept: { value: 0 }
+    };
+
+    // No season data yet? Show a friendly placeholder.
+if (!rows || !rows.length) {
+  const placeholderHTML = `
+    <h3>Season starting soon</h3>
+    <div class="player">NBA 2025-26 season coming soon</div>
+  `;
+  
+  const block = document.createElement('div');
+  block.className = 'night-block';
+  block.innerHTML = placeholderHTML;
+  left.appendChild(block);
+
+  // ✅ Match same placeholder style for right sections
+  winsDiv.innerHTML = `<div class="record">${placeholderHTML}</div>`;
+  highsDiv.innerHTML = `<div class="record">${placeholderHTML}</div>`;
+
+  return;
+}
 
 
-    fetch("https://fjtxowbjnxclzcogostk.supabase.co/rest/v1/nightlykings?select=*&order=date.desc", {
-      headers: {
-        "apikey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZqdHhvd2JqbnhjbHpjb2dvc3RrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI2MDE5NTgsImV4cCI6MjA1ODE3Nzk1OH0.LPkFw-UX6io0F3j18Eefd1LmeAGGXnxL4VcCLOR_c1Q"
-      }
-    })
-    .then(res => res.json())
-    .then(rows => {
-      const left = document.getElementById('leaders');
-      const winsDiv = document.getElementById('wins');
-      const highsDiv = document.getElementById('highs');
-      const categories = ["points", "assists", "rebounds", "threept"];
-      const wins = { points: {}, assists: {}, rebounds: {}, threept: {} };
-      const highs = {
-        points: { value: 0 },
-        assists: { value: 0 },
-        rebounds: { value: 0 },
-        threept: { value: 0 }
-      };
-  
-      // Show only top 3 nights
-      rows.slice(0, 3).forEach(night => {
-        const data = night.data;
-        const block = document.createElement('div');
-        block.className = 'night-block';
-        block.innerHTML = `
-          <h3>${formatDate(night.date)}</h3>
-          <div class="stat">🔥 Points Leader</div><div class="player">${data.points.player} (${data.points.team}) – ${data.points.value} PTS</div>
-          <div class="stat">🎯 Assists Leader</div><div class="player">${data.assists.player} (${data.assists.team}) – ${data.assists.value} AST</div>
-          <div class="stat">💪 Rebounds Leader</div><div class="player">${data.rebounds.player} (${data.rebounds.team}) – ${data.rebounds.value} REB</div>
-          <div class="stat">🏹 3PT Leader</div><div class="player">${data.threept.player} (${data.threept.team}) – ${data.threept.value} 3PM</div>
-        `;
-        left.appendChild(block);
-      });
-  
-      // Process all for Wins and Season Highs
-      rows.forEach(night => {
-        const data = night.data;
-        categories.forEach(cat => {
-          const val = data[cat].value;
-          const player = data[cat].player;
-          if (!wins[cat][player]) wins[cat][player] = 0;
-          wins[cat][player]++;
-          if (val > highs[cat].value) {
-            highs[cat] = {
-              value: val,
-              player: data[cat].player,
-              team: data[cat].team
-            };
-          }
-        });
-      });
-  
-      categories.forEach(cat => {
-        const emoji = { points: "🔥", assists: "🎯", rebounds: "💪", threept: "🏹" }[cat];
-        const sorted = Object.entries(wins[cat]).sort((a, b) => b[1] - a[1]).slice(0, 3);
-        const label = cat === "threept" ? "3PM" : cat.charAt(0).toUpperCase() + cat.slice(1);
-        let block = `<div class="record"><div class="stat">${emoji} Most Wins – ${label}</div>`;
-        sorted.forEach(([player, count], i) => {
-          block += `<div class="player">${i + 1}. ${player} – ${count} Wins</div>`;
-        });
-        block += `</div>`;
-        winsDiv.innerHTML += block;
-      });
 
-  
-      categories.forEach(cat => {
-        const emoji = { points: "🧨", assists: "🤝", rebounds: "🧲", threept: "🔫" }[cat];
-        const high = highs[cat];
-        const statName = cat === 'threept' ? '3PM' : cat.charAt(0).toUpperCase() + cat.slice(1);
-        const block = `<div class="record">
-          <div class="stat">${emoji} ${statName}</div>
-          <div class="player">${high.player} (${high.team}) – ${high.value} ${statName}</div>
-        </div>`;
-        highsDiv.innerHTML += block;
-      });
-    })
-    .catch(err => {
-      console.error("Error loading from Supabase", err);
-      document.getElementById('leaders').innerText = "Failed to load data.";
+    // Show only top 3 nights
+    rows.slice(0, 3).forEach(night => {
+      const data = night.data;
+      const block = document.createElement('div');
+      block.className = 'night-block';
+      block.innerHTML = `
+        <h3>${formatDate(night.date)}</h3>
+        <div class="stat">🔥 Points Leader</div><div class="player">${data.points.player} (${data.points.team}) – ${data.points.value} PTS</div>
+        <div class="stat">🎯 Assists Leader</div><div class="player">${data.assists.player} (${data.assists.team}) – ${data.assists.value} AST</div>
+        <div class="stat">💪 Rebounds Leader</div><div class="player">${data.rebounds.player} (${data.rebounds.team}) – ${data.rebounds.value} REB</div>
+        <div class="stat">🏹 3PT Leader</div><div class="player">${data.threept.player} (${data.threept.team}) – ${data.threept.value} 3PM</div>
+      `;
+      left.appendChild(block);
     });
-  </script>
+
+    // Process all filtered rows for Wins and Season Highs
+    rows.forEach(night => {
+      const data = night.data;
+      categories.forEach(cat => {
+        const val = data[cat].value;
+        const player = data[cat].player;
+        if (!wins[cat][player]) wins[cat][player] = 0;
+        wins[cat][player]++;
+        if (val > highs[cat].value) {
+          highs[cat] = {
+            value: val,
+            player: data[cat].player,
+            team: data[cat].team
+          };
+        }
+      });
+    });
+
+    // Most Wins blocks
+    categories.forEach(cat => {
+      const emoji = { points: "🔥", assists: "🎯", rebounds: "💪", threept: "🏹" }[cat];
+      const sorted = Object.entries(wins[cat]).sort((a, b) => b[1] - a[1]).slice(0, 3);
+      const label = cat === "threept" ? "3PM" : cat.charAt(0).toUpperCase() + cat.slice(1);
+      let block = `<div class="record"><div class="stat">${emoji} Most Wins – ${label}</div>`;
+      sorted.forEach(([player, count], i) => {
+        block += `<div class="player">${i + 1}. ${player} – ${count} Wins</div>`;
+      });
+      block += `</div>`;
+      winsDiv.innerHTML += block;
+    });
+
+    // Season Highs blocks
+    categories.forEach(cat => {
+      const emoji = { points: "🧨", assists: "🤝", rebounds: "🧲", threept: "🔫" }[cat];
+      const high = highs[cat];
+      const statName = cat === 'threept' ? '3PM' : cat.charAt(0).toUpperCase() + cat.slice(1);
+      const block = `<div class="record">
+        <div class="stat">${emoji} ${statName}</div>
+        <div class="player">${high.player} (${high.team}) – ${high.value} ${statName}</div>
+      </div>`;
+      highsDiv.innerHTML += block;
+    });
+  })
+  .catch(err => {
+    console.error("Error loading from Supabase", err);
+    document.getElementById('leaders').innerText = "Failed to load data.";
+  });
+</script>
+
   
 </body>
 </html>

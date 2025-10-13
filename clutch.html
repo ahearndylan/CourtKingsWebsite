@@ -141,132 +141,149 @@
   <p class="note">© 2025 Court Kings HQ – All stats auto-tracked & published. @CourtKingsHQ</p>
 
   <script>
-    function formatDate(isoDate) {
-      // Force parse the date at noon UTC to avoid timezone shift
-      const d = new Date(isoDate + 'T12:00:00Z');
-      const month = String(d.getUTCMonth() + 1).padStart(2, '0');
-      const day = String(d.getUTCDate()).padStart(2, '0');
-      const year = d.getUTCFullYear();
-      return `${month}/${day}/${year}`;
+  // ---- Configure your season window here ----
+  const SEASON_START = '2025-10-21'; // TODO: set to actual 2025–26 regular-season start date
+
+  function formatDate(isoDate) {
+    // Force parse the date at noon UTC to avoid timezone shift
+    const d = new Date(isoDate + 'T12:00:00Z');
+    const month = String(d.getUTCMonth() + 1).padStart(2, '0');
+    const day = String(d.getUTCDate()).padStart(2, '0');
+    const year = d.getUTCFullYear();
+    return `${month}/${day}/${year}`;
+  }
+
+  const supabase = window.supabase.createClient(
+    'https://fjtxowbjnxclzcogostk.supabase.co',
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZqdHhvd2JqbnhjbHpjb2dvc3RrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI2MDE5NTgsImV4cCI6MjA1ODE3Nzk1OH0.LPkFw-UX6io0F3j18Eefd1LmeAGGXnxL4VcCLOR_c1Q'
+  );
+
+  async function loadData() {
+    const left = document.getElementById("leaders");
+    const winsDiv = document.getElementById("wins");
+    const highsDiv = document.getElementById("highs");
+    left.innerHTML = winsDiv.innerHTML = highsDiv.innerHTML = '';
+
+    // Fetch only rows on/after season start, newest first
+    const { data, error } = await supabase
+      .from('clutchkings')
+      .select('*')
+      .gte('date', SEASON_START)
+      .order('date', { ascending: false });
+
+    if (error) {
+      console.error("Supabase error:", error);
+      left.innerText = "Failed to load data.";
+      return;
     }
 
-
-
-    const supabase = window.supabase.createClient(
-      'https://fjtxowbjnxclzcogostk.supabase.co',
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZqdHhvd2JqbnhjbHpjb2dvc3RrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI2MDE5NTgsImV4cCI6MjA1ODE3Nzk1OH0.LPkFw-UX6io0F3j18Eefd1LmeAGGXnxL4VcCLOR_c1Q'
-    );
-
-    async function loadData() {
-      const { data, error } = await supabase
-        .from('clutchkings')
-        .select('*')
-        .order('date', { ascending: false });
-
-      if (error) {
-        console.error("Supabase error:", error);
-        document.getElementById("leaders").innerText = "Failed to load data.";
-        return;
-      }
-
-      const left = document.getElementById("leaders");
-      const winsDiv = document.getElementById("wins");
-      const highsDiv = document.getElementById("highs");
-
-      const stats = { points: {}, fg: {}, assists: {}, teams: {} };
-      const highs = {
-        points: { value: 0 },
-        fg: { fg_pct: 0 },
-        assists: { value: 0 },
-        team: { value: -Infinity }
-      };
-
-      // Render last 3 nights only
-      data.slice(0, 3).forEach(row => {
-        const night = row.data;
-        const block = document.createElement("div");
-        block.className = "night-block";
-        block.innerHTML = `
-          <h3>${formatDate(row.date)}</h3>
-          <div class="stat">🚀 4Q Scoring</div><div class="player">${night.points.player} (${night.points.team}) – ${night.points.value} PTS</div>
-          <div class="stat">💎 4Q FG%</div><div class="player">${night.fg.player} (${night.fg.team}) – ${night.fg.fg_pct}% FG (${night.fg.fga} FGA)</div>
-          <div class="stat">🧠 4Q Assists</div><div class="player">${night.assists.player} (${night.assists.team}) – ${night.assists.value} AST</div>
-          ${night.team_4q_diff ? `<div class="stat">📈 Best 4Q Team</div><div class="player">${night.team_4q_diff.abbr} - +${night.team_4q_diff.value}</div>` : ""}
-        `;
-        left.appendChild(block);
-      });
-
-      // Loop over ALL data for wins + highs
-      data.forEach(row => {
-        const night = row.data;
-
-        // Wins
-        stats.points[night.points.player] = (stats.points[night.points.player] || 0) + 1;
-        stats.fg[night.fg.player] = (stats.fg[night.fg.player] || 0) + 1;
-        stats.assists[night.assists.player] = (stats.assists[night.assists.player] || 0) + 1;
-        if (night.team_4q_diff) {
-          const abbr = night.team_4q_diff.abbr;
-          stats.teams[abbr] = (stats.teams[abbr] || 0) + 1;
-
-          if (night.team_4q_diff.value > highs.team.value) {
-            highs.team = {
-              abbr,
-              value: night.team_4q_diff.value
-            };
-          }
-        }
-
-        // Season Highs
-        if (night.points.value > highs.points.value) {
-          highs.points = { ...night.points };
-        }
-        if (night.fg.fga >= 4 && night.fg.fg_pct > highs.fg.fg_pct) {
-          highs.fg = { ...night.fg };
-        }
-        if (night.assists.value > highs.assists.value) {
-          highs.assists = { ...night.assists };
-        }
-      });
-
-      const labels = {
-        points: "🚀 Most Wins – 4Q Points",
-        fg: "💎 Most Wins – 4Q FG%",
-        assists: "🧠 Most Wins – 4Q Assists",
-        teams: "📈 Most Wins – Best 4Q Teams"
-      };
-
-      for (const key in stats) {
-        const sorted = Object.entries(stats[key]).sort((a, b) => b[1] - a[1]).slice(0, 3);
-        let html = `<div class="record"><div class="stat">${labels[key]}</div>`;
-        sorted.forEach(([name, count], i) => {
-          html += `<div class="player">${i + 1}. ${name} – ${count} Wins</div>`;
-        });
-        html += "</div>";
-        winsDiv.innerHTML += html;
-      }
-
-      // Render season highs
-      highsDiv.innerHTML = `
-        <div class="record">
-          <div class="stat">🧨 4Q Points</div>
-          <div class="player">${highs.points.player} (${highs.points.team}) – ${highs.points.value} PTS</div>
-        </div>
-        <div class="record">
-          <div class="stat">⚡ 4Q FG% (min 4 FGA)</div>
-          <div class="player">${highs.fg.player} (${highs.fg.team}) – ${highs.fg.fg_pct}% FG</div>
-        </div>
-        <div class="record">
-          <div class="stat">🧬 4Q Assists</div>
-          <div class="player">${highs.assists.player} (${highs.assists.team}) – ${highs.assists.value} AST</div>
-        </div>
-        <div class="record">
-          <div class="stat">💪 4Q Team Performance</div>
-          <div class="player">${highs.team.abbr} – +${highs.team.value}</div>
-        </div>
+    // No season data yet? Show the same placeholder across all sections
+    if (!data || !data.length) {
+      const placeholderHTML = `
+        <h3>Season starting soon</h3>
+        <div class="player">NBA 2025–26 season coming soon</div>
       `;
+      left.innerHTML = `<div class="night-block">${placeholderHTML}</div>`;
+      winsDiv.innerHTML = `<div class="record">${placeholderHTML}</div>`;
+      highsDiv.innerHTML = `<div class="record">${placeholderHTML}</div>`;
+      return;
     }
 
-    loadData();
-  </script>
+    // Aggregates
+    const stats = { points: {}, fg: {}, assists: {}, teams: {} };
+    const highs = {
+      points: { value: 0 },
+      fg: { fg_pct: 0 },
+      assists: { value: 0 },
+      team: { value: -Infinity }
+    };
+
+    // Render last 3 nights
+    data.slice(0, 3).forEach(row => {
+      const night = row.data || {};
+      const block = document.createElement("div");
+      block.className = "night-block";
+      block.innerHTML = `
+        <h3>${formatDate(row.date)}</h3>
+        <div class="stat">🚀 4Q Scoring</div><div class="player">${night.points.player} (${night.points.team}) – ${night.points.value} PTS</div>
+        <div class="stat">💎 4Q FG%</div><div class="player">${night.fg.player} (${night.fg.team}) – ${night.fg.fg_pct}% FG (${night.fg.fga} FGA)</div>
+        <div class="stat">🧠 4Q Assists</div><div class="player">${night.assists.player} (${night.assists.team}) – ${night.assists.value} AST</div>
+        ${night.team_4q_diff ? `<div class="stat">📈 Best 4Q Team</div><div class="player">${night.team_4q_diff.abbr} - +${night.team_4q_diff.value}</div>` : ""}
+      `;
+      left.appendChild(block);
+    });
+
+    // Loop over ALL filtered rows for wins + highs
+    data.forEach(row => {
+      const night = row.data || {};
+
+      // Wins tallies
+      stats.points[night.points.player] = (stats.points[night.points.player] || 0) + 1;
+      stats.fg[night.fg.player] = (stats.fg[night.fg.player] || 0) + 1;
+      stats.assists[night.assists.player] = (stats.assists[night.assists.player] || 0) + 1;
+
+      if (night.team_4q_diff) {
+        const abbr = night.team_4q_diff.abbr;
+        stats.teams[abbr] = (stats.teams[abbr] || 0) + 1;
+
+        if (night.team_4q_diff.value > highs.team.value) {
+          highs.team = { abbr, value: night.team_4q_diff.value };
+        }
+      }
+
+      // Season highs
+      if (night.points.value > highs.points.value) {
+        highs.points = { ...night.points };
+      }
+      if (night.fg.fga >= 4 && night.fg.fg_pct > highs.fg.fg_pct) {
+        highs.fg = { ...night.fg };
+      }
+      if (night.assists.value > highs.assists.value) {
+        highs.assists = { ...night.assists };
+      }
+    });
+
+    const labels = {
+      points: "🚀 Most Wins – 4Q Points",
+      fg: "💎 Most Wins – 4Q FG%",
+      assists: "🧠 Most Wins – 4Q Assists",
+      teams: "📈 Most Wins – Best 4Q Teams"
+    };
+
+    // Render wins panels
+    Object.keys(stats).forEach(key => {
+      const sorted = Object.entries(stats[key]).sort((a, b) => b[1] - a[1]).slice(0, 3);
+      let html = `<div class="record"><div class="stat">${labels[key]}</div>`;
+      sorted.forEach(([name, count], i) => {
+        html += `<div class="player">${i + 1}. ${name} – ${count} Wins</div>`;
+      });
+      html += "</div>";
+      winsDiv.innerHTML += html;
+    });
+
+    // Render season highs
+    highsDiv.innerHTML = `
+      <div class="record">
+        <div class="stat">🧨 4Q Points</div>
+        <div class="player">${highs.points.player} (${highs.points.team}) – ${highs.points.value} PTS</div>
+      </div>
+      <div class="record">
+        <div class="stat">⚡ 4Q FG% (min 4 FGA)</div>
+        <div class="player">${highs.fg.player} (${highs.fg.team}) – ${highs.fg.fg_pct}% FG</div>
+      </div>
+      <div class="record">
+        <div class="stat">🧬 4Q Assists</div>
+        <div class="player">${highs.assists.player} (${highs.assists.team}) – ${highs.assists.value} AST</div>
+      </div>
+      <div class="record">
+        <div class="stat">💪 4Q Team Performance</div>
+        <div class="player">${highs.team.abbr} – +${highs.team.value}</div>
+      </div>
+    `;
+  }
+
+  loadData();
+</script>
+
 </body>
 </html>

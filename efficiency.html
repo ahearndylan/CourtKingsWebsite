@@ -160,127 +160,151 @@
   <p class="note">© 2025 Court Kings HQ – All stats auto-tracked & published. @CourtKingsHQ</p>
 
   <script>
-    function formatDate(isoDate) {
-      // Force parse the date at noon UTC to avoid timezone shift
-      const d = new Date(isoDate + 'T12:00:00Z');
-      const month = String(d.getUTCMonth() + 1).padStart(2, '0');
-      const day = String(d.getUTCDate()).padStart(2, '0');
-      const year = d.getUTCFullYear();
-      return `${month}/${day}/${year}`;
+  // ---- Configure your season window here ----
+  const SEASON_START = '2025-10-21'; // TODO: set to the actual 2025–26 regular-season start date
+
+  function formatDate(isoDate) {
+    // Force parse the date at noon UTC to avoid timezone shift
+    const d = new Date(isoDate + 'T12:00:00Z');
+    const month = String(d.getUTCMonth() + 1).padStart(2, '0');
+    const day = String(d.getUTCDate()).padStart(2, '0');
+    const year = d.getUTCFullYear();
+    return `${month}/${day}/${year}`;
+  }
+
+  const supabase = window.supabase.createClient(
+    'https://fjtxowbjnxclzcogostk.supabase.co',
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZqdHhvd2JqbnhjbHpjb2dvc3RrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI2MDE5NTgsImV4cCI6MjA1ODE3Nzk1OH0.LPkFw-UX6io0F3j18Eefd1LmeAGGXnxL4VcCLOR_c1Q'
+  );
+
+  async function loadData() {
+    const leadersEl = document.getElementById('leaders');
+    const winsDiv = document.getElementById('wins');
+    const highsDiv = document.getElementById('highs');
+    leadersEl.innerHTML = winsDiv.innerHTML = highsDiv.innerHTML = '';
+
+    // Fetch only rows on/after season start, newest first
+    const { data, error } = await supabase
+      .from('efficiencykings')
+      .select('*')
+      .gte('date', SEASON_START)
+      .order('date', { ascending: false });
+
+    if (error) {
+      console.error("Error fetching data from Supabase", error);
+      leadersEl.innerText = "Failed to load data.";
+      return;
     }
 
-    const supabase = window.supabase.createClient(
-      'https://fjtxowbjnxclzcogostk.supabase.co',
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZqdHhvd2JqbnhjbHpjb2dvc3RrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI2MDE5NTgsImV4cCI6MjA1ODE3Nzk1OH0.LPkFw-UX6io0F3j18Eefd1LmeAGGXnxL4VcCLOR_c1Q'
-    );
+    // No season data yet? Show the same placeholder across all sections
+    if (!data || !data.length) {
+      const placeholderHTML = `
+        <h3>Season starting soon</h3>
+        <div class="player">NBA 2025–26 season coming soon</div>
+      `;
+      leadersEl.innerHTML = `<div class="night-block">${placeholderHTML}</div>`;
+      winsDiv.innerHTML = `<div class="record">${placeholderHTML}</div>`;
+      highsDiv.innerHTML = `<div class="record">${placeholderHTML}</div>`;
+      return;
+    }
 
-    async function loadData() {
-      const { data, error } = await supabase
-        .from('efficiencykings')
-        .select('*')
-        .order('date', { ascending: false });
+    const nights = data.map(entry => ({ date: entry.date, ...entry.data }));
 
-      if (error) {
-        console.error("Error fetching data from Supabase", error);
-        document.getElementById('leaders').innerText = "Failed to load data.";
-        return;
-      }
+    const categories = ["efficiency", "plus_minus", "defense", "triple_double"];
+    const counts = { efficiency: {}, plus_minus: {}, defense: {}, triple_double: {} };
+    const highs = {
+      efficiency: { fg_pct: 0 },
+      plus_minus: { value: -Infinity },
+      defense: { stocks: 0 }
+    };
 
-      const nights = data.map(entry => ({ date: entry.date, ...entry.data }));
-      const left = document.getElementById('leaders');
-      const winsDiv = document.getElementById('wins');
-      const highsDiv = document.getElementById('highs');
-      const categories = ["efficiency", "plus_minus", "defense", "triple_double"];
-      const counts = { efficiency: {}, plus_minus: {}, defense: {}, triple_double: {} };
-      const highs = {
-        efficiency: { fg_pct: 0 },
-        plus_minus: { value: -Infinity },
-        defense: { stocks: 0 }
-      };
+    // Last 3 nights
+    nights.slice(0, 3).forEach(night => {
+      const block = document.createElement('div');
+      block.className = 'night-block';
+      block.innerHTML = `
+        <h3>${formatDate(night.date)}</h3>
+        <div class="stat">⚡ Most Efficient Scorer</div><div class="player">${night.efficiency.player} (${night.efficiency.team}) – ${night.efficiency.fg_pct}% FG (${night.efficiency.fga} FGA)</div>
+        <div class="stat">📈 Best +/-</div><div class="player">${night.plus_minus.player} (${night.plus_minus.team}) – +${night.plus_minus.value}</div>
+        <div class="stat">🛡️ Defensive Beast</div><div class="player">${night.defense.player} (${night.defense.team}) – ${night.defense.stocks} STL+BLK</div>
+        ${night.triple_double ? `
+          <div class="stat">👑 Triple-Double Royalty</div><div class="player">${night.triple_double.name} (${night.triple_double.team}) – ${night.triple_double.pts} | ${night.triple_double.reb} | ${night.triple_double.ast}</div>` : ""}
+      `;
+      leadersEl.appendChild(block);
+    });
 
-      nights.slice(0, 3).forEach(night => {
-        const block = document.createElement('div');
-        block.className = 'night-block';
-        block.innerHTML = `
-          <h3>${formatDate(night.date)}</h3>
-          <div class="stat">⚡ Most Efficient Scorer</div><div class="player">${night.efficiency.player} (${night.efficiency.team}) – ${night.efficiency.fg_pct}% FG (${night.efficiency.fga} FGA)</div>
-          <div class="stat">📈 Best +/-</div><div class="player">${night.plus_minus.player} (${night.plus_minus.team}) – +${night.plus_minus.value}</div>
-          <div class="stat">🛡️ Defensive Beast</div><div class="player">${night.defense.player} (${night.defense.team}) – ${night.defense.stocks} STL+BLK</div>
-          ${night.triple_double ? `
-            <div class="stat">👑 Triple-Double Royalty</div><div class="player">${night.triple_double.name} (${night.triple_double.team}) – ${night.triple_double.pts} | ${night.triple_double.reb} | ${night.triple_double.ast}</div>` : ""}
-        `;
-        left.appendChild(block);
-      });
-
-      nights.forEach(night => {
-        categories.forEach(cat => {
-          const player = (cat === "triple_double") ? night[cat]?.name : night[cat]?.player;
-          if (player) {
-            if (!counts[cat][player]) counts[cat][player] = 0;
-            counts[cat][player]++;
-          }
-        });
-
-        if (night.efficiency?.fg_pct >= highs.efficiency.fg_pct && night.efficiency?.fga >= 15) {
-          highs.efficiency = { ...night.efficiency };
-        }
-        if (night.plus_minus?.value > highs.plus_minus.value) {
-          highs.plus_minus = { ...night.plus_minus };
-        }
-        if (night.defense?.stocks > highs.defense.stocks) {
-          highs.defense = { ...night.defense };
-        }
-      });
-
-      const categoryLabels = {
-        efficiency: "⚡ Most Wins - Efficient Scorer",
-        plus_minus: "📈 Most Wins - Best +/-",
-        defense: "🛡️ Most Wins - Defensive Beast",
-        triple_double: "👑 Most Wins - Triple-Double Royalty"
-      };
-
+    // Aggregate wins + season highs within the filtered window
+    nights.forEach(night => {
       categories.forEach(cat => {
-        const sorted = Object.entries(counts[cat])
-          .sort((a, b) => b[1] - a[1])
-          .slice(0, 3);
-
-        if (sorted.length) {
-          let block = `<div class="record"><div class="stat">${categoryLabels[cat]}</div>`;
-          sorted.forEach(([name, count], i) => {
-            block += `<div class="player">${i + 1}. ${name} – ${count} Wins</div>`;
-          });
-          block += `</div>`;
-          winsDiv.innerHTML += block;
+        const player = (cat === "triple_double") ? night[cat]?.name : night[cat]?.player;
+        if (player) {
+          if (!counts[cat][player]) counts[cat][player] = 0;
+          counts[cat][player]++;
         }
       });
 
-      // Season Highs
-      if (highs.efficiency.player) {
-        highsDiv.innerHTML += `
-          <div class="record">
-            <div class="stat">🎯FG% (min 15 FGA)</div>
-            <div class="player">${highs.efficiency.player} (${highs.efficiency.team}) – ${highs.efficiency.fg_pct}% FG</div>
-          </div>`;
+      if (night.efficiency?.fg_pct >= highs.efficiency.fg_pct && night.efficiency?.fga >= 15) {
+        highs.efficiency = { ...night.efficiency };
       }
+      if (night.plus_minus?.value > highs.plus_minus.value) {
+        highs.plus_minus = { ...night.plus_minus };
+      }
+      if (night.defense?.stocks > highs.defense.stocks) {
+        highs.defense = { ...night.defense };
+      }
+    });
 
-      if (highs.plus_minus.player) {
-        highsDiv.innerHTML += `
-          <div class="record">
-            <div class="stat">🧮 Plus/Minus</div>
-            <div class="player">${highs.plus_minus.player} (${highs.plus_minus.team}) – +${highs.plus_minus.value}</div>
-          </div>`;
-      }
+    const categoryLabels = {
+      efficiency: "⚡ Most Wins - Efficient Scorer",
+      plus_minus: "📈 Most Wins - Best +/-",
+      defense: "🛡️ Most Wins - Defensive Beast",
+      triple_double: "👑 Most Wins - Triple-Double Royalty"
+    };
 
-      if (highs.defense.player) {
-        highsDiv.innerHTML += `
-          <div class="record">
-            <div class="stat">🦾 BLK+STL</div>
-            <div class="player">${highs.defense.player} (${highs.defense.team}) – ${highs.defense.stocks} STL+BLK</div>
-          </div>`;
+    // Most Wins blocks
+    categories.forEach(cat => {
+      const sorted = Object.entries(counts[cat])
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 3);
+
+      if (sorted.length) {
+        let block = `<div class="record"><div class="stat">${categoryLabels[cat]}</div>`;
+        sorted.forEach(([name, count], i) => {
+          block += `<div class="player">${i + 1}. ${name} – ${count} Wins</div>`;
+        });
+        block += `</div>`;
+        winsDiv.innerHTML += block;
       }
+    });
+
+    // Season Highs
+    if (highs.efficiency.player) {
+      highsDiv.innerHTML += `
+        <div class="record">
+          <div class="stat">🎯 FG% (min 15 FGA)</div>
+          <div class="player">${highs.efficiency.player} (${highs.efficiency.team}) – ${highs.efficiency.fg_pct}% FG</div>
+        </div>`;
     }
 
-    loadData();
-  </script>
+    if (highs.plus_minus.player) {
+      highsDiv.innerHTML += `
+        <div class="record">
+          <div class="stat">🧮 Plus/Minus</div>
+          <div class="player">${highs.plus_minus.player} (${highs.plus_minus.team}) – +${highs.plus_minus.value}</div>
+        </div>`;
+    }
+
+    if (highs.defense.player) {
+      highsDiv.innerHTML += `
+        <div class="record">
+          <div class="stat">🦾 BLK+STL</div>
+          <div class="player">${highs.defense.player} (${highs.defense.team}) – ${highs.defense.stocks} STL+BLK</div>
+        </div>`;
+    }
+  }
+
+  loadData();
+</script>
+
 </body>
 </html>
