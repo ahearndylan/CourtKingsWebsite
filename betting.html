@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>CKHQ — Crown Picks (Coming Soon)</title>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+  <title>CKHQ — Crown Picks</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet"/>
+
   <style>
     :root{
       --primary:#00ffc6;      /* CKHQ teal */
@@ -12,166 +13,399 @@
       --gold:#ffc107;         /* Betting gold */
       --bg:#0c0c0c;
       --surface:#121212;
-      --card:#151515;
-    }
-    *{margin:0;padding:0;box-sizing:border-box}
-    body{
-      font-family:'Outfit',sans-serif;
-      background:var(--bg);
-      color:#fff;
-      min-height:100vh;
-      display:flex;
-      flex-direction:column;
+      --muted:#a6a6a6;
+      --border:#1e1e1e;
+      --win:#1fde8b;
+      --loss:#ff5c5c;
+      --push:#bdbdbd;
+      --pending:#ffd559;
     }
 
-    /* Header / Nav (same structure as index) */
+    /* RESET */
+    *,*::before,*::after{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:'Outfit',system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,'Helvetica Neue',Arial,sans-serif;
+      color:#fff;
+      background:
+        radial-gradient(1200px 600px at 85% -10%, rgba(0,255,198,.10), transparent),
+        radial-gradient(900px 500px at -10% 10%, rgba(192,132,252,.06), transparent),
+        var(--bg);
+      display:flex;flex-direction:column;
+    }
+    img{display:block;max-width:100%;height:auto}
+
+    /* HEADER */
     header{
-      display:flex;justify-content:space-between;align-items:center;
-      padding:1rem 2rem;background:var(--surface);border-bottom:1px solid #1f1f1f;flex-wrap:wrap;
+      position:sticky;top:0;z-index:50;
+      background:var(--surface);
+      border-bottom:1px solid var(--border);
+      display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
+      padding:12px 20px;
     }
-    .logo-container img{
-      height:68px;border-radius:12px;box-shadow:0 0 8px rgba(0,0,0,.4);
-    }
-    nav{display:flex;gap:1.2rem;margin-top:.5rem}
-    nav a{color:#ccc;text-decoration:none;font-weight:600;transition:color .2s}
+    .logo-container img{height:60px;border-radius:12px;box-shadow:0 0 8px rgba(0,0,0,.35)}
+    nav{display:flex;gap:18px;flex-wrap:wrap}
+    nav a{color:#d9d9d9;text-decoration:none;font-weight:700;letter-spacing:.2px}
     nav a:hover{color:var(--primary)}
     .support-desktop{color:var(--gold)!important}
 
-    /* Hero */
+    /* HERO */
     .hero{
-      text-align:center;padding:4rem 1.25rem 2rem;position:relative;overflow:hidden;
+      padding:44px 16px 30px;
+      text-align:center;
+      border-bottom:1px solid var(--border);
     }
-    .hero h1{
-      font-size:2.6rem;line-height:1.15;margin-bottom:.6rem;
-      color:#fff;text-shadow:0 0 22px rgba(0,255,198,.08);
-    }
-    .hero .sub{
-      font-size:1.15rem;color:#bbb;margin-bottom:1.4rem;
-    }
-    .badge-row{
-      display:flex;justify-content:center;gap:.6rem;flex-wrap:wrap;margin:.5rem 0 1.25rem;
-    }
-    .badge{
-      font-size:.9rem;font-weight:700;letter-spacing:.2px;
-      padding:.45rem .7rem;border-radius:999px;border:1px solid rgba(255,193,7,.35);
-      background:rgba(255,193,7,.08);color:#ffd559;white-space:nowrap;
-    }
-
-    /* Coming Soon card */
-    .card{
-      width:min(880px,92%);
-      margin:0 auto 2rem;
-      background:linear-gradient(180deg, rgba(21,21,21,1) 0%, rgba(12,12,12,1) 100%);
-      border:1px solid #1e1e1e;border-radius:18px;padding:1.6rem 1.4rem;
-      box-shadow:0 10px 30px rgba(0,0,0,.35), inset 0 0 14px rgba(255,193,7,.06);
-    }
-    .coming{
-      display:flex;align-items:center;gap:.6rem;justify-content:center;margin-bottom:.4rem;
-      font-weight:800;color:#fff;font-size:1.2rem;
-    }
-    .coming .dot{
-      width:10px;height:10px;border-radius:50%;
-      background:radial-gradient(circle at 30% 30%, #fff 0%, #ffd25a 35%, #ffb300 70%);
-      box-shadow:0 0 12px rgba(255,193,7,.7);
-      animation:pulse 1.6s infinite ease-in-out;
-    }
-    @keyframes pulse{
-      0%,100%{transform:scale(1);opacity:1}
-      50%{transform:scale(1.25);opacity:.75}
-    }
-    .card p{
-      color:#c9c9c9;text-align:center;font-size:1.02rem;line-height:1.55;max-width:720px;margin:.4rem auto 0;
-    }
-
-    /* Feature chips */
-    .chips{
-      display:flex;justify-content:center;gap:.6rem;flex-wrap:wrap;margin:1rem auto 0;max-width:780px;
+    .hero .chips{
+      display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-bottom:14px
     }
     .chip{
-      padding:.42rem .7rem;border-radius:12px;background:#0f0f0f;border:1px solid #232323;color:#bfbfbf;font-size:.92rem;
+      display:inline-flex;align-items:center;gap:8px;
+      font-weight:900;letter-spacing:.3px;
+      padding:10px 14px;border-radius:999px;
+      border:1px solid rgba(0,255,198,.45);
+      background:linear-gradient(180deg, rgba(0,255,198,.12), rgba(0,0,0,.15));
+      color:#eafff9;
+      box-shadow:inset 0 0 14px rgba(0,255,198,.10), 0 6px 18px rgba(0,255,198,.08);
+      white-space:nowrap;
+    }
+    .chip.gold{
+      border-color:rgba(255,193,7,.5);
+      background:linear-gradient(180deg, rgba(255,193,7,.14), rgba(0,0,0,.15));
+      color:#fff3d4;
+      box-shadow:inset 0 0 14px rgba(255,193,7,.12), 0 6px 18px rgba(255,193,7,.10);
+    }
+    h1.title{
+      margin:6px 0 8px;
+      font-size:2.6rem;line-height:1.12;font-weight:900;
+      text-shadow:0 0 22px rgba(0,255,198,.06);
+    }
+    p.sub{max-width:980px;margin:0 auto 4px;color:#cfcfcf;font-size:1.05rem}
+    p.tagline{
+      margin:6px auto 0;
+      font-weight:800;letter-spacing:.4px;
+      font-size:1.12rem;
+      background:linear-gradient(90deg, var(--primary), #8bdfff);
+      -webkit-background-clip:text;background-clip:text;color:transparent;
     }
 
-    /* CTA buttons */
-    .cta-row{
-      display:flex;justify-content:center;gap:.8rem;flex-wrap:wrap;margin:1.5rem auto 0;
-    }
-    .btn{
-      display:inline-flex;align-items:center;gap:.5rem;
-      padding:.8rem 1.1rem;border-radius:12px;text-decoration:none;font-weight:700;
-      border:1px solid rgba(0,255,198,.25);background:rgba(0,255,198,.08);color:#eafff9;
-      transition:transform .15s ease, box-shadow .15s ease;
-    }
-    .btn:hover{transform:translateY(-2px);box-shadow:0 10px 20px rgba(0,255,198,.08)}
-    .btn.gold{border-color:rgba(255,193,7,.35);background:rgba(255,193,7,.10);color:#fff3d4}
-    .btn.gold:hover{box-shadow:0 10px 20px rgba(255,193,7,.12)}
-    .btn.secondary{border-color:#2a2a2a;background:#131313;color:#cfcfcf}
+    /* LAYOUT */
+    .container{width:min(1100px,92%);margin:22px auto 36px}
 
-    /* Footer */
-    footer{margin-top:auto;text-align:center;padding:2rem 1rem 1.2rem;color:#666;font-size:.86rem}
-
-    /* Mobile tweaks */
-    @media (max-width:768px){
-      .hero{padding:3rem 1rem 1.2rem}
-      .hero h1{font-size:2.1rem}
+    /* RECORDS STRIP */
+    .records{
+      display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:24px
     }
+    .rec{
+      position:relative;overflow:hidden;
+      background:linear-gradient(180deg, #1a1a1a 0%, #121212 100%);
+      border:1px solid var(--border);border-radius:16px;padding:14px 16px
+    }
+    .rec h3{
+      margin:0 0 8px;display:flex;align-items:center;gap:8px;
+      font-size:1rem;font-weight:800;color:#ededed
+    }
+    .pill{
+      font-size:.82rem;padding:4px 10px;border-radius:999px;background:#101010;border:1px solid #2a2a2a;color:#f1f1f1
+    }
+    .rec .row{display:flex;align-items:baseline;gap:14px}
+    .rec .big{font-size:2rem;font-weight:900}
+    .rec .muted{color:var(--muted);font-size:.98rem}
+    .rec .glow{
+      position:absolute;right:-10%;bottom:-30%;width:65%;height:100%;
+      background:radial-gradient(260px 180px at 100% 100%, var(--primary), transparent);
+      opacity:.10;pointer-events:none
+    }
+
+    /* DATE SELECTOR */
+    .section-title{
+      display:flex;align-items:center;justify-content:space-between;gap:12px;margin:8px 0 12px
+    }
+    .section-title h2{font-size:1.35rem;margin:0}
+    .date-select{display:flex;gap:10px;flex-wrap:wrap}
+    .date-btn{
+      font:inherit;color:#ececec;background:#121212;border:1px solid #262626;border-radius:14px;
+      padding:8px 12px;cursor:pointer;transition:all .15s ease
+    }
+    .date-btn:hover{transform:translateY(-1px)}
+    .date-btn.active{
+      border-color:rgba(0,255,198,.55);
+      box-shadow:0 0 0 3px rgba(0,255,198,.14) inset, 0 8px 24px rgba(0,255,198,.08);
+    }
+
+    /* DAY CARD */
+    .day-card{border:1px solid var(--border);border-radius:18px;background:linear-gradient(180deg,#191919 0%,#121212 100%);overflow:hidden}
+    .day-head{
+      display:flex;align-items:center;justify-content:space-between;gap:10px;
+      padding:12px 16px;border-bottom:1px solid #232323;background:#141414
+    }
+    .day-head h3{margin:0;font-size:1.08rem}
+    .royal{
+      display:inline-flex;align-items:center;gap:8px;font-weight:900;font-size:.92rem;
+      padding:8px 12px;border-radius:999px;
+      color:#2a2100;background:linear-gradient(180deg, rgba(255,193,7,.35), rgba(255,193,7,.18));
+      border:1px solid rgba(255,193,7,.45)
+    }
+
+    /* BET GRID */
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(3, minmax(0,1fr));
+      gap:12px;padding:14px
+    }
+    .bet{
+      background:#101010;border:1px solid #252525;border-radius:14px;padding:12px;
+      display:flex;flex-direction:column;gap:8px;
+      transition:transform .12s ease, box-shadow .12s ease, border-color .12s ease;
+      min-height:130px
+    }
+    .bet:hover{transform:translateY(-2px);border-color:#2d2d2d;box-shadow:0 10px 18px rgba(0,0,0,.35)}
+    .row{display:flex;align-items:center;justify-content:space-between;gap:8px}
+    .market{font-size:1rem;font-weight:900;letter-spacing:.3px}
+    .status{font-size:.82rem;font-weight:900;padding:6px 10px;border-radius:999px;border:1px solid transparent}
+    .status.win{color:#032916;background:rgba(31,222,139,.12);border-color:rgba(31,222,139,.35)}
+    .status.loss{color:#300;background:rgba(255,92,92,.12);border-color:rgba(255,92,92,.35)}
+    .status.push{color:#1d1d1d;background:rgba(210,210,210,.5);border-color:rgba(200,200,200,.55)}
+    .status.pending{color:#5a4300;background:rgba(255,213,89,.15);border-color:rgba(255,213,89,.35)}
+    .match{color:#cfcfcf;font-size:.98rem}
+    .pick{font-weight:900;font-size:1.06rem}
+    .meta{display:flex;align-items:center;justify-content:space-between;color:#b8b8b8;font-size:.9rem}
+    .empty{border:1px dashed #2a2a2a;border-radius:16px;padding:16px;text-align:center;color:#a9a9a9;margin:12px}
+
+    /* FOOTER */
+    footer{margin-top:auto;text-align:center;padding:28px 16px 20px;color:#848484;font-size:.9rem}
+
+    /* RESPONSIVE */
+    @media (max-width:980px){ .records{grid-template-columns:1fr 1fr} .grid{grid-template-columns:1fr 1fr} }
+    @media (max-width:640px){
+      header{padding:12px 16px}
+      .hero{padding:32px 14px 24px}
+      h1.title{font-size:2rem}
+      .records{grid-template-columns:1fr}
+      .grid{grid-template-columns:1fr}
+      .date-select{overflow-x:auto;padding-bottom:4px}
+    }
+
+    /* FADE-IN */
+    .fade-in{opacity:0;transform:translateY(6px);animation:fadeIn .35s ease forwards}
+    @keyframes fadeIn{to{opacity:1;transform:none}}
   </style>
 </head>
 <body>
 
-  <!-- Header -->
+  <!-- HEADER -->
   <header>
     <div class="logo-container">
       <a href="index.html" aria-label="Back to Home">
-        <img src="img/logo6.png" alt="Court Kings HQ Logo">
+        <img src="img/logo6.png" alt="Court Kings HQ Logo"/>
       </a>
     </div>
-    <nav class="main-nav">
+    <nav>
       <a href="about.html">About</a>
       <a href="archive.html">Live Hub</a>
       <a href="trivia.html">Trivia</a>
       <a href="offseason.html">Offseason</a>
       <a href="contact.html">Contact</a>
-      <a href="https://buymeacoffee.com/courtkingshq" target="_blank" class="support-desktop">☕ Support</a>
+      <a class="support-desktop" href="https://buymeacoffee.com/courtkingshq" target="_blank">☕ Support</a>
     </nav>
   </header>
 
-  <!-- Hero -->
+  <!-- HERO -->
   <section class="hero">
-    <div class="badge-row">
-      <span class="badge">👑 Crown Picks</span>
-    </div>
-    <h1>💵 The Royal Slip — Coming Soon</h1>
-    <div class="sub">
-        Betting Insights: Smart, data-driven selections built from advanced NBA stat tracking.
-  <br/>— powered by the CKHQ bots. @CourtKingsHQ
-</div>
-
-  </section>
-
-  <!-- Coming Soon Card -->
-  <section class="card">
-    <div class="coming"><span class="dot"></span> Building the Royal Slip</div>
-    <p>
-      We’re putting the finishing touches on a new betting experience:
-      daily **Crown Picks**, transparent records, and a clean “Royal Slip”
-      presentation—crafted with the same CKHQ accuracy and polish you’re used to.
-    </p>
-
     <div class="chips">
-      <span class="chip">📈 Data-backed picks</span>
-      <span class="chip">🧮 Confidence cues</span>
-      <span class="chip">📊 Season W-L tracking</span>
-      <span class="chip">🔔 Daily updates</span>
+      <span class="chip gold">👑 Crown Picks</span>
+      <span class="chip">Live from CKHQ bots</span>
     </div>
-
-    
+    <h1 class="title">💵 The Royal Slip</h1>
+    <p class="sub">Daily moneyline, spread, and total — posted automatically with transparent results and season-long records.</p>
+    <p class="tagline">Bet better with Court Kings HQ.</p>
   </section>
 
-  <!-- Optional X widget (keeps page light if omitted) -->
-  <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+  <!-- MAIN -->
+  <main class="container">
+    <!-- RECORDS -->
+    <section class="records" id="records"></section>
+
+    <!-- DATE SELECTOR -->
+    <div class="section-title">
+      <h2>Daily Bets</h2>
+      <div id="dateSelect" class="date-select"></div>
+    </div>
+
+    <!-- DAYS -->
+    <div id="days"></div>
+    <div id="emptyState" class="empty" style="display:none;">No bets found yet. Check back later today.</div>
+  </main>
 
   <footer>
     © 2025 Court Kings HQ – All stats auto-tracked & published. @CourtKingsHQ
   </footer>
+
+  <!-- SUPABASE -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    // --- Supabase client (frontend read-only) ---
+    const SUPABASE_URL = "https://fjtxowbjnxclzcogostk.supabase.co";
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZqdHhvd2JqbnhjbHpjb2dvc3RrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI2MDE5NTgsImV4cCI6MjA1ODE3Nzk1OH0.LPkFw-UX6io0F3j18Eefd1LmeAGGXnxL4VcCLOR_c1Q";
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    // --- Helpers ---
+    const fmtMarket = m => ({MONEYLINE:'Moneyline', SPREAD:'Spread', TOTAL:'Total'}[m] || m);
+    const pct = (a,b)=> b>0 ? Math.round((a*1000)/b)/10 : 0;
+    const cssId = s => String(s).replace(/[^a-z0-9_-]/gi,'-');
+    const priceStr = p => isNaN(+p) ? '' : (+p>0 ? `+${+p}` : `${+p}`);
+    const escapeHtml = s => String(s ?? '')
+      .replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;')
+      .replaceAll('"','&quot;').replaceAll("'",'&#39;');
+
+    const statusClass = s => {
+      s = (s||'').toUpperCase();
+      if(s==='WIN') return 'status win';
+      if(s==='LOSS') return 'status loss';
+      if(s==='PUSH') return 'status push';
+      return 'status pending';
+    };
+
+    const fmtLine = (m,line,sel)=>{
+      if(line==null || line==='') return '';
+      if(m==='TOTAL') return `${sel} ${line}`;
+      if(m==='SPREAD'){
+        const n = Number(line);
+        return `${n>0?'+':''}${n}`;
+      }
+      return '';
+    };
+
+    // --- Data load ---
+    async function loadData(){
+      const [{ data: records, error: recErr }, { data: bets, error: betErr }] = await Promise.all([
+        supabase.from('ckhq_bet_records').select('*'),
+        supabase.from('ckhq_bets').select('*').order('date_et', { ascending:false })
+      ]);
+
+      if(recErr) console.error(recErr);
+      if(betErr) console.error(betErr);
+
+      renderRecords(records||[]);
+      renderDatesAndBets(bets||[]);
+    }
+
+    // --- Render records strip ---
+    function renderRecords(records){
+      const el = document.getElementById('records');
+      el.innerHTML = '';
+      const order = ['MONEYLINE','SPREAD','TOTAL'];
+      const map = {};
+      (records||[]).forEach(r => map[r.market] = r);
+
+      order.forEach(m=>{
+        const r = map[m] || {wins:0,losses:0,pushes:0,market:m};
+        const total = (r.wins||0)+(r.losses||0);
+        const winp = pct(r.wins||0,total);
+        const card = document.createElement('article');
+        card.className = 'rec fade-in';
+        card.innerHTML = `
+          <div class="glow"></div>
+          <h3><span class="pill">${fmtMarket(m)}</span><span class="muted">season to date</span></h3>
+          <div class="row">
+            <div class="big">${r.wins||0}–${r.losses||0}</div>
+            <div class="muted">Pushes ${r.pushes||0} • Win% ${winp}%</div>
+          </div>
+        `;
+        el.appendChild(card);
+      });
+    }
+
+    // --- Render dates + bets ---
+    function renderDatesAndBets(bets){
+      const daysEl = document.getElementById('days');
+      const bar = document.getElementById('dateSelect');
+      daysEl.innerHTML=''; bar.innerHTML='';
+
+      if(!bets.length){ document.getElementById('emptyState').style.display='block'; return; }
+      document.getElementById('emptyState').style.display='none';
+
+      // Group by date
+      const groups = bets.reduce((acc,b)=>{ (acc[b.date_et] ||= []).push(b); return acc; }, {});
+      const dates = Object.keys(groups).sort((a,b)=> a>b ? -1 : 1);
+
+      let active = dates[0];
+      dates.forEach(d=>{
+        const btn = document.createElement('button');
+        btn.className = 'date-btn' + (d===active?' active':'');
+        btn.textContent = d;
+        btn.onclick = ()=>{
+          active = d;
+          document.querySelectorAll('.date-btn').forEach(x=>x.classList.remove('active'));
+          btn.classList.add('active');
+          renderDay(d, groups[d], daysEl);
+        };
+        bar.appendChild(btn);
+      });
+
+      renderDay(active, groups[active], daysEl);
+    }
+
+    function renderDay(date, list, root){
+      root.innerHTML = '';
+
+      // one per market (by design of the bot)
+      const byM = {};
+      list.forEach(b => byM[b.market] = b);
+
+      const section = document.createElement('section');
+      section.className = 'day-card fade-in';
+      section.innerHTML = `
+        <div class="day-head">
+          <h3>${date}</h3>
+          <span class="royal">👑 Royal Slip</span>
+        </div>
+        <div class="grid" id="grid-${cssId(date)}"></div>
+      `;
+      root.appendChild(section);
+
+      const grid = section.querySelector(`#grid-${cssId(date)}`);
+      ['MONEYLINE','SPREAD','TOTAL'].forEach(m=>{
+        const b = byM[m];
+        const card = document.createElement('div');
+        card.className = 'bet';
+
+        if(!b){
+          card.innerHTML = `
+            <div class="row"><div class="market">${fmtMarket(m)}</div><span class="status pending">No pick</span></div>
+            <div class="match">—</div>
+            <div class="pick">—</div>
+            <div class="meta"><span>Line —</span><span>—</span></div>
+          `;
+          grid.appendChild(card);
+          return;
+        }
+
+        const status = (b.status||'PENDING').toUpperCase();
+        const match = b.game || `${b.away_team} @ ${b.home_team}`;
+        const pickText = b.market==='TOTAL' ? `${b.selection} ${b.line ?? ''}`.trim() : (b.selection || '');
+        const lineTxt = fmtLine(b.market, b.line, b.selection);
+        const rightMetaLeft = lineTxt ? `Line ${lineTxt}` : '';
+        const rightMetaRight = `${b.book ? '@ '+escapeHtml(b.book) : ''}${b.price!=null ? ' • '+priceStr(b.price) : ''}`;
+
+        card.innerHTML = `
+          <div class="row">
+            <div class="market">${fmtMarket(b.market)}</div>
+            <span class="${statusClass(status)}">${status}</span>
+          </div>
+          <div class="match">${escapeHtml(match)}</div>
+          <div class="pick">${escapeHtml(pickText)}</div>
+          <div class="meta">
+            <span>${rightMetaLeft}</span>
+            <span>${rightMetaRight}</span>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    // kick off
+    loadData();
+  </script>
 </body>
 </html>
