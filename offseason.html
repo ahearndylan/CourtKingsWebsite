@@ -2,276 +2,128 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Offseason – Court Kings HQ</title>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
   <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      width: 100%;
-      overflow-x: hidden;
+    :root{
+      --primary:#00ffc6; --accent:#c084fc; --bg-dark:#0c0c0c; --card-bg:#151515; --border:#1e1e1e; --muted:#9aa3ab;
+      --divider: rgba(255,255,255,.08); --gold:#ffc107;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{
+      font-family:'Outfit',system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      background:var(--bg-dark); color:#fff; display:flex; flex-direction:column; overflow-x:hidden;
     }
 
-    body {
-      font-family: 'Outfit', sans-serif;
-      background: #0c0c0c;
-      color: #f0f0f0;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
+    /* Header / Nav (same pattern as index.html) */
+    header{
+      display:grid;grid-template-columns:auto 1fr;align-items:center;gap:1rem;
+      padding:1rem 1.25rem;background:#121212;border-bottom:1px solid #1f1f1f;position:relative;
+    }
+    .logo-container img{
+      height:64px;width:auto;border-radius:12px;box-shadow:0 0 8px rgba(0,0,0,.4);transition:transform .25s ease
+    }
+    .logo-container img:hover{transform:scale(1.04)}
+
+    /* Desktop nav */
+    nav.main-nav{display:flex;justify-content:flex-end;align-items:center;flex-wrap:wrap;gap:.9rem 1.2rem}
+    nav.main-nav a{color:#ccc;text-decoration:none;font-weight:600;padding:.4rem .2rem;transition:color .2s ease;white-space:nowrap}
+    nav.main-nav a:hover{color:var(--primary)}
+    .support-desktop{color:var(--gold)!important}
+
+    /* Mobile hamburger */
+    .nav-toggle{
+      display:none;background:transparent;border:1px solid #242424;color:#eaeaea;
+      font-weight:800;border-radius:10px;padding:.45rem .7rem;line-height:1;
+    }
+    .nav-toggle:focus{outline:2px solid rgba(0,255,198,.4); outline-offset:2px}
+
+    /* Page layout */
+    main{flex:1;padding:2rem 1.25rem;box-sizing:border-box;max-width:1200px;margin:0 auto}
+    h1{text-align:center;color:var(--primary);font-size:2.2rem;margin-bottom:2rem}
+
+    .debate-wrapper{max-width:700px;margin:0 auto 2rem;width:100%}
+    .column.debate-column{
+      background:#111;border:1px solid #222;border-radius:10px;padding:1rem;display:flex;flex-direction:column;min-height:200px
     }
 
-    header {
-      width: 100%;
-      box-sizing: border-box;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1.2rem 2rem;
-      background: #121212;
-      border-bottom: 1px solid #1f1f1f;
+    .container{display:flex;gap:2rem;margin-top:2rem}
+    .column{
+      flex:1;background:#111;border-radius:10px;padding:1rem;overflow-y:auto;max-height:78vh;border:1px solid #222;display:flex;flex-direction:column
+    }
+    .column h2{text-align:center;font-size:1.4rem;color:var(--accent);margin-bottom:1rem}
+
+    .search-bar{margin-bottom:1rem;width:100%}
+    .search-bar input{width:100%;padding:.7rem 1rem;border-radius:8px;border:none;font-size:1rem}
+
+    .search-message{margin-top:.5rem;font-size:.9rem;color:#ff5c5c;text-align:center}
+
+    .rookie-card,.leader-card{
+      background:#1a1a1a;padding:1rem;margin-bottom:1rem;border-radius:10px;border:1px solid #333
+    }
+    .rookie-card h3,.leader-card h3{margin:0 0 .5rem;color:var(--primary)}
+    .rookie-card p,.leader-card p{margin:.25rem 0;font-size:.95rem}
+
+    footer{text-align:center;padding:1.5rem;font-size:.9rem;color:#777}
+
+    /* typing dots for AI */
+    .typing-dots::after{
+      content:'';display:inline-block;width:1ch;animation:dots 1s steps(3,end) infinite;vertical-align:bottom
+    }
+    @keyframes dots{
+      0%{content:''} 33%{content:'.'} 66%{content:'..'} 100%{content:'...'}
     }
 
-    .logo img {
-      height: 65px;
-      border-radius: 10px;
+    /* Responsive */
+    @media (max-width:1024px){
+      .container{flex-direction:column}
+      .column{max-height:none}
     }
-
-    nav {
-      display: flex;
-      align-items: center;
-    }
-
-    nav a {
-      color: #ccc;
-      text-decoration: none;
-      font-weight: 600;
-      margin-left: 1.5rem;
-      transition: color 0.2s ease;
-    }
-
-    nav a:hover {
-      color: #00ffc6;
-    }
-
-    main {
-      flex: 1;
-      padding: 2rem;
-      box-sizing: border-box;
-    }
-
-    h1 {
-      text-align: center;
-      color: #00ffc6;
-      font-size: 2.2rem;
-      margin-bottom: 2rem;
-    }
-
-    .container {
-      display: flex;
-      gap: 2rem;
-      margin-top: 2rem;
-    }
-
-    .column {
-      flex: 1;
-      background: #111;
-      border-radius: 10px;
-      padding: 1rem;
-      overflow-y: auto;
-      max-height: 78vh;
-      border: 1px solid #222;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .column h2 {
-      text-align: center;
-      font-size: 1.4rem;
-      color: #c084fc;
-      margin-bottom: 1rem;
-    }
-
-    .search-bar {
-      margin-bottom: 1rem;
-      width: 90%;
-    }
-
-    .search-bar input {
-      width: 100%;
-      padding: 0.7rem 1rem;
-      border-radius: 8px;
-      border: none;
-      font-size: 1rem;
-    }
-
-    .search-message {
-      margin-top: 0.5rem;
-      font-size: 0.9rem;
-      color: #ff5c5c;
-      text-align: center;
-    }
-
-    .rookie-card, .leader-card {
-      background: #1a1a1a;
-      padding: 1rem;
-      margin-bottom: 1rem;
-      border-radius: 10px;
-      border: 1px solid #333;
-    }
-
-    .rookie-card h3, .leader-card h3 {
-      margin: 0 0 0.5rem;
-    }
-
-    .rookie-card h3 {
-      color: #00ffc6;
-    }
-
-    .leader-card h3 {
-      color: #00ffc6;
-    }
-
-    .rookie-card p, .leader-card p {
-      margin: 0.25rem 0;
-      font-size: 0.95rem;
-    }
-
-    footer {
-      text-align: center;
-      padding: 1.5rem;
-      font-size: 0.85rem;
-      color: #777;
-    }
-
-    .debate-wrapper {
-  max-width: 700px;
-  margin: 0 auto;
-  width: 100%;
-}
-
-.column.debate-column {
-  min-height: 200px; /* Adjust based on how tall the AI message + buttons usually get */
-}
-
-
-.typing-dots::after {
-  content: '';
-  display: inline-block;
-  width: 1ch;
-  animation: dots 1s steps(3, end) infinite;
-  vertical-align: bottom;
-}
-
-@keyframes dots {
-  0%   { content: ''; }
-  33%  { content: '.'; }
-  66%  { content: '..'; }
-  100% { content: '...'; }
-}
-
-
-    @media (max-width: 768px) {
-      header {
-        flex-direction: column;
-        align-items: center;
-        padding: 1rem;
+    @media (max-width:780px){
+      header{grid-template-columns:1fr auto}
+      .nav-toggle{display:inline-block}
+      nav.main-nav{
+        display:none;position:absolute;top:100%;right:0;left:0;background:#101214;border-top:1px solid #202327;
+        padding:.6rem 1rem;gap:.4rem;z-index:5;flex-direction:column;align-items:flex-start
       }
+      nav.main-nav.open{display:flex}
+      nav.main-nav a{padding:.6rem 0;width:100%}
 
-      .logo {
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        margin-bottom: 0.5rem;
-      }
-
-      .logo img {
-        height: 44px;
-      }
-
-      nav {
-        width: 100%;
-        justify-content: space-around;
-        flex-wrap: nowrap;
-      }
-
-      nav a {
-        margin-left: 0;
-        font-size: 0.95rem;
-      }
-
-      .container {
-        flex-direction: column;
-      }
+      main{padding:1.5rem 1rem}
+      h1{font-size:2rem}
     }
-
-    .support-mobile {
-  display: none;
-  width: 100%;
-  text-align: center;
-  margin-top: 0.4rem;
-  margin-bottom: 0.8rem;
-}
-
-.support-link {
-  background: #ffc107;
-  color: #000;
-  font-weight: 600;
-  padding: 6px 14px;
-  border-radius: 6px;
-  text-decoration: none;
-  font-size: 0.9rem;
-  display: inline-block;
-  outline: none;
-  box-shadow: none;
-  -webkit-tap-highlight-color: transparent;
-}
-
-.support-desktop {
-  color: #ffc107;
-  font-weight: 600;
-}
-
-@media (max-width: 768px) {
-  .support-mobile {
-    display: block;
-  }
-  .support-desktop {
-    display: none;
-  }
-}
-
+    @media (max-width:480px){
+      h1{font-size:1.8rem}
+      .rookie-card,.leader-card{padding:.85rem}
+    }
   </style>
 </head>
 <body>
 
+  <!-- Header with hamburger (matches index) -->
   <header>
-    <div class="logo">
+    <div class="logo-container">
       <a href="index.html"><img src="img/logo6.png" alt="Court Kings HQ Logo"></a>
     </div>
 
-    <div class="support-mobile">
-      <a href="https://buymeacoffee.com/courtkingshq" target="_blank" class="support-link">☕ Support</a>
-    </div>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle menu">☰</button>
 
-    <nav>
+    <nav id="primary-nav" class="main-nav" aria-label="Primary navigation">
       <a href="about.html">About</a>
       <a href="archive.html">Live Hub</a>
       <a href="trivia.html">Trivia</a>
       <a href="offseason.html">Offseason</a>
+      <a href="betting.html">Crown Picks</a>
       <a href="contact.html">Contact</a>
-      <a href="https://buymeacoffee.com/courtkingshq" target="_blank" class="support-desktop">☕ Support</a>
+      <a class="support-desktop" href="https://buymeacoffee.com/courtkingshq" target="_blank" rel="noopener">☕ Support</a>
     </nav>
-
   </header>
 
   <main>
     <h1>🏀 Offseason Royalty 👑</h1>
 
-
-
-    
     <div class="debate-wrapper">
       <div class="column debate-column">
         <h2>⚔️ Prime Debate – Court Kings AI</h2>
@@ -280,9 +132,6 @@
         </div>
       </div>
     </div>
-    
-    
-
 
     <div class="container">
       <div class="column">
@@ -299,43 +148,36 @@
         <div id="leadersList"></div>
       </div>
     </div>
-
-
-
-
   </main>
 
-  <footer>
-    © 2025 Court Kings HQ – All stats auto-tracked & published. @CourtKingsHQ  
-  </footer>
-  <script>
+  <footer>© 2025 Court Kings HQ – All stats auto-tracked &amp; published. @CourtKingsHQ</footer>
 
+  <script>
+    /* ---------- Prime Debate (unchanged logic) ---------- */
     let legends = [];
-    
     async function loadLegends() {
       const res = await fetch("legends.json");
       legends = await res.json();
       loadNewDebate();
     }
-    
     function loadNewDebate() {
       const container = document.getElementById("debateBox");
       container.innerHTML = "";
       const selected = getRandomThree(legends);
-    
+
       const title = document.createElement("h3");
       title.innerHTML = "Which of these legends had the most dominant prime?";
       title.style.textAlign = "center";
       title.style.marginBottom = "2rem";
       container.appendChild(title);
-    
+
       const buttonGroup = document.createElement("div");
       buttonGroup.style.display = "flex";
       buttonGroup.style.justifyContent = "center";
       buttonGroup.style.gap = "1rem";
       buttonGroup.style.flexWrap = "wrap";
       buttonGroup.style.marginTop = "1rem";
-    
+
       selected.forEach(player => {
         const btn = document.createElement("button");
         btn.textContent = `👑 ${player.player}`;
@@ -346,92 +188,66 @@
         btn.style.background = "#222";
         btn.style.color = "#f0f0f0";
         btn.style.cursor = "pointer";
-    
         btn.onclick = () => runAIEvaluation(player.player, selected.map(p => p.player));
         buttonGroup.appendChild(btn);
       });
-    
       container.appendChild(buttonGroup);
     }
-    
     function getRandomThree(arr) {
       const shuffled = [...arr].sort(() => 0.5 - Math.random());
       return shuffled.slice(0, 3);
     }
-    
-    // Randomized AI messages
     const agreeMessages = [
-      (name) => `✅ Court Kings AI agrees — <strong>${name}</strong> was a beast in his prime.`,
-      (name) => `🤝 Court Kings AI stands with <strong>${name}</strong>. A true icon of his era.`,
-      (name) => `🟢 Court Kings AI says <strong>${name}</strong> owned his prime years.`,
-      (name) => `🏆 No doubt — <strong>${name}</strong> dominated his prime.`,
-      (name) => `🔥 <strong>${name}</strong> gets the Court Kings AI stamp of dominance.`
+      (n)=>`✅ Court Kings AI agrees — <strong>${n}</strong> was a beast in his prime.`,
+      (n)=>`🤝 Court Kings AI stands with <strong>${n}</strong>. A true icon of his era.`,
+      (n)=>`🟢 Court Kings AI says <strong>${n}</strong> owned his prime years.`,
+      (n)=>`🏆 No doubt — <strong>${n}</strong> dominated his prime.`,
+      (n)=>`🔥 <strong>${n}</strong> gets the Court Kings AI stamp of dominance.`
     ];
-    
     const disagreeMessages = [
-      (name) => `❌ Court Kings AI disagrees — <strong>${name}</strong> was the real king of that era.`,
-      (name) => `⛔ Court Kings AI thinks <strong>${name}</strong> had the edge in their prime.`,
-      (name) => `🚫 Court Kings AI goes with <strong>${name}</strong> for prime greatness.`,
-      (name) => `🟥 Respectfully, Court Kings AI says <strong>${name}</strong> was more dominant.`,
-      (name) => `🔻 Not quite — Court Kings AI crowns <strong>${name}</strong> instead.`
+      (n)=>`❌ Court Kings AI disagrees — <strong>${n}</strong> was the real king of that era.`,
+      (n)=>`⛔ Court Kings AI thinks <strong>${n}</strong> had the edge in their prime.`,
+      (n)=>`🚫 Court Kings AI goes with <strong>${n}</strong> for prime greatness.`,
+      (n)=>`🟥 Respectfully, Court Kings AI says <strong>${n}</strong> was more dominant.`,
+      (n)=>`🔻 Not quite — Court Kings AI crowns <strong>${n}</strong> instead.`
     ];
-    
     function runAIEvaluation(userPick, options) {
       const container = document.getElementById("debateBox");
       container.innerHTML = "";
-    
-      // Show spinner or typing animation
       const loading = document.createElement("p");
-      loading.innerHTML = `🤖 Court Kings AI is analyzing your pick<span class="typing-dots">...</span>`;
-      loading.style.textAlign = "center";
-      loading.style.fontWeight = "600";
-      loading.style.marginTop = "1rem";
+      loading.innerHTML = `🤖 Court Kings AI is analyzing your pick<span class="typing-dots"></span>`;
+      loading.style.textAlign = "center"; loading.style.fontWeight = "600"; loading.style.marginTop = "1rem";
       container.appendChild(loading);
-    
+
       setTimeout(() => {
         const aiPick = pickBestPrime(options);
         container.innerHTML = "";
-    
         const msg = document.createElement("p");
-        msg.style.textAlign = "center";
-        msg.style.marginTop = "1rem";
-        msg.style.fontWeight = "600";
-    
+        msg.style.textAlign = "center"; msg.style.marginTop = "1rem"; msg.style.fontWeight = "600";
         if (userPick === aiPick) {
-          const randomAgree = agreeMessages[Math.floor(Math.random() * agreeMessages.length)];
-          msg.innerHTML = randomAgree(userPick);
+          const m = agreeMessages[Math.floor(Math.random()*agreeMessages.length)];
+          msg.innerHTML = m(userPick);
         } else {
-          const randomDisagree = disagreeMessages[Math.floor(Math.random() * disagreeMessages.length)];
-          msg.innerHTML = randomDisagree(aiPick);
+          const m = disagreeMessages[Math.floor(Math.random()*disagreeMessages.length)];
+          msg.innerHTML = m(aiPick);
         }
-    
         container.appendChild(msg);
-    
-        // Show result for 7 seconds
-        setTimeout(() => {
-          loadNewDebate();
-        }, 7000);
+        setTimeout(loadNewDebate, 7000);
       }, 4500);
     }
-    
     function pickBestPrime(players) {
-  let bestPlayer = null;
-  let bestTier = -1;
-
-  players.forEach(name => {
-    const match = legends.find(p => p.player === name); // <- FIXED: use 'player' not 'name'
-    if (match && typeof match.tier === "number" && match.tier > bestTier) {
-      bestTier = match.tier;
-      bestPlayer = match.player; // match.player ensures it returns the right casing
+      let bestPlayer = null, bestTier = -1;
+      players.forEach(name => {
+        const match = legends.find(p => p.player === name);
+        if (match && typeof match.tier === "number" && match.tier > bestTier) {
+          bestTier = match.tier; bestPlayer = match.player;
+        }
+      });
+      return bestPlayer || players[0];
     }
-  });
-
-  return bestPlayer || players[0];
-}
-
-    
     loadLegends();
-    
+
+    /* ---------- Data panels (unchanged logic) ---------- */
     async function loadData() {
       const [rookieRes, leadersRes] = await Promise.all([
         fetch("draft_picks.json"),
@@ -439,11 +255,9 @@
       ]);
       const rookies = await rookieRes.json();
       const leaders = await leadersRes.json();
-    
       renderRookies(rookies);
       renderLeaders(leaders);
     }
-    
     function renderRookies(rookies) {
       const rookieList = document.getElementById('rookieList');
       const message = document.getElementById('searchMessage');
@@ -460,60 +274,48 @@
         `;
         rookieList.appendChild(div);
       });
-    
+
       document.getElementById("searchInput").addEventListener("keydown", function(e) {
         if (e.key === "Enter") {
           const input = e.target.value.trim().toLowerCase();
           const allCards = document.querySelectorAll('.rookie-card');
           let found = false;
-    
           for (let card of allCards) {
             const playerName = card.querySelector('h3').textContent.toLowerCase();
             if (playerName.includes(input)) {
               card.scrollIntoView({ behavior: "smooth", block: "center" });
-              message.textContent = '';
-              found = true;
-              break;
+              message.textContent = ''; found = true; break;
             }
           }
-    
-          if (!found) {
-            message.textContent = `No rookie record found for "${e.target.value}"`;
-          }
+          if (!found) message.textContent = `No rookie record found for "${e.target.value}"`;
         }
       });
     }
-    
     function renderLeaders(leaders) {
       const leadersList = document.getElementById('leadersList');
       leadersList.innerHTML = '';
-    
-      const medals = ['🥇', '🥈', '🥉'];
-    
+      const medals = ['🥇','🥈','🥉'];
       for (const category in leaders) {
         const div = document.createElement('div');
         div.className = 'leader-card';
-    
-        const entries = leaders[category]
-          .map((name, index) => {
-            if (index < 3) {
-              return `<p>${medals[index]} ${name}</p>`;
-            } else {
-              return `<p>${index + 1}. ${name}</p>`;
-            }
-          })
-          .join('');
-    
-        div.innerHTML = `
-          <h3>${category.replace(/_/g, ' ').toUpperCase()}</h3>
-          ${entries}
-        `;
+        const entries = leaders[category].map((name, i) =>
+          (i < 3) ? `<p>${medals[i]} ${name}</p>` : `<p>${i+1}. ${name}</p>`
+        ).join('');
+        div.innerHTML = `<h3>${category.replace(/_/g,' ').toUpperCase()}</h3>${entries}`;
         leadersList.appendChild(div);
       }
     }
-    
     loadData();
-    </script>
-    
+
+    /* ---------- Mobile hamburger toggle ---------- */
+    const toggle = document.querySelector('.nav-toggle');
+    const nav = document.getElementById('primary-nav');
+    if (toggle && nav) {
+      toggle.addEventListener('click', () => {
+        const open = nav.classList.toggle('open');
+        toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+    }
+  </script>
 </body>
 </html>

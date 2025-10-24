@@ -1,406 +1,255 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Court Kings HQ</title>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet" />
   <style>
-    :root {
-      --primary: #00ffc6;
-      --accent: #c084fc;
-      --bg-dark: #0c0c0c;
-      --card-bg: #151515;
+    :root{
+      --primary:#00ffc6; --accent:#c084fc; --bg-dark:#0c0c0c; --card-bg:#151515; --border:#1e1e1e; --muted:#9aa3ab;
+      --divider: rgba(255,255,255,.08);
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{
+      font-family:'Outfit',system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      background:var(--bg-dark); color:#fff; display:flex; flex-direction:column;
     }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Outfit', sans-serif;
-      background: var(--bg-dark);
-      color: #fff;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem 2rem;
-      background: #121212;
-      border-bottom: 1px solid #1f1f1f;
-      flex-wrap: wrap;
-    }
-
-    .logo-container img {
-      height: 68px;
-      width: auto;
-      border-radius: 12px;
-      box-shadow: 0 0 8px rgba(0,0,0,0.4);
-      transition: transform 0.3s ease;
-      animation: slamIn 0.9s ease-out;
-    }
-
-    .logo-container img:hover {
-      transform: scale(1.05);
-    }
-
-    nav {
-      display: flex;
-      gap: 1.2rem;
-      margin-top: 0.5rem;
-    }
-
-    nav a {
-      color: #ccc;
-      text-decoration: none;
-      font-weight: 600;
-      transition: color 0.2s ease;
-    }
-
-    nav a:hover {
-      color: var(--primary);
-    }
-
-    .intro {
-      text-align: center;
-      margin-top: 3rem;
-      padding: 0 1rem;
-    }
-
-    .intro h1 {
-      font-size: 2.4rem;
-      font-weight: 800;
-      color: var(--primary);
-      margin-bottom: 0.6rem;
-    }
-
-    .intro h3 {
-      font-size: 1.25rem;
-      color: var(--accent);
-      font-weight: 600;
-      margin-bottom: 1.2rem;
-    }
-
-    .intro p {
-      color: #aaa;
-      font-size: 1.05rem;
-      max-width: 700px;
-      margin: 0 auto;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 1.5rem;
-      padding: 3rem 2rem;
-      max-width: 1100px;
-      margin: 0 auto;
-      width: 100%;
-      padding-bottom: 0;
-      margin-bottom: 30px;
-    }
-
-    .card {
-      background: var(--card-bg);
-      border: 1px solid #1e1e1e;
-      border-radius: 16px;
-      padding: 1.5rem;
-      transition: all 0.3s ease;
+    /* Header / Nav (Desktop baseline – unchanged) */
+    header{
+      display:grid;grid-template-columns:auto 1fr;align-items:center;gap:1rem;
+      padding:1rem 1.25rem;background:#121212;border-bottom:1px solid #1f1f1f;
       position: relative;
-      overflow: hidden;
-      box-shadow: 0 0 12px rgba(0, 255, 198, 0.05);
+    }
+    .logo-container img{
+      height:64px;width:auto;border-radius:12px;box-shadow:0 0 8px rgba(0,0,0,.4);transition:transform .25s ease
+    }
+    .logo-container img:hover{transform:scale(1.04)}
+
+    /* Desktop nav */
+    nav.main-nav{
+      display:flex;justify-content:flex-end;align-items:center;flex-wrap:wrap;gap:.9rem 1.2rem
+    }
+    nav.main-nav a{
+      color:#ccc;text-decoration:none;font-weight:600;padding:.4rem .2rem;transition:color .2s ease;white-space:nowrap
+    }
+    nav.main-nav a:hover{color:var(--primary)}
+    .support-desktop{color:#ffc107!important}
+
+    /* Mobile hamburger (hidden on desktop) */
+    .nav-toggle{
+      display:none; /* shown in mobile queries */
+      background:transparent;border:1px solid #242424;color:#eaeaea;
+      font-weight:800;border-radius:10px;padding:.45rem .7rem;line-height:1;
+    }
+    .nav-toggle:focus{outline:2px solid rgba(0,255,198,.4); outline-offset:2px}
+
+    /* Intro (baseline) */
+    .intro{text-align:center;padding:2.25rem 1rem 0}
+    .intro h1{font-size:clamp(1.9rem,3.2vw + .5rem,2.6rem);font-weight:800;color:var(--primary);margin-bottom:.5rem}
+    .intro h3{
+      font-size:1.3rem;color:var(--accent);font-weight:600;margin-bottom:1rem
+    }
+    .intro p{color:var(--muted);max-width:820px;margin:0 auto;line-height:1.55;font-size:1.04rem}
+
+    /* Pills (under intro) */
+    .promo-row{
+      display:flex;justify-content:center;gap:1rem;flex-wrap:wrap;margin:1rem auto 0;max-width:900px;padding:0 1rem
+    }
+    .promo-pill{
+      display:inline-flex;align-items:center;gap:.55rem;padding:.9rem 1.15rem;border-radius:14px;
+      background:rgba(0,255,198,.06);border:1px solid rgba(0,255,198,.18);
+      box-shadow:inset 0 0 8px rgba(0,255,198,.08);color:#ccc;font-size:1rem;font-weight:600;
+      text-decoration:none;white-space:nowrap;transition:transform .15s ease,box-shadow .15s ease
+    }
+    .promo-pill span{color:var(--primary)}
+    .promo-pill:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,255,198,.08)}
+    .promo-pill.betting{background:rgba(255,193,7,.08);border-color:rgba(255,193,7,.25);box-shadow:inset 0 0 8px rgba(255,193,7,.15)}
+    .promo-pill.betting span{color:#ffc107}
+
+    /* Section + two columns */
+    .section{max-width:1200px;width:100%;margin:0 auto;padding:1.6rem 1rem 0}
+    .cols{
+      position:relative;display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;align-items:start
+    }
+    .cols::before{content:"";position:absolute;left:50%;top:0;bottom:0;width:1px;background:linear-gradient(transparent,var(--divider),transparent);pointer-events:none;z-index:0}
+    .col{position:relative;z-index:1}
+
+    /* Titles centered (you set this – kept) */
+    .col h2{
+      font-size:1.2rem;font-weight:800;letter-spacing:.02em;color:#e9fdf7;margin-bottom:.75rem;
+      display:flex;flex-direction:column;align-items:center;text-align:center;gap:.3rem;
+    }
+    .col h2 span{font-size:.9rem;color:var(--muted);font-weight:600}
+
+    /* Nightly: 2 on top, 1 centered below (compact) */
+    .grid-nightly{
+      display:grid; grid-template-columns:repeat(2, minmax(240px,1fr)); gap:1rem; align-items:start;
+    }
+    .grid-nightly .card{min-height:100px}
+    .grid-nightly .n3{
+      grid-column:1 / -1; justify-self:center; width:calc(48% - .5rem); max-width:500px; min-height:100px;
     }
 
-    .card::before {
-      content: "";
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle, rgba(0,255,198,0.08) 0%, transparent 60%);
-      transform: rotate(25deg);
-      pointer-events: none;
-      transition: opacity 0.4s ease;
+    /* Season Leaders: 2 x 2 (compact) */
+    .grid-season{display:grid;grid-template-columns:repeat(2, minmax(240px,1fr));gap:1rem}
+    .grid-season .card{min-height:100px}
+
+    /* Card — tightened vertical spacing */
+    .card{
+      background:var(--card-bg); border:1px solid var(--border); border-radius:16px;
+      padding:.9rem 1rem;
+      transition:transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+      position:relative; overflow:hidden; box-shadow:0 0 8px rgba(0,255,198,.05);
+    }
+    .card:hover{transform:translateY(-4px);box-shadow:0 10px 20px rgba(0,255,198,.10);border-color:rgba(0,255,198,.25)}
+    .card::before{content:"";position:absolute;inset:-40% -40% auto auto;height:200%;width:200%;
+      background:radial-gradient(circle,rgba(0,255,198,.08) 0%,transparent 60%);transform:rotate(25deg);
+      pointer-events:none;opacity:.6;transition:opacity .25s ease}
+    .card:hover::before{opacity:.9}
+    a.card{text-decoration:none;color:inherit;display:block}
+    .card h3{color:var(--accent);margin-bottom:.5rem;font-size:1.08rem}
+    .card p{color:#cfd6dc;font-size:.93rem;line-height:1.35}
+
+    /* Follow row (currently commented out in markup; styles kept) */
+    .follow-twitter{display:flex;justify-content:center;align-items:center;gap:1rem;margin:1.6rem 0 .2rem}
+
+    footer{margin-top:auto;text-align:center;padding:1.75rem 1rem 10px;font-size:.9rem;color:#7f8b95}
+
+    /* ----------------------------- */
+    /* RESPONSIVE: tablet & mobile   */
+    /* ----------------------------- */
+
+    /* <= 1024px: Keep desktop look mostly; stack columns when needed */
+    @media (max-width: 1024px){
+      .cols{grid-template-columns:1fr}
+      .cols::before{display:none} /* hide divider */
+      .grid-nightly .n3{width:100%;max-width:none}
     }
 
-    .card:hover::before {
-      opacity: 0.2;
-    }
-
-    .card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 0 25px rgba(0,255,198,0.1);
-    }
-
-    .card h3 {
-      color: var(--accent);
-      margin-bottom: 1rem;
-      font-size: 1.2rem;
-    }
-
-    .card p {
-      color: #ccc;
-      font-size: 0.95rem;
-      line-height: 1.4;
-    }
-
-    a.card {
-      text-decoration: none;
-      color: inherit;
-    }
-/* --- TWO PILL BUTTONS UNDER THE CARDS --- */
-.promo-row{
-  display:flex;
-  justify-content:center;
-  gap:1rem;
-  flex-wrap:wrap;
-  margin:0.74rem auto 0;
-  max-width:900px;
-}
-
-.promo-pill{
-  display:inline-flex;
-  align-items:center;
-  gap:.5rem;
-  padding:.85rem 1.25rem;
-  border-radius:14px;
-  background:rgba(0,255,198,.06);
-  border:1px solid rgba(0,255,198,.18);
-  box-shadow:inset 0 0 8px rgba(0,255,198,.08);
-  color:#ccc;
-  font-size:1rem;
-  font-weight:600;
-  text-decoration:none;
-  white-space:nowrap;           /* keeps text on one line */
-  transition:transform .15s ease, box-shadow .15s ease;
-}
-
-.promo-pill span{               /* the highlighted action text */
-  color:var(--primary);         /* teal for Live Hub */
-}
-
-.promo-pill:hover{
-  transform:translateY(-2px);
-  box-shadow:0 8px 20px rgba(0,255,198,.08);
-}
-
-/* Gold themed betting pill */
-.promo-pill.betting{
-  background:rgba(255,193,7,.08);
-  border-color:rgba(255,193,7,.25);
-  box-shadow:inset 0 0 8px rgba(255,193,7,.15);
-}
-
-.promo-pill.betting span{
-  color:#ffc107;                /* gold for The Royal Slip */
-}
-
-.promo-pill.betting:hover{
-  box-shadow:0 8px 20px rgba(255,193,7,.12);
-}
-
-/* Slightly tighter on small phones */
-@media (max-width:480px){
-  .promo-pill{ font-size:.95rem; }
-}
-
-
-    .follow-twitter {
-      display: flex;
-      justify-content: center;
-      margin: 2rem 0 1rem;
-      margin-top: 25px;
-      margin-bottom: 0;
-    }
-
-    footer {
-      margin-top: auto;
-      text-align: center;
-      padding: 2rem;
-      padding-bottom: 10px;
-      font-size: 0.85rem;
-      color: #666;
-      margin-top: 0;
-
-    }
-
-    @keyframes slamIn {
-      0% {
-        transform: scale(5) translateY(-300px);
-        opacity: 0;
+    /* <= 780px: switch to hamburger, tune spacing/typography a bit */
+    @media (max-width: 780px){
+      header{
+        grid-template-columns: 1fr auto; /* logo left, toggle right */
+        align-items:center;
       }
-      60% {
-        transform: scale(1.2) translateY(20px);
-        opacity: 1;
+      .logo-container{display:flex;align-items:center}
+      .nav-toggle{display:inline-block}               /* show hamburger */
+      nav.main-nav{
+        display:none;                                 /* hidden until toggled */
+        position: absolute; top:100%; right:0; left:0;
+        background:#101214; border-top:1px solid #202327;
+        padding:.6rem 1rem; gap:.4rem; z-index: 5;
+        flex-direction: column; align-items: flex-start;
       }
-      80% {
-        transform: scale(0.95) translateY(-10px);
-      }
-      100% {
-        transform: scale(1) translateY(0);
-      }
+      nav.main-nav.open{display:flex}                 /* toggled open */
+      nav.main-nav a{padding:.6rem 0; width:100%}
+
+      .intro{padding:1.6rem 1rem 0}
+      .intro h1{font-size:2rem}
+      .intro h3{font-size:1.1rem}
+      .intro p{font-size:.98rem}
+
+      .promo-row{gap:.6rem}
+      .promo-pill{padding:.75rem 1rem;font-size:.95rem}
+
+      .grid-nightly{grid-template-columns: 1fr}       /* stack cards */
+      .grid-nightly .n3{grid-column:auto; width:100%}
+      .grid-season{grid-template-columns: 1fr}        /* stack 2x2 → single */
+      .card{min-height:120px}
     }
 
-    @media (max-width: 768px) {
-      .intro h1 {
-        font-size: 2rem;
-      }
+    /* <= 480px: tighter text & paddings for small phones */
+    @media (max-width: 480px){
+      .intro h1{font-size:1.8rem}
+      .intro h3{font-size:1rem}
+      .intro p{font-size:.95rem}
 
-      .intro h3 {
-        font-size: 1.1rem;
-      }
-
-      nav {
-        justify-content: center;
-        width: 100%;
-        margin-top: 1rem;
-      }
-
-      .logo-container {
-        width: 100%;
-        display: flex;
-        justify-content: center;
-      }
-
-      .grid {
-        padding: 2rem 1rem;
-      }
-
-      header {
-        justify-content: center;
-        flex-direction: column;
-        gap: 0.5rem;
-      }
+      .promo-pill{padding:.65rem .9rem;font-size:.9rem}
+      .card{padding:.75rem .85rem}
+      .card h3{font-size:1.02rem;margin-bottom:.35rem}
+      .card p{font-size:.9rem;line-height:1.3}
     }
-
-    .support-nav {
-      display: none;
-      width: 100%;
-      text-align: center;
-      margin-top: 0.25rem;
-    }
-
-    @media (max-width: 768px) {
-      .support-nav {
-        display: block;
-      }
-
-      nav.main-nav {
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 1rem;
-      }
-    }
-
-    .support-mobile {
-  display: none;
-  width: 100%;
-  text-align: center;
-  margin-top: 0.25rem;
-}
-
-@media (max-width: 768px) {
-  .support-desktop {
-    display: none;
-  }
-
-  .support-mobile {
-    display: block;
-  }
-
-  nav.main-nav {
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 1rem;
-  }
-}
-
   </style>
 </head>
 <body>
-
   <header>
-    <div class="logo-container">
-      <img src="img/logo6.png" alt="Stat Kings HQ Logo">
-    </div>
+    <div class="logo-container"><img src="img/logo6.png" alt="Court Kings HQ Logo" /></div>
 
-    <div class="support-mobile">
-      <a href="https://buymeacoffee.com/courtkingshq" target="_blank" style="color: #ffc107;">☕ Support</a>
-    </div>
+    <!-- Mobile hamburger -->
+    <button class="nav-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle menu">☰</button>
 
-    <nav class="main-nav">
+    <nav id="primary-nav" class="main-nav" aria-label="Primary navigation">
       <a href="about.html">About</a>
       <a href="archive.html">Live Hub</a>
       <a href="trivia.html">Trivia</a>
       <a href="offseason.html">Offseason</a>
+      <a href="betting.html">Crown Picks</a>
       <a href="contact.html">Contact</a>
-      <a href="https://buymeacoffee.com/courtkingshq" target="_blank" class="support-desktop" style="color: #ffc107;">☕ Support</a>
+      <a class="support-desktop" href="https://buymeacoffee.com/courtkingshq" target="_blank" rel="noopener">☕ Support</a>
     </nav>
-
-    
   </header>
 
-
   <section class="intro">
-    <h1>Daily Stat Bot Leaders</h1>
+    <h1>Court Kings HQ</h1>
     <h3>NBA Stats 👑 | Backed by Data 🚀</h3>
-    <p>Track nightly NBA performance leaders, clutch moments, playoff results, rookie stats and more — powered by the Court Kings HQ bots. @CourtKingsHQ</p>
+    <p>A fully automated NBA analytics network tracking nightly leaders, season-long metrics, playoff series, and betting trends in real time — powered by the Court Kings HQ bots. @CourtKingsHQ</p>
+    <br>
+    <div class="promo-row">
+      <a class="promo-pill" href="archive.html">📡 Bot Analytics → <span>Live Hub</span></a>
+      <a class="promo-pill betting" href="betting.html">💰 Crown Picks → <span>The Royal Slip</span></a>
+    </div>
   </section>
 
-  <section class="grid">
-    <a href="stats.html" class="card">
-      <h3>🔥 Nightly Kings</h3>
-      <p>Top scorers, rebounders, passers, and shooters from every NBA slate.</p>
-    </a>
-    <a href="efficiency.html" class="card">
-      <h3>⚡ Efficiency Kings</h3>
-      <p>Most efficient scorers, best +/-, nightly defensive monsters, plus Triple-Double Royalty.</p>
-    </a>
-    <a href="clutch.html" class="card">
-      <h3>⏱️ Clutch Kings</h3>
-      <p>4th quarter excellence: points, FG%, assists, and best team finishers.</p>
-    </a>
-    <a href="season.html" class="card">
-      <h3>👑 Scoring Kings</h3>
-      <p>Live season-long tracking of the NBA's total points and PPG leaders.</p>
-    </a>
+  <br>
+
+  <section class="section" aria-label="Homepage card groups">
+    <div class="cols">
+      <!-- Left: Nightly -->
+      <div class="col">
+        <!-- <h2>Nightly Performance</h2> -->
+        <div class="grid-nightly">
+          <a href="stats.html" class="card"><h3>🔥 Nightly Kings</h3><p>Top scorers, rebounders, passers, and shooters from the NBA slate.</p></a>
+          <a href="efficiency.html" class="card"><h3>⚡ Efficiency Kings</h3><p>Efficient scorers, best +/-, defensive beasts, plus Triple-Double Royalty.</p></a>
+          <a href="clutch.html" class="card n3"><h3>⏱️ Clutch Kings</h3><p>4th quarter excellence: points, FG%, assists, and best team +/-.</p></a>
+        </div>
+      </div>
+
+      <!-- Right: Season Leaders -->
+      <div class="col">
+        <!-- <h2>Season Leaders</h2> -->
+        <div class="grid-season">
+          <a href="season.html" class="card"><h3>👑 Scoring Kings</h3><p>Live season-long tracking of total points and PPG leaders.</p></a>
+          <a href="assists.html" class="card"><h3>🎯 Assist Kings</h3><p>Live leaders in total assists and assists per game.</p></a>
+          <a href="rebounds.html" class="card"><h3>🧱 Rebound Kings</h3><p>Total rebounds and RPG across the entire season.</p></a>
+          <a href="threes.html" class="card"><h3>🏹 3PM Kings</h3><p>Total 3PM and threes per game leaders all season.</p></a>
+        </div>
+      </div>
+    </div>
   </section>
 
+  <!--
+  <div class="follow-twitter">
+    <a href="https://twitter.com/CourtKingsHQ?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-show-screen-name="false" data-show-count="false">Follow @CourtKingsHQ</a>
+    <a href="https://buymeacoffee.com/courtkingshq" target="_blank" rel="noopener" style="background:#ffc107;color:#000;font-weight:600;padding:6px 14px;border-radius:6px;text-decoration:none;font-size:.95rem;display:flex;align-items:center;">☕ Buy Me a Coffee</a>
+  </div>
+  <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+  -->
 
-<section class="promo-row">
-  <a class="promo-pill" href="archive.html">
-    📡 Bot Analytics → <span>Live Hub</span>
-  </a>
+  <footer>© 2025 Court Kings HQ – All stats auto-tracked &amp; published. @CourtKingsHQ</footer>
 
-  <a class="promo-pill betting" href="betting.html">
-    💰 Crown Picks → <span>The Royal Slip</span>
-  </a>
-</section>
-
-
-
-
-  <div class="follow-twitter" style="gap: 1rem;">
-  <a href="https://twitter.com/CourtKingsHQ?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-show-screen-name="false" data-show-count="false">Follow @CourtKingsHQ</a>
-
-  <a href="https://buymeacoffee.com/courtkingshq" target="_blank" style="background: #ffc107; color: #000; font-weight: 600; padding: 6px 14px; border-radius: 6px; text-decoration: none; font-size: 0.9rem; display: flex; align-items: center;">
-    ☕ Buy Me a Coffee
-  </a>
-</div>
-<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-
-
-  <footer>
-    © 2025 Court Kings HQ – All stats auto-tracked & published. @CourtKingsHQ
-  </footer>
-
+  <script>
+    // Mobile hamburger toggle (no change to desktop behavior)
+    const toggle = document.querySelector('.nav-toggle');
+    const nav = document.getElementById('primary-nav');
+    if (toggle && nav) {
+      toggle.addEventListener('click', () => {
+        const isOpen = nav.classList.toggle('open');
+        toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      });
+    }
+  </script>
 </body>
 </html>

@@ -20,96 +20,34 @@
       align-items: center;
       position: relative;
     }
-    .back-logo {
-      position: absolute;
-      top: 20px;
-      left: 20px;
-      z-index: 10;
-    }
+    .back-logo { position: absolute; top: 20px; left: 20px; z-index: 10; }
     .back-logo img {
-      height: 52px;
-      width: auto;
-      border-radius: 12px;
-      box-shadow: 0 0 8px rgba(0,0,0,0.4);
-      transition: transform 0.3s ease;
+      height: 52px; width: auto; border-radius: 12px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.4); transition: transform 0.3s ease;
     }
     .back-logo img:hover { transform: scale(1.08); }
-    h1 {
-      font-size: 2.5rem;
-      font-weight: 800;
-      margin-bottom: 1.5rem;
-      text-align: center;
-    }
-    .grid-container {
-      display: flex;
-      gap: 2rem;
-      max-width: 1100px;
-      width: 100%;
-      flex-wrap: wrap;
-    }
+    h1 { font-size: 2.5rem; font-weight: 800; margin-bottom: 1.5rem; text-align: center; }
+    .grid-container { display: flex; gap: 2rem; max-width: 1100px; width: 100%; flex-wrap: wrap; }
     .left, .right {
       background: rgba(255, 255, 255, 0.05);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       border: 1px solid rgba(255, 255, 255, 0.07);
       border-radius: 20px;
-      padding: 2rem;
-      flex: 1;
-      min-width: 300px;
-      animation: fadeIn 0.6s ease-out;
+      padding: 2rem; flex: 1; min-width: 300px; animation: fadeIn 0.6s ease-out;
     }
     .left { flex: 2; }
-    h2 {
-      font-size: 1.4rem;
-      color: #ffc107;
-      margin-bottom: 1rem;
-      border-bottom: 1px solid #333;
-      padding-bottom: 0.5rem;
-    }
-    .night-block, .record {
-      margin-bottom: 1.5rem;
-      padding: 1rem;
-      background-color: #222;
-      border-radius: 10px;
-    }
-    .stat {
-      font-weight: 600;
-      color: #00ffd5;
-      margin-bottom: 0.5rem;
-    }
-    .player {
-      font-size: 1rem;
-      color: #ddd;
-      margin-bottom: 0.2rem;
-    }
-    .button-link {
-      margin-top: 2rem;
-      padding: 0.75rem 1.25rem;
-      background-color: #00ffc6;
-      color: #000;
-      font-weight: bold;
-      border-radius: 10px;
-      text-decoration: none;
-      transition: background 0.2s ease;
-      display: inline-block;
-    }
+    h2 { font-size: 1.4rem; color: #ffc107; margin-bottom: 1rem; border-bottom: 1px solid #333; padding-bottom: 0.5rem; }
+    .night-block, .record { margin-bottom: 1.5rem; padding: 1rem; background-color: #222; border-radius: 10px; }
+    .stat { font-weight: 600; color: #00ffd5; margin-bottom: 0.5rem; }
+    .player { font-size: 1rem; color: #ddd; margin-bottom: 0.2rem; }
+    .button-link { margin-top: 2rem; padding: 0.75rem 1.25rem; background-color: #00ffc6; color: #000; font-weight: bold; border-radius: 10px; text-decoration: none; transition: background 0.2s ease; display: inline-block; }
     .button-link:hover { background-color: #00cbb0; }
     .centered { text-align: center; margin-top: 2rem; }
-    .note {
-      font-size: 0.9rem;
-      color: #777;
-      margin-top: 3rem;
-      text-align: center;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    @media (max-width: 768px) {
-      h1 { font-size: 2rem; }
-      .grid-container { flex-direction: column; }
-      .back-logo img { height: 44px; }
-    }
+    .note { font-size: 0.9rem; color: #777; margin-top: 3rem; text-align: center; }
+    .error { color:#ff6b6b; font-weight:600; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    @media (max-width: 768px) { h1 { font-size: 2rem; } .grid-container { flex-direction: column; } .back-logo img { height: 44px; } }
   </style>
 </head>
 <body>
@@ -142,148 +80,136 @@
 
   <script>
   // ---- Configure your season window here ----
-  const SEASON_START = '2025-10-21'; // TODO: set to actual 2025–26 regular-season start date
-
-  function formatDate(isoDate) {
-    // Force parse the date at noon UTC to avoid timezone shift
-    const d = new Date(isoDate + 'T12:00:00Z');
-    const month = String(d.getUTCMonth() + 1).padStart(2, '0');
-    const day = String(d.getUTCDate()).padStart(2, '0');
-    const year = d.getUTCFullYear();
-    return `${month}/${day}/${year}`;
-  }
+  const SEASON_START = '2025-10-21'; // update to actual regular-season start
 
   const supabase = window.supabase.createClient(
     'https://fjtxowbjnxclzcogostk.supabase.co',
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZqdHhvd2JqbnhjbHpjb2dvc3RrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI2MDE5NTgsImV4cCI6MjA1ODE3Nzk1OH0.LPkFw-UX6io0F3j18Eefd1LmeAGGXnxL4VcCLOR_c1Q'
   );
 
-  async function loadData() {
-    const left = document.getElementById("leaders");
-    const winsDiv = document.getElementById("wins");
-    const highsDiv = document.getElementById("highs");
-    left.innerHTML = winsDiv.innerHTML = highsDiv.innerHTML = '';
+  const leadersEl = document.getElementById("leaders");
+  const winsDiv = document.getElementById("wins");
+  const highsDiv = document.getElementById("highs");
 
-    // Fetch only rows on/after season start, newest first
+  const safe = (o, p, d=null) => p.split('.').reduce((x,k)=> (x && x[k]!==undefined ? x[k] : d), o);
+  const fmtDate = iso => {
+    const d = new Date(iso + 'T12:00:00Z');
+    return `${String(d.getUTCMonth()+1).padStart(2,'0')}/${String(d.getUTCDate()).padStart(2,'0')}/${d.getUTCFullYear()}`;
+  };
+
+  function showError(msg){ leadersEl.innerHTML = `<div class="error">Failed to load data: ${msg}</div>`; }
+
+  async function loadData() {
+    leadersEl.innerHTML = winsDiv.innerHTML = highsDiv.innerHTML = '';
+
     const { data, error } = await supabase
       .from('clutchkings')
       .select('*')
       .gte('date', SEASON_START)
       .order('date', { ascending: false });
 
-    if (error) {
-      console.error("Supabase error:", error);
-      left.innerText = "Failed to load data.";
-      return;
-    }
+    if (error) { console.error(error); showError(error.message || 'Unknown error'); return; }
 
-    // No season data yet? Show the same placeholder across all sections
     if (!data || !data.length) {
-      const placeholderHTML = `
-        <h3>Season starting soon</h3>
-        <div class="player">NBA 2025–26 season coming soon</div>
-      `;
-      left.innerHTML = `<div class="night-block">${placeholderHTML}</div>`;
-      winsDiv.innerHTML = `<div class="record">${placeholderHTML}</div>`;
-      highsDiv.innerHTML = `<div class="record">${placeholderHTML}</div>`;
+      const ph = `<h3>Season starting soon</h3><div class="player">NBA 2025–26 season coming soon</div>`;
+      leadersEl.innerHTML = `<div class="night-block">${ph}</div>`;
+      winsDiv.innerHTML   = `<div class="record">${ph}</div>`;
+      highsDiv.innerHTML  = `<div class="record">${ph}</div>`;
       return;
     }
 
     // Aggregates
-    const stats = { points: {}, fg: {}, assists: {}, teams: {} };
+    const wins = { points:{}, fg:{}, assists:{}, teams:{} };
     const highs = {
       points: { value: 0 },
-      fg: { fg_pct: 0 },
+      fg: { fg_pct: 0, fga: 0 },
       assists: { value: 0 },
-      team: { value: -Infinity }
+      team: { value: -Infinity, abbr: null }
     };
 
-    // Render last 3 nights
-    data.slice(0, 3).forEach(row => {
+    // Last 3 nights
+    data.slice(0,3).forEach(row => {
       const night = row.data || {};
-      const block = document.createElement("div");
-      block.className = "night-block";
-      block.innerHTML = `
-        <h3>${formatDate(row.date)}</h3>
-        <div class="stat">🚀 4Q Scoring</div><div class="player">${night.points.player} (${night.points.team}) – ${night.points.value} PTS</div>
-        <div class="stat">💎 4Q FG%</div><div class="player">${night.fg.player} (${night.fg.team}) – ${night.fg.fg_pct}% FG (${night.fg.fga} FGA)</div>
-        <div class="stat">🧠 4Q Assists</div><div class="player">${night.assists.player} (${night.assists.team}) – ${night.assists.value} AST</div>
-        ${night.team_4q_diff ? `<div class="stat">📈 Best 4Q Team</div><div class="player">${night.team_4q_diff.abbr} - +${night.team_4q_diff.value}</div>` : ""}
+      const p  = safe(night,'points',{});
+      const fg = safe(night,'efficiency',{}); // ← FIXED (was 'fg')
+      const a  = safe(night,'assists',{});
+      const t  = safe(night,'team_4q_diff', null);
+
+      const fgPct = fg.fg_pct != null ? Number(fg.fg_pct).toFixed(1) : '-';
+      const html = `
+        <h3>${fmtDate(row.date)}</h3>
+        <div class="stat">🚀 4Q Scoring</div><div class="player">${p.player ?? '-'} (${p.team ?? '-'}) – ${p.value ?? '-'} PTS</div>
+        <div class="stat">💎 4Q FG%</div><div class="player">${fg.player ?? '-'} (${fg.team ?? '-'}) – ${fgPct}% FG${fg.fga!=null ? ` (${fg.fga} FGA)` : ''}</div>
+        <div class="stat">🧠 4Q Assists</div><div class="player">${a.player ?? '-'} (${a.team ?? '-'}) – ${a.value ?? '-'} AST</div>
+        ${t ? `<div class="stat">📈 Best 4Q Team</div><div class="player">${t.abbr ?? '-'} – +${t.value ?? '-'}</div>` : '' }
       `;
-      left.appendChild(block);
+      const block = document.createElement('div');
+      block.className = 'night-block';
+      block.innerHTML = html;
+      leadersEl.appendChild(block);
     });
 
-    // Loop over ALL filtered rows for wins + highs
+    // All rows → wins + highs
     data.forEach(row => {
-      const night = row.data || {};
+      const n = row.data || {};
+      const p  = safe(n,'points', null);
+      const fg = safe(n,'efficiency', null); // ← FIXED (was 'fg')
+      const a  = safe(n,'assists',null);
+      const t  = safe(n,'team_4q_diff', null);
 
-      // Wins tallies
-      stats.points[night.points.player] = (stats.points[night.points.player] || 0) + 1;
-      stats.fg[night.fg.player] = (stats.fg[night.fg.player] || 0) + 1;
-      stats.assists[night.assists.player] = (stats.assists[night.assists.player] || 0) + 1;
+      if (p?.player)  wins.points[p.player]  = (wins.points[p.player] || 0) + 1;
+      if (fg?.player) wins.fg[fg.player]     = (wins.fg[fg.player] || 0) + 1;
+      if (a?.player)  wins.assists[a.player] = (wins.assists[a.player] || 0) + 1;
+      if (t?.abbr)    wins.teams[t.abbr]     = (wins.teams[t.abbr] || 0) + 1;
 
-      if (night.team_4q_diff) {
-        const abbr = night.team_4q_diff.abbr;
-        stats.teams[abbr] = (stats.teams[abbr] || 0) + 1;
-
-        if (night.team_4q_diff.value > highs.team.value) {
-          highs.team = { abbr, value: night.team_4q_diff.value };
-        }
-      }
-
-      // Season highs
-      if (night.points.value > highs.points.value) {
-        highs.points = { ...night.points };
-      }
-      if (night.fg.fga >= 4 && night.fg.fg_pct > highs.fg.fg_pct) {
-        highs.fg = { ...night.fg };
-      }
-      if (night.assists.value > highs.assists.value) {
-        highs.assists = { ...night.assists };
-      }
+      if (p?.value > (highs.points.value || 0)) highs.points = { ...p };
+      if (fg && Number(fg.fga) >= 4 && Number(fg.fg_pct) > Number(highs.fg.fg_pct || 0)) highs.fg = { ...fg };
+      if (a?.value > (highs.assists.value || 0)) highs.assists = { ...a };
+      if (t && Number(t.value) > Number(highs.team.value || -Infinity)) highs.team = { abbr: t.abbr, value: t.value };
     });
 
     const labels = {
-      points: "🚀 Most Wins – 4Q Points",
-      fg: "💎 Most Wins – 4Q FG%",
+      points:  "🚀 Most Wins – 4Q Points",
+      fg:      "💎 Most Wins – 4Q FG%",
       assists: "🧠 Most Wins – 4Q Assists",
-      teams: "📈 Most Wins – Best 4Q Teams"
+      teams:   "📈 Most Wins – Best 4Q Teams"
     };
 
-    // Render wins panels
-    Object.keys(stats).forEach(key => {
-      const sorted = Object.entries(stats[key]).sort((a, b) => b[1] - a[1]).slice(0, 3);
+    // Wins panels
+    Object.keys(labels).forEach(key => {
+      const entries = Object.entries(wins[key] || {});
+      if (!entries.length) return;
+      const sorted = entries.sort((a,b)=>b[1]-a[1]).slice(0,3);
       let html = `<div class="record"><div class="stat">${labels[key]}</div>`;
-      sorted.forEach(([name, count], i) => {
-        html += `<div class="player">${i + 1}. ${name} – ${count} Wins</div>`;
-      });
-      html += "</div>";
+      sorted.forEach(([name,count], i) => { html += `<div class="player">${i+1}. ${name} – ${count} Wins</div>`; });
+      html += `</div>`;
       winsDiv.innerHTML += html;
     });
 
-    // Render season highs
+    // Season highs
+    const highsFgPct = highs.fg.fg_pct != null ? Number(highs.fg.fg_pct).toFixed(1) : '-';
     highsDiv.innerHTML = `
       <div class="record">
         <div class="stat">🧨 4Q Points</div>
-        <div class="player">${highs.points.player} (${highs.points.team}) – ${highs.points.value} PTS</div>
+        <div class="player">${highs.points.player ?? '-'} (${highs.points.team ?? '-'}) – ${highs.points.value ?? '-'} PTS</div>
       </div>
       <div class="record">
         <div class="stat">⚡ 4Q FG% (min 4 FGA)</div>
-        <div class="player">${highs.fg.player} (${highs.fg.team}) – ${highs.fg.fg_pct}% FG</div>
+        <div class="player">${highs.fg.player ?? '-'} (${highs.fg.team ?? '-'}) – ${highsFgPct}% FG${highs.fg.fga!=null ? ` (${highs.fg.fga} FGA)` : ''}</div>
       </div>
       <div class="record">
         <div class="stat">🧬 4Q Assists</div>
-        <div class="player">${highs.assists.player} (${highs.assists.team}) – ${highs.assists.value} AST</div>
+        <div class="player">${highs.assists.player ?? '-'} (${highs.assists.team ?? '-'}) – ${highs.assists.value ?? '-'} AST</div>
       </div>
       <div class="record">
         <div class="stat">💪 4Q Team Performance</div>
-        <div class="player">${highs.team.abbr} – +${highs.team.value}</div>
+        <div class="player">${highs.team.abbr ?? '-'} – +${highs.team.value ?? '-'}</div>
       </div>
     `;
   }
 
-  loadData();
-</script>
+  loadData().catch(e => { console.error(e); showError('Network/CORS error'); });
+  </script>
 
 </body>
 </html>

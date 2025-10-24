@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Nightly Kings - Court Kings HQ</title>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     * { box-sizing: border-box; }
     body {
@@ -19,33 +20,11 @@
       align-items: center;
       position: relative;
     }
-    .back-logo {
-      position: absolute;
-      top: 20px;
-      left: 20px;
-      z-index: 10;
-    }
-    .back-logo img {
-      height: 52px;
-      width: auto;
-      border-radius: 12px;
-      box-shadow: 0 0 8px rgba(0,0,0,0.4);
-      transition: transform 0.3s ease;
-    }
+    .back-logo { position: absolute; top: 20px; left: 20px; z-index: 10; }
+    .back-logo img { height: 52px; width: auto; border-radius: 12px; box-shadow: 0 0 8px rgba(0,0,0,0.4); transition: transform 0.3s ease; }
     .back-logo img:hover { transform: scale(1.08); }
-    h1 {
-      font-size: 2.5rem;
-      font-weight: 800;
-      margin-bottom: 1.5rem;
-      text-align: center;
-    }
-    .grid-container {
-      display: flex;
-      gap: 2rem;
-      max-width: 1100px;
-      width: 100%;
-      flex-wrap: wrap;
-    }
+    h1 { font-size: 2.5rem; font-weight: 800; margin-bottom: 1.5rem; text-align: center; }
+    .grid-container { display: flex; gap: 2rem; max-width: 1100px; width: 100%; flex-wrap: wrap; }
     .left, .right {
       background: rgba(255, 255, 255, 0.05);
       backdrop-filter: blur(12px);
@@ -57,60 +36,18 @@
       animation: fadeIn 0.6s ease-out;
     }
     .left { flex: 2; }
-    h2 {
-      font-size: 1.4rem;
-      color: #ffc107;
-      margin-bottom: 1rem;
-      border-bottom: 1px solid #333;
-      padding-bottom: 0.5rem;
-    }
-    .night-block, .record {
-      margin-bottom: 1.5rem;
-      padding: 1rem;
-      background-color: #222;
-      border-radius: 10px;
-    }
-    .stat {
-      font-weight: 600;
-      color: #00ffd5;
-      margin-bottom: 0.5rem;
-    }
-    .player {
-      font-size: 1rem;
-      color: #ddd;
-    }
-    .button-link {
-      margin-top: 2rem;
-      padding: 0.75rem 1.25rem;
-      background-color: #00ffc6;
-      color: #000;
-      font-weight: bold;
-      border-radius: 10px;
-      text-decoration: none;
-      transition: background 0.2s ease;
-      display: inline-block;
-    }
+    h2 { font-size: 1.4rem; color: #ffc107; margin-bottom: 1rem; border-bottom: 1px solid #333; padding-bottom: 0.5rem; }
+    .night-block, .record { margin-bottom: 1.5rem; padding: 1rem; background-color: #222; border-radius: 10px; }
+    .stat { font-weight: 600; color: #00ffd5; margin-bottom: 0.5rem; }
+    .player { font-size: 1rem; color: #ddd; }
+    .button-link { margin-top: 2rem; padding: 0.75rem 1.25rem; background-color: #00ffc6; color: #000; font-weight: bold; border-radius: 10px; text-decoration: none; transition: background 0.2s ease; display: inline-block; }
     .button-link:hover { background-color: #00cbb0; }
-    .centered {
-      text-align: center;
-      margin-top: 2rem;
-    }
-    .note {
-      font-size: 0.9rem;
-      color: #777;
-      margin-top: 3rem;
-      text-align: center;
-    }
+    .centered { text-align: center; margin-top: 2rem; }
+    .note { font-size: 0.9rem; color: #777; margin-top: 3rem; text-align: center; }
+    .error { color: #ff6b6b; font-weight: 600; }
     .night-block .player { margin-bottom: .2rem; }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    @media (max-width: 768px) {
-      h1 { font-size: 2rem; }
-      .grid-container { flex-direction: column; }
-      .back-logo img { height: 44px; }
-    }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    @media (max-width: 768px) { h1 { font-size: 2rem; } .grid-container { flex-direction: column; } .back-logo img { height: 44px; } }
   </style>
 </head>
 <body>
@@ -118,6 +55,7 @@
     <img src="img/logo6.png" alt="Back to Home">
   </a>
   <h1>👑 Nightly Kings</h1>
+
   <div class="grid-container">
     <div class="left">
       <h2>🏆 Last 3 Nights</h2>
@@ -130,136 +68,138 @@
       <div id="highs"></div>
     </div>
   </div>
+
   <div class="centered">
     <a href="statsfull.html" class="button-link" target="_blank">📁 Stat Bot Archive</a>
   </div>
   <p class="note">© 2025 Court Kings HQ – All stats auto-tracked & published. @CourtKingsHQ</p>
+
   <script>
-  // ---- Configure your season window here ----
-  const SEASON_START = '2025-10-21'; // TODO: set to actual 2025–26 regular-season start date
-  const SUPABASE_URL = 'https://fjtxowbjnxclzcogostk.supabase.co/rest/v1/nightlykings';
-  const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZqdHhvd2JqbnhjbHpjb2dvc3RrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI2MDE5NTgsImV4cCI6MjA1ODE3Nzk1OH0.LPkFw-UX6io0F3j18Eefd1LmeAGGXnxL4VcCLOR_c1Q';
+    // ---- Configure your season window here ----
+    const SEASON_START = '2025-10-21'; // update to the real start date
 
-  // Build filtered URL: only rows on/after SEASON_START, newest first
-  const URL = `${SUPABASE_URL}?select=*&date=gte.${SEASON_START}&order=date.desc`;
+    const SUPABASE_URL = 'https://fjtxowbjnxclzcogostk.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZqdHhvd2JqbnhjbHpjb2dvc3RrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI2MDE5NTgsImV4cCI6MjA1ODE3Nzk1OH0.LPkFw-UX6io0F3j18Eefd1LmeAGGXnxL4VcCLOR_c1Q';
 
-  function formatDate(isoDate) {
-    // Force parse the date at noon UTC to avoid timezone shift
-    const d = new Date(isoDate + 'T12:00:00Z');
-    const month = String(d.getUTCMonth() + 1).padStart(2, '0');
-    const day = String(d.getUTCDate()).padStart(2, '0');
-    const year = d.getUTCFullYear();
-    return `${month}/${day}/${year}`;
-  }
+    const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-  fetch(URL, {
-    headers: {
-      "apikey": SUPABASE_KEY
-      // If you prefer, you can also include Authorization:
-      // "Authorization": `Bearer ${SUPABASE_KEY}`
-    }
-  })
-  .then(res => res.json())
-  .then(rows => {
     const left = document.getElementById('leaders');
     const winsDiv = document.getElementById('wins');
     const highsDiv = document.getElementById('highs');
-    left.innerHTML = winsDiv.innerHTML = highsDiv.innerHTML = '';
 
-    const categories = ["points", "assists", "rebounds", "threept"];
-    const wins = { points: {}, assists: {}, rebounds: {}, threept: {} };
-    const highs = {
-      points: { value: 0 },
-      assists: { value: 0 },
-      rebounds: { value: 0 },
-      threept: { value: 0 }
-    };
+    function formatDate(isoDate) {
+      const d = new Date(isoDate + 'T12:00:00Z'); // avoid tz drift
+      const month = String(d.getUTCMonth() + 1).padStart(2, '0');
+      const day = String(d.getUTCDate()).padStart(2, '0');
+      const year = d.getUTCFullYear();
+      return `${month}/${day}/${year}`;
+    }
 
-    // No season data yet? Show a friendly placeholder.
-if (!rows || !rows.length) {
-  const placeholderHTML = `
-    <h3>Season starting soon</h3>
-    <div class="player">NBA 2025-26 season coming soon</div>
-  `;
-  
-  const block = document.createElement('div');
-  block.className = 'night-block';
-  block.innerHTML = placeholderHTML;
-  left.appendChild(block);
+    function safeGet(obj, path, fallback = null) {
+      try {
+        return path.split('.').reduce((o, k) => (o && o[k] !== undefined ? o[k] : null), obj) ?? fallback;
+      } catch { return fallback; }
+    }
 
-  // ✅ Match same placeholder style for right sections
-  winsDiv.innerHTML = `<div class="record">${placeholderHTML}</div>`;
-  highsDiv.innerHTML = `<div class="record">${placeholderHTML}</div>`;
+    function showError(msg) {
+      left.innerHTML = `<div class="error">Failed to load data: ${msg}</div>`;
+    }
 
-  return;
-}
+    (async function load() {
+      // SELECT * FROM nightlykings WHERE date >= SEASON_START ORDER BY date DESC
+      const { data: rows, error } = await client
+        .from('nightlykings')
+        .select('*')
+        .gte('date', SEASON_START)
+        .order('date', { ascending: false });
 
+      if (error) {
+        console.error('Supabase error:', error);
+        showError(error.message || 'Unknown error');
+        return;
+      }
 
+      left.innerHTML = winsDiv.innerHTML = highsDiv.innerHTML = '';
 
-    // Show only top 3 nights
-    rows.slice(0, 3).forEach(night => {
-      const data = night.data;
-      const block = document.createElement('div');
-      block.className = 'night-block';
-      block.innerHTML = `
-        <h3>${formatDate(night.date)}</h3>
-        <div class="stat">🔥 Points Leader</div><div class="player">${data.points.player} (${data.points.team}) – ${data.points.value} PTS</div>
-        <div class="stat">🎯 Assists Leader</div><div class="player">${data.assists.player} (${data.assists.team}) – ${data.assists.value} AST</div>
-        <div class="stat">💪 Rebounds Leader</div><div class="player">${data.rebounds.player} (${data.rebounds.team}) – ${data.rebounds.value} REB</div>
-        <div class="stat">🏹 3PT Leader</div><div class="player">${data.threept.player} (${data.threept.team}) – ${data.threept.value} 3PM</div>
-      `;
-      left.appendChild(block);
-    });
+      const categories = ['points','assists','rebounds','threes']; // <-- 'threes' (not 'threept')
+      const wins = { points:{}, assists:{}, rebounds:{}, threes:{} };
+      const highs = { points:{value:0}, assists:{value:0}, rebounds:{value:0}, threes:{value:0} };
 
-    // Process all filtered rows for Wins and Season Highs
-    rows.forEach(night => {
-      const data = night.data;
+      if (!rows || rows.length === 0) {
+        const placeholderHTML = `
+          <h3>Season starting soon</h3>
+          <div class="player">NBA 2025-26 season coming soon</div>
+        `;
+        left.innerHTML = `<div class="night-block">${placeholderHTML}</div>`;
+        winsDiv.innerHTML = `<div class="record">${placeholderHTML}</div>`;
+        highsDiv.innerHTML = `<div class="record">${placeholderHTML}</div>`;
+        return;
+      }
+
+      // Last 3 nights
+      rows.slice(0, 3).forEach(night => {
+        const data = night.data || {};
+        const p  = safeGet(data,'points')  || {};
+        const a  = safeGet(data,'assists') || {};
+        const r  = safeGet(data,'rebounds')|| {};
+        const t3 = safeGet(data,'threes')  || {};   // <-- 'threes'
+
+        const block = document.createElement('div');
+        block.className = 'night-block';
+        block.innerHTML = `
+          <h3>${formatDate(night.date)}</h3>
+          <div class="stat">🔥 Points Leader</div><div class="player">${p.player ?? '-'} (${p.team ?? '-'}) – ${p.value ?? '-'} PTS</div>
+          <div class="stat">🎯 Assists Leader</div><div class="player">${a.player ?? '-'} (${a.team ?? '-'}) – ${a.value ?? '-'} AST</div>
+          <div class="stat">💪 Rebounds Leader</div><div class="player">${r.player ?? '-'} (${r.team ?? '-'}) – ${r.value ?? '-'} REB</div>
+          <div class="stat">🏹 3PT Leader</div><div class="player">${t3.player ?? '-'} (${t3.team ?? '-'}) – ${t3.value ?? '-'} 3PM</div>
+        `;
+        left.appendChild(block);
+      });
+
+      // Aggregate wins + season highs
+      rows.forEach(night => {
+        const data = night.data || {};
+        categories.forEach(cat => {
+          const entry = data[cat];
+          if (!entry) return;
+          const val = Number(entry.value ?? 0);
+          const player = entry.player;
+          const team = entry.team;
+
+          if (player) wins[cat][player] = (wins[cat][player] || 0) + 1;
+          if (val > (highs[cat].value || 0)) highs[cat] = { value: val, player, team };
+        });
+      });
+
+      // Most Wins blocks
       categories.forEach(cat => {
-        const val = data[cat].value;
-        const player = data[cat].player;
-        if (!wins[cat][player]) wins[cat][player] = 0;
-        wins[cat][player]++;
-        if (val > highs[cat].value) {
-          highs[cat] = {
-            value: val,
-            player: data[cat].player,
-            team: data[cat].team
-          };
-        }
+        const emoji = { points:'🔥', assists:'🎯', rebounds:'💪', threes:'🏹' }[cat];
+        const sorted = Object.entries(wins[cat]).sort((a,b)=>b[1]-a[1]).slice(0,3);
+        const label = cat==='threes' ? '3PM' : cat[0].toUpperCase()+cat.slice(1);
+        let html = `<div class="record"><div class="stat">${emoji} Most Wins – ${label}</div>`;
+        sorted.forEach(([player,count], i)=> {
+          html += `<div class="player">${i+1}. ${player} – ${count} Wins</div>`;
+        });
+        html += `</div>`;
+        winsDiv.innerHTML += html;
       });
-    });
 
-    // Most Wins blocks
-    categories.forEach(cat => {
-      const emoji = { points: "🔥", assists: "🎯", rebounds: "💪", threept: "🏹" }[cat];
-      const sorted = Object.entries(wins[cat]).sort((a, b) => b[1] - a[1]).slice(0, 3);
-      const label = cat === "threept" ? "3PM" : cat.charAt(0).toUpperCase() + cat.slice(1);
-      let block = `<div class="record"><div class="stat">${emoji} Most Wins – ${label}</div>`;
-      sorted.forEach(([player, count], i) => {
-        block += `<div class="player">${i + 1}. ${player} – ${count} Wins</div>`;
+      // Season Highs blocks
+      categories.forEach(cat => {
+        const emoji = { points:'🧨', assists:'🤝', rebounds:'🧲', threes:'🔫' }[cat];
+        const high = highs[cat];
+        const statName = cat==='threes' ? '3PM' : cat[0].toUpperCase()+cat.slice(1);
+        if (!high.player) return;
+        highsDiv.innerHTML += `
+          <div class="record">
+            <div class="stat">${emoji} ${statName}</div>
+            <div class="player">${high.player} (${high.team}) – ${high.value} ${statName}</div>
+          </div>`;
       });
-      block += `</div>`;
-      winsDiv.innerHTML += block;
+    })().catch(err => {
+      console.error(err);
+      showError('Network/CORS error');
     });
-
-    // Season Highs blocks
-    categories.forEach(cat => {
-      const emoji = { points: "🧨", assists: "🤝", rebounds: "🧲", threept: "🔫" }[cat];
-      const high = highs[cat];
-      const statName = cat === 'threept' ? '3PM' : cat.charAt(0).toUpperCase() + cat.slice(1);
-      const block = `<div class="record">
-        <div class="stat">${emoji} ${statName}</div>
-        <div class="player">${high.player} (${high.team}) – ${high.value} ${statName}</div>
-      </div>`;
-      highsDiv.innerHTML += block;
-    });
-  })
-  .catch(err => {
-    console.error("Error loading from Supabase", err);
-    document.getElementById('leaders').innerText = "Failed to load data.";
-  });
-</script>
-
-  
+  </script>
 </body>
 </html>

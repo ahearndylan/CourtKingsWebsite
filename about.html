@@ -2,469 +2,227 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>About – Court Kings HQ</title>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet" />
   <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      width: 100%;
-      overflow-x: hidden;
+    :root{
+      --primary:#00ffc6; --accent:#c084fc; --bg-dark:#0c0c0c; --card-bg:#151515; --border:#1e1e1e; --muted:#9aa3ab;
+      --divider: rgba(255,255,255,.08); --gold:#ffc107;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{
+      font-family:'Outfit',system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      background:var(--bg-dark); color:#fff; display:flex; flex-direction:column; overflow-x:hidden;
     }
 
-    body {
-      font-family: 'Outfit', sans-serif;
-      background: #0c0c0c;
-      color: #f0f0f0;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
+    header{
+      display:grid;grid-template-columns:auto 1fr;align-items:center;gap:1rem;
+      padding:1rem 1.25rem;background:#121212;border-bottom:1px solid #1f1f1f;position:relative;
+    }
+    .logo-container img{
+      height:64px;width:auto;border-radius:12px;box-shadow:0 0 8px rgba(0,0,0,.4);transition:transform .25s ease
+    }
+    .logo-container img:hover{transform:scale(1.04)}
+
+    nav.main-nav{display:flex;justify-content:flex-end;align-items:center;flex-wrap:wrap;gap:.9rem 1.2rem}
+    nav.main-nav a{color:#ccc;text-decoration:none;font-weight:600;padding:.4rem .2rem;transition:color .2s ease;white-space:nowrap}
+    nav.main-nav a:hover{color:var(--primary)}
+    .support-desktop{color:var(--gold)!important}
+
+    .nav-toggle{
+      display:none;background:transparent;border:1px solid #242424;color:#eaeaea;
+      font-weight:800;border-radius:10px;padding:.45rem .7rem;line-height:1;
+    }
+    .nav-toggle:focus{outline:2px solid rgba(0,255,198,.4); outline-offset:2px}
+
+    main{flex:1;max-width:900px;width:100%;margin:0 auto;padding:2.4rem 1.25rem}
+    h1{color:var(--accent);font-size:2.2rem;margin:0 auto 1rem;text-align:center}
+    .lede{color:var(--muted);text-align:center;line-height:1.6;max-width:760px;margin:0 auto 1.2rem}
+
+    h2{
+      color:var(--primary);font-size:1.25rem;margin:2rem 0 .6rem;
+      display:flex;align-items:center;gap:.5rem
+    }
+    h2 .tag{font-size:.85rem;color:#9aa3ab;font-weight:600}
+
+    section.env{margin-top:1rem}
+    section.env h3{
+      color:#c084fc;margin:1.2rem 0 .6rem;font-size:1.1rem;
+      display:flex;align-items:center;gap:.5rem
+    }
+    section.env ul{list-style:none;padding-left:1rem;border-left:2px solid rgba(255,255,255,.08)}
+    section.env li{margin:.45rem 0;color:#ddd;line-height:1.45}
+    section.env li b{color:#e9fdf7}
+
+    /* Support CTA */
+    .support-cta{display:flex;justify-content:center;margin:1rem 0 0}
+    .support-cta a{
+      background:var(--gold);color:#000;font-weight:700;padding:.75rem 1.1rem;border-radius:8px;text-decoration:none
     }
 
-    header {
-      width: 100%;
-      box-sizing: border-box;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1.2rem 2rem;
-      background: #121212;
-      border-bottom: 1px solid #1f1f1f;
+    footer{margin-top:auto;text-align:center;padding:1.4rem 1rem;font-size:.9rem;color:#7f8b95}
+
+    /* Responsive (same breakpoints/behavior as index.html) */
+    @media (max-width:1024px){
+      /* nothing special here beyond main container width */
     }
-
-    .logo img {
-      height: 65px;
-      border-radius: 10px;
+    @media (max-width:780px){
+      header{grid-template-columns:1fr auto}
+      .nav-toggle{display:inline-block}
+      nav.main-nav{
+        display:none;position:absolute;top:100%;right:0;left:0;background:#101214;border-top:1px solid #202327;
+        padding:.6rem 1rem;gap:.4rem;z-index:5;flex-direction:column;align-items:flex-start
+      }
+      nav.main-nav.open{display:flex}
+      nav.main-nav a{padding:.6rem 0;width:100%}
+      h1{font-size:1.9rem}
     }
-
-    nav {
-      display: flex;
-      align-items: center;
+    @media (max-width:480px){
+      h1{font-size:1.7rem}
     }
-
-    nav a {
-      color: #ccc;
-      text-decoration: none;
-      font-weight: 600;
-      margin-left: 1.5rem;
-      transition: color 0.2s ease;
-    }
-
-    nav a:hover {
-      color: #00ffc6;
-    }
-
-    main {
-      flex: 1;
-      padding: 3rem 2rem;
-      max-width: 800px;
-      margin: auto;
-      box-sizing: border-box;
-    }
-
-    h1 {
-      color: #c084fc;
-      font-size: 2.4rem;
-      margin-bottom: 1rem;
-      text-align: center;
-    }
-
-    h2 {
-      color: #00ffc6;
-      margin-top: 2rem;
-      margin-bottom: 0.5rem;
-    }
-
-    p {
-      line-height: 1.7;
-      font-size: 1.05rem;
-      color: #ddd;
-    }
-
-    ul {
-      list-style: none;
-      padding-left: 0;
-    }
-
-    li {
-      margin-bottom: 0.5rem;
-    }
-
-    li::before {
-      content: "➔ ";
-      color: #00ffc6;
-      font-weight: bold;
-    }
-
-    .twitter-button {
-      text-align: center;
-      margin-top: 1.5rem;
-    }
-
-    .analytics-panel {
-      margin-top: 4rem;
-      text-align: center;
-    }
-
-    .analytics-panel h3 {
-      font-size: 1.6rem;
-      margin-bottom: 1.5rem;
-      background: linear-gradient(to right, #00ffc6, #00c8ff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .analytics-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-      gap: 1.5rem;
-      max-width: 600px;
-      margin: 0 auto 4rem auto;
-    }
-
-    .analytics-grid .stat-card {
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 16px;
-      padding: 1.2rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-    }
-
-    .stat-label {
-      font-size: 0.9rem;
-      color: #aaa;
-      margin-bottom: 0.5rem;
-    }
-
-    .stat-value {
-      font-size: 1.4rem;
-      font-weight: 700;
-      color: #f0f0f0;
-    }
-
-    footer {
-      text-align: center;
-      padding: 1.5rem;
-      font-size: 0.85rem;
-      color: #777;
-    }
-
-    .note {
-      font-size: 0.9rem;
-      color: #777;
-      margin-top: 3rem;
-      text-align: center;
-    }
-
-    /* ✅ Mobile Responsiveness Fixes */
-    @media (max-width: 600px) {
-  header {
-    padding: 1rem;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .logo {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    margin-bottom: 0.5rem;
-  }
-
-  .logo img {
-    height: 44px;
-  }
-
-  nav {
-    width: 100%;
-    justify-content: space-around;
-  }
-
-  nav a {
-    margin-left: 0;
-    font-size: 0.95rem;
-  }
-
-  main {
-    padding: 2rem 1rem;
-    max-width: 100%;
-  }
-}
-.support-mobile {
-  display: none;
-  width: 100%;
-  text-align: center;
-  margin-top: 0.4rem;
-  margin-bottom: 0.8rem;
-}
-
-.support-link {
-  background: #ffc107;
-  color: #000;
-  font-weight: 600;
-  padding: 6px 14px;
-  border-radius: 6px;
-  text-decoration: none;
-  font-size: 0.9rem;
-  display: inline-block;
-  outline: none;
-  box-shadow: none;
-  -webkit-tap-highlight-color: transparent; /* ← removes iOS yellow tap effect */
-}
-
-
-
-
-.support-desktop {
-  color: #ffc107;
-  font-weight: 600;
-}
-
-@media (max-width: 600px) {
-  .support-mobile {
-    display: block;
-  }
-  .support-desktop {
-    display: none;
-  }
-}
-
-/* Indent bot lists under each environment heading */
-section.env ul {
-  margin-left: .5rem;
-  padding-left: 1rem;
-  border-left: 2px solid rgba(255,255,255,0.1);
-}
-
-
-
-
   </style>
 </head>
 <body>
 
+  <!-- Header copied from index.html structure -->
   <header>
-    <div class="logo">
-      <a href="index.html"><img src="img/logo6.png" alt="Stat Kings HQ Logo"></a>
+    <div class="logo-container">
+      <a href="index.html"><img src="img/logo6.png" alt="Court Kings HQ Logo"></a>
     </div>
 
-    <div class="support-mobile">
-      <a href="https://buymeacoffee.com/courtkingshq" target="_blank" class="support-link">☕ Support</a>
-    </div>
+    <!-- Mobile hamburger -->
+    <button class="nav-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle menu">☰</button>
 
-
-    <nav>
+    <nav id="primary-nav" class="main-nav" aria-label="Primary navigation">
       <a href="about.html">About</a>
       <a href="archive.html">Live Hub</a>
       <a href="trivia.html">Trivia</a>
       <a href="offseason.html">Offseason</a>
+      <a href="betting.html">Crown Picks</a>
       <a href="contact.html">Contact</a>
-      <a href="https://buymeacoffee.com/courtkingshq" target="_blank" class="support-desktop">☕ Support</a>
+      <a class="support-desktop" href="https://buymeacoffee.com/courtkingshq" target="_blank" rel="noopener">☕ Support</a>
     </nav>
-
   </header>
 
   <main>
     <h1>About Court Kings HQ</h1>
+    <p class="lede">
+      Court Kings HQ is a fully-automated NBA analytics network. Our custom bots track nightly leaders, 
+      season-long races, clutch performances, and betting trends — then publish clean, useful outputs in real time.
+    </p>
 
-    <p><strong>Court Kings HQ</strong> is a modern, automated hub for basketball stat fans. We use custom bots to track and post the most relevant, advanced, and nightly-changing NBA stats — built for fans who live for the numbers.</p>
-
-    <h2>What We Do</h2>
-    <p>Every night, our bots analyze NBA performances and deliver standout metrics — from clutch scoring to efficiency monsters, defensive beasts, and more. Our goal is to bring key insights to the forefront with zero fluff and maximum impact.</p>
-
-    <h2>Our Bot Environments</h2>
-
+    <!-- Regular Season -->
+    <h2>🏀 Regular Season <span class="tag">Active</span></h2>
     <section class="env">
-      <h3 style="color:#c084fc;">
-        <a href="archive.html#regular" style="color:#c084fc; text-decoration: none;">🏀 Court Kings HQ: Regular Season</a>
-      </h3>
       <ul>
-        <li><strong>🔥 Nightly Stats Bot</strong> – Tracks nightly leaders in points, assists, rebounds, and threes.</li>
-        <li><strong>⚡ Efficiency Bot</strong> – Highlights efficient scoring, plus-minus stars, defense, and triple-doubles.</li>
-        <li><strong>⏱️ Clutch Time Bot</strong> – Focuses on 4th quarter stats: points, FG%, assists, and best team finishes.</li>
-        <li><strong>👑 Season Scoring Leader Bot</strong> – Tracks top scorers all season by PPG and total points.</li>
-        <li><strong>📅 Calendar Bot</strong> – Posts each day’s NBA schedule.</li>
-        <li><strong>⏳ Milestone Watch Bot</strong> – Monitors players nearing major career milestones in certain statistics.</li>
-      </ul>  
-    </section>  
-
-    <section class="env">
-      <h3 style="color:#c084fc;">
-        <a href="archive.html#playoffs" style="color:#c084fc; text-decoration: none;">⚔️ Court Kings HQ: Playoffs Edition</a>
-      </h3>
-      <ul>
-        <li><strong>📅 Calendar Bot</strong> – Posts each day’s NBA playoff schedule.</li>
-        <li><strong>📊 Game Results Bot</strong> – Tweets final scores and series updates live during games.</li>
-        <li><strong>🏆 Series Royalty Bot</strong> – Announces completed series and top player performances.</li>
-        <li><strong>🔥 Playoff Points Leader Bot</strong> – Tracks the current leading scorer of the postseason.</li>
-        <li><strong>📜 On This Day Bot</strong> – Shares a historic NBA playoff moment tied to today’s date.</li>
-        <li><strong>🎯 Assist Leaders Bot</strong> – Tracks top assist leaders in the playoffs.</li>
-        <li><strong>💪 Rebound Leaders Bot</strong> – Tracks top rebounders in all playoff games.</li>
-        <li><strong>🛡️ Steal Leaders Bot</strong> – Highlights players leading in playoff steals.</li>
-        <li><strong>🧱 Block Leaders Bot</strong> – Highlights players leading in playoff blocks.</li>
-        <li><strong>👑 Spotlight Bot</strong> – Features a standout playoff performer.</li>
+        <li><b>🔥 Nightly Stats</b> — PTS / AST / REB / 3PT leaders every slate.</li>
+        <li><b>⚡ Efficiency</b> — Most efficient scorers, best +/-, defensive standouts, Triple-Double Royalty.</li>
+        <li><b>⏱️ Clutch</b> — 4Q points, FG%, assists, plus best team finishes.</li>
+        <li><b>👑 Scoring Leaders</b> — Live season leaderboard (total points & PPG).</li>
+        <li><b>🎯 Season Assist</b> — Total assists & APG leaders.</li>
+        <li><b>🧱 Season Rebound</b> — Total boards & RPG leaders.</li>
+        <li><b>🎯 Season 3PM</b> — Threes made & 3PM/G leaders.</li>
+        <li><b>📅 Calendar</b> — Daily NBA schedule.</li>
+        <li><b>⏳ Milestone Watch</b> — Career milestone tracker.</li>
+        <li><b>🏆 Crown</b> — Seasonal wrap / leaderboard.</li>
       </ul>
     </section>
 
-
-
+    <!-- Playoffs -->
+    <h2>🔥 Playoffs <span class="tag">Paused</span></h2>
     <section class="env">
-      <h3 style="color:#c084fc;">
-        <a href="archive.html#finals" style="color:#c084fc; text-decoration: none;">🥇 Court Kings HQ: Finals Edition</a>
-      </h3>
       <ul>
-        <li><strong>🔥 Nightly Stats Bot</strong> – Posts top Finals stat lines from each game.</li>
-        <li><strong>⚡ Efficiency Bot</strong> – Highlights the most efficient scorer and top +/- in the Finals.</li>
-        <li><strong>⏱️ Clutch Bot</strong> – Tracks 4th quarter scoring and assists during Finals games.</li>
-        <li><strong>👑 Scoring Leaders Bot</strong> – Ranks the top scorers across the entire NBA Finals series.</li>
-        <li><strong>🏆 MVP Debate Bot</strong> – Monitors Finals MVP contenders and standout performances.</li>
-        <li><strong>🎯 Assist Leaders Bot</strong> – Tracks top assist leaders in the NBA Finals.</li>
-        <li><strong>💪 Rebound Leaders Bot</strong> – Tracks top rebounders in all NBA Finals games.</li>
-        <li><strong>🛡️ Steal Leaders Bot</strong> – Highlights players leading in NBA Finals steals.</li>
-        <li><strong>🧱 Block Leaders Bot</strong> – Highlights players leading in NBA Finals blocks.</li>
+        <li><b>📜 OTD Playoffs</b> — Historic playoff moments.</li>
+        <li><b>📊 Series Stats</b> — Completed series recaps.</li>
+        <li><b>🔥 Points Leaders</b> — Postseason scoring race.</li>
+        <li><b>🧮 Game Results</b> — Daily playoff results.</li>
+        <li><b>🎯 Assist Leaders</b> • <b>🧱 Rebound Leaders</b> • <b>🛡️ Steal Leaders</b> • <b>🧱 Block Leaders</b></li>
+        <li><b>🔦 Playoff Spotlight</b> — Daily standout performer.</li>
       </ul>
     </section>
 
-
+    <!-- Finals -->
+    <h2>🏆 Finals <span class="tag">Paused</span></h2>
     <section class="env">
-      <h3 style="color:#c084fc;">
-        <a href="archive.html#offseason" style="color:#c084fc; text-decoration: none;">🌴 Court Kings HQ: Offseason</a>
-      </h3>
       <ul>
-        <li><strong>🧠 Trivia Bot</strong> – Posts challenging NBA trivia questions with a live leaderboard.</li>
-        <li><strong>🍼 Rookie Stats Bot</strong> – Showcases memorable stat lines from past rookie seasons.</li>
-        <li><strong>🥊 Prime Debate Bot</strong> – Runs “Start-Bench-Cut” polls comparing three legendary players.</li>
-        <li><strong>📈 All-Time Leaders Bot</strong> – Cycles through NBA all-time top 5s in major categories.</li>
-        <li><strong>🎯 Draft Throwback Bot</strong> – Spotlights a random notable NBA draft pick daily.</li>
-        <li><strong>🎮 2K Sim Bot</strong> – Runs simulated NBA team matchups using 2K-style logic of past NBA Champions.</li>
-        <li><strong>🎈 Birthday Bot</strong> – Celebrates NBA Players on their Birthday.</li>
-        <li><strong>⏱️ Season Countdown</strong> – A running countdown to the tip of the NBA Regular Season</li>
+        <li><b>🔥 Nightly Stats Finals</b> — Top Finals stat lines.</li>
+        <li><b>⚡ Efficiency Finals</b> — Most efficient Finals scorer.</li>
+        <li><b>⏱️ Clutch Finals</b> — 4Q Finals scoring & assists.</li>
+        <li><b>👑 Scoring Leaders Finals</b> — Finals scoring leaderboard.</li>
+        <li><b>🏅 MVP Debate</b> — Finals MVP race tracker.</li>
+        <li><b>🎯 Assist</b> • <b>🧱 Rebound</b> • <b>🛡️ Steal</b> • <b>🧱 Block</b> Leaders (Finals).</li>
       </ul>
     </section>
 
+    <!-- Offseason -->
+    <h2>🌴 Offseason <span class="tag">Active</span></h2>
     <section class="env">
-      <h3 style="color:#c084fc;">
-        <a href="archive.html#offseason" style="color:#c084fc; text-decoration: none;">💰 Court Kings HQ: Bets</a>
-      </h3>
       <ul>
-        <li><strong>💵 Bot $</strong> – Coming Soon...</li>
+        <li><b>🧠 Trivia</b> — Quiz with live leaderboard.</li>
+        <li><b>🍼 Rookie Stats</b> — Past rookie spotlights.</li>
+        <li><b>🥊 Prime Debate</b> — Start-Bench-Cut AI polls.</li>
+        <li><b>📈 All-Time Leaders</b> — Rotating all-time top-5s.</li>
+        <li><b>🎯 Draft Throwback</b> — Random draft pick spotlight.</li>
+        <li><b>🎮 2K Simulator</b> — Simulated matchups.</li>
+        <li><b>🎈 Birthday</b> — Player birthdays (paused).</li>
+        <li><b>⏱️ Countdown</b> — Season countdown (paused).</li>
+      </ul>
+    </section>
+
+    <!-- Betting -->
+    <h2>💰 Betting <span class="tag">Active</span></h2>
+    <section class="env">
+      <ul>
+        <li><b>💵 Moneyline</b> — Daily ML edges.</li>
+        <li><b>📊 Totals</b> — Over/Under tracking.</li>
+        <li><b>➖ Spread</b> — Advantage analysis.</li>
+        <li><b>🧾 Bet Tracker</b> — Daily record.</li>
+        <li><b>✅ Cash Bet</b> — Win confirmations.</li>
+        <li><b>🎯 Player Points</b> — Props monitor.</li>
+      </ul>
+    </section>
+
+    <!-- Promo / Dev -->
+    <h2>🚀 Promo</h2>
+    <section class="env">
+      <ul>
+        <li><b>📣 Main Promo</b> • <b>🤖 AI Promo</b> • <b>🧠 Trivia Promo</b> • <b>💰 Betting Promo</b> • <b>🧾 Slips Promo</b></li>
       </ul>
     </section>
 
     <h2>Support the Project</h2>
-    <p>
-      Court Kings HQ is a fully independent, data-powered project run with no outside funding. 
-      If you enjoy the bots, site features, or just want to help us grow — you can support our work below.
+    <p class="lede" style="margin-top:.3rem">
+      CKHQ is independent and community-backed. If you enjoy the bots and the site, consider fueling the grind:
     </p>
-    <div style="text-align: center; margin-top: 1rem;">
-      <a href="https://buymeacoffee.com/courtkingshq" target="_blank" style="
-        background: #ffc107;
-        color: #000;
-        font-weight: 600;
-        padding: 10px 20px;
-        border-radius: 8px;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 1rem;
-      ">
-        ☕ Buy Me a Coffee
-      </a>
+    <div class="support-cta">
+      <a href="https://buymeacoffee.com/courtkingshq" target="_blank" rel="noopener">☕ Buy Me a Coffee</a>
     </div>
-
-
 
     <h2>Technology</h2>
-    <p>Built with Python, Tweepy, HTML/CSS, and JSON automation — Court Kings HQ is powered entirely by custom bots and up-to-date data pipelines.</p>
+    <p class="lede" style="margin-top:.3rem">
+      Python pipelines + Supabase + JSON automations power the network; the site is lightweight HTML/CSS/JS for speed and reliability.
+    </p>
 
     <h2>Follow Us on X</h2>
-    <p>Want real-time stats and bot drops in your feed? Follow us on X and stay updated with daily NBA data magic.</p>
-
-    <div class="twitter-button">
-      <a href="https://twitter.com/CourtKingsHQ?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-show-screen-name="false" data-show-count="false">Follow @CourtKingsHQ</a>
-      <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    <div class="support-cta" style="margin-top:.4rem">
+      <a href="https://twitter.com/CourtKingsHQ?ref_src=twsrc%5Etfw" target="_blank" rel="noopener" style="background:#333;color:#fff">Follow @CourtKingsHQ</a>
     </div>
-<!--
-    <div class="analytics-panel">
-      <h3>📊 Court Kings Analytics</h3>
-      <div class="analytics-grid" id="analytics-data">
-        Loading analytics...
-      </div>
-    </div>
-    -->
   </main>
 
-  <footer>
-    <p class="note">    © 2025 Court Kings HQ – All stats auto-tracked & published. @CourtKingsHQ  
-    </p>
-  </footer>
+  <footer>© 2025 Court Kings HQ – All stats auto-tracked &amp; published. @CourtKingsHQ</footer>
 
   <script>
-    function getDaysSince(startDateStr) {
-      const startDate = new Date(startDateStr);
-      const today = new Date();
-      startDate.setHours(0, 0, 0, 0);
-      today.setHours(0, 0, 0, 0);
-      const diffTime = today - startDate;
-      return Math.max(0, Math.floor(diffTime / (1000 * 60 * 60 * 24)));
+    // Mobile hamburger toggle (same behavior as index.html)
+    const toggle = document.querySelector('.nav-toggle');
+    const nav = document.getElementById('primary-nav');
+    if (toggle && nav) {
+      toggle.addEventListener('click', () => {
+        const open = nav.classList.toggle('open');
+        toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
     }
-
-    function getAnalyticsData() {
-      const since = "2025-03-15";
-      const daysPassed = getDaysSince(since);
-
-      const tweetsPosted = 44 + Math.max(0, (daysPassed - 8) * 3);
-      const recordsLogged = 21 + Math.max(0, (daysPassed - 8) * 4);
-      const playersTracked = 438;
-      const activeBots = 5;
-      const avgRuntime = "27.4s";
-
-      return {
-        tweetsPosted,
-        playersTracked,
-        activeBots,
-        recordsLogged,
-        daysActive: daysPassed,
-        avgRuntime
-      };
-    }
-
-    function displayAnalytics() {
-      const stats = getAnalyticsData();
-      const html = `
-        <div class="stat-card">
-          <div class="stat-label">X Posts</div>
-          <div class="stat-value">${stats.tweetsPosted.toLocaleString()}</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">Players Tracked</div>
-          <div class="stat-value">${stats.playersTracked}</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">Active Bots</div>
-          <div class="stat-value">${stats.activeBots}</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">Records Logged</div>
-          <div class="stat-value">${stats.recordsLogged.toLocaleString()}</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">Days Active</div>
-          <div class="stat-value">${stats.daysActive}</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">Avg Bot Runtime</div>
-          <div class="stat-value">${stats.avgRuntime}</div>
-        </div>
-      `;
-      document.getElementById('analytics-data').innerHTML = html;
-    }
-
-    document.addEventListener('DOMContentLoaded', displayAnalytics);
   </script>
-
 </body>
 </html>

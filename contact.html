@@ -2,197 +2,99 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Contact – Court Kings HQ</title>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet" />
   <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      width: 100%;
-      overflow-x: hidden;
+    :root{
+      --primary:#00ffc6; --accent:#c084fc; --bg-dark:#0c0c0c; --card-bg:#151515; --border:#1e1e1e; --muted:#9aa3ab;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{
+      font-family:'Outfit',system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      background:var(--bg-dark); color:#fff; display:flex; flex-direction:column; overflow-x:hidden;
     }
 
-    body {
-      font-family: 'Outfit', sans-serif;
-      background: #0c0c0c;
-      color: #f0f0f0;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
+    /* Header / Nav — identical pattern to index.html */
+    header{
+      display:grid;grid-template-columns:auto 1fr;align-items:center;gap:1rem;
+      padding:1rem 1.25rem;background:#121212;border-bottom:1px solid #1f1f1f;position:relative;
     }
-
-    header {
-      width: 100%;
-      box-sizing: border-box;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1.2rem 2rem;
-      background: #121212;
-      border-bottom: 1px solid #1f1f1f;
+    .logo-container img{
+      height:64px;width:auto;border-radius:12px;box-shadow:0 0 8px rgba(0,0,0,.4);transition:transform .25s ease
     }
+    .logo-container img:hover{transform:scale(1.04)}
 
-    .logo img {
-      height: 65px;
-      border-radius: 10px;
+    /* Desktop nav */
+    nav.main-nav{display:flex;justify-content:flex-end;align-items:center;flex-wrap:wrap;gap:.9rem 1.2rem}
+    nav.main-nav a{color:#ccc;text-decoration:none;font-weight:600;padding:.4rem .2rem;transition:color .2s ease;white-space:nowrap}
+    nav.main-nav a:hover{color:var(--primary)}
+    .support-desktop{color:#ffc107!important}
+
+    /* Mobile hamburger */
+    .nav-toggle{
+      display:none;background:transparent;border:1px solid #242424;color:#eaeaea;
+      font-weight:800;border-radius:10px;padding:.45rem .7rem;line-height:1;
     }
+    .nav-toggle:focus{outline:2px solid rgba(0,255,198,.4); outline-offset:2px}
 
-    nav {
-      display: flex;
-      align-items: center;
+    /* Page body */
+    .main{
+      flex:1;display:flex;justify-content:center;align-items:center;
+      padding:4rem 2rem; text-align:center; box-sizing:border-box;
     }
-
-    nav a {
-      color: #ccc;
-      text-decoration: none;
-      font-weight: 600;
-      margin-left: 1.5rem;
-      transition: color 0.2s ease;
+    .contact-box{
+      background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.08);
+      border-radius:16px; padding:2.5rem; max-width:550px; width:100%;
     }
+    .contact-box h1{font-size:2rem;color:#c084fc;margin-bottom:1rem}
+    .contact-box p{font-size:1.1rem;color:#ccc;margin-bottom:2rem}
 
-    nav a:hover {
-      color: #00ffc6;
-    }
+    .twitter-button{margin-top:1rem}
 
-    .main {
-      flex: 1;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 4rem 2rem;
-      text-align: center;
-      box-sizing: border-box;
-    }
+    footer{text-align:center;padding:1.5rem;font-size:.85rem;color:#777}
 
-    .contact-box {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 16px;
-      padding: 2.5rem;
-      max-width: 550px;
-      width: 100%;
-    }
-
-    .contact-box h1 {
-      font-size: 2rem;
-      color: #c084fc;
-      margin-bottom: 1rem;
-    }
-
-    .contact-box p {
-      font-size: 1.1rem;
-      color: #ccc;
-      margin-bottom: 2rem;
-    }
-
-    .twitter-button {
-      margin-top: 1rem;
-    }
-
-    footer {
-      text-align: center;
-      padding: 1.5rem;
-      font-size: 0.85rem;
-      color: #777;
-    }
-
-    /* ✅ Mobile Responsiveness Fixes */
-    @media (max-width: 768px) {
-      header {
-        flex-direction: column;
-        align-items: center;
-        padding: 1rem;
+    /* Responsive */
+    @media (max-width:780px){
+      header{grid-template-columns:1fr auto}
+      .nav-toggle{display:inline-block}
+      nav.main-nav{
+        display:none; position:absolute; top:100%; right:0; left:0;
+        background:#101214; border-top:1px solid #202327; padding:.6rem 1rem; gap:.4rem; z-index:5;
+        flex-direction:column; align-items:flex-start;
       }
+      nav.main-nav.open{display:flex}
+      nav.main-nav a{padding:.6rem 0; width:100%}
 
-      .logo {
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        margin-bottom: 0.5rem;
-      }
-
-      .logo img {
-        height: 44px;
-      }
-
-      nav {
-        width: 100%;
-        justify-content: space-around;
-        display: flex;
-        flex-wrap: nowrap;
-      }
-
-      nav a {
-        margin-left: 0;
-        font-size: 0.95rem;
-      }
-
-      .main {
-        padding: 2rem 1rem;
-      }
-
-      .contact-box {
-        padding: 2rem 1.2rem;
-      }
+      .main{padding:2rem 1rem}
+      .contact-box{padding:2rem 1.2rem}
     }
 
-    .support-mobile {
-  display: none;
-  width: 100%;
-  text-align: center;
-  margin-top: 0.4rem;
-  margin-bottom: 0.8rem;
-}
-
-.support-link {
-  background: #ffc107;
-  color: #000;
-  font-weight: 600;
-  padding: 6px 14px;
-  border-radius: 6px;
-  text-decoration: none;
-  font-size: 0.9rem;
-  display: inline-block;
-  outline: none;
-  box-shadow: none;
-  -webkit-tap-highlight-color: transparent;
-}
-
-.support-desktop {
-  color: #ffc107;
-  font-weight: 600;
-}
-
-@media (max-width: 768px) {
-  .support-mobile {
-    display: block;
-  }
-  .support-desktop {
-    display: none;
-  }
-}
-
+    @media (max-width:480px){
+      .contact-box h1{font-size:1.8rem}
+      .contact-box p{font-size:1rem}
+    }
   </style>
 </head>
 <body>
 
+  <!-- Header with hamburger (matches index.html) -->
   <header>
-    <div class="logo">
-      <a href="index.html"><img src="img/logo6.png" alt="Stat Kings HQ Logo"></a>
+    <div class="logo-container">
+      <a href="index.html"><img src="img/logo6.png" alt="Court Kings HQ Logo"></a>
     </div>
 
-    <div class="support-mobile">
-      <a href="https://buymeacoffee.com/courtkingshq" target="_blank" class="support-link">☕ Support</a>
-    </div>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle menu">☰</button>
 
-    <nav>
+    <nav id="primary-nav" class="main-nav" aria-label="Primary navigation">
       <a href="about.html">About</a>
       <a href="archive.html">Live Hub</a>
       <a href="trivia.html">Trivia</a>
       <a href="offseason.html">Offseason</a>
+      <a href="betting.html">Crown Picks</a>
       <a href="contact.html">Contact</a>
-      <a href="https://buymeacoffee.com/courtkingshq" target="_blank" class="support-desktop">☕ Support</a>
+      <a class="support-desktop" href="https://buymeacoffee.com/courtkingshq" target="_blank" rel="noopener">☕ Support</a>
     </nav>
   </header>
 
@@ -205,27 +107,27 @@
         <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
       </div>
       <div style="margin-top: 2.5rem;">
-        
         <a href="https://buymeacoffee.com/courtkingshq" target="_blank" style="
-          background: #ffc107;
-          color: #000;
-          font-weight: 600;
-          padding: 10px 20px;
-          border-radius: 8px;
-          text-decoration: none;
-          display: inline-block;
-          margin-top: 0.5rem;
-          font-size: 1rem;
-        ">
+          background:#ffc107; color:#000; font-weight:600; padding:10px 20px;
+          border-radius:8px; text-decoration:none; display:inline-block; margin-top:.5rem; font-size:1rem;">
           ☕ Buy Me a Coffee
         </a>
       </div>
-
     </div>
   </div>
 
-  <footer>
-    © 2025 Court Kings HQ – All stats auto-tracked & published. @CourtKingsHQ  </footer>
+  <footer>© 2025 Court Kings HQ – All stats auto-tracked &amp; published. @CourtKingsHQ</footer>
 
+  <script>
+    // Mobile hamburger toggle
+    const toggle = document.querySelector('.nav-toggle');
+    const nav = document.getElementById('primary-nav');
+    if (toggle && nav) {
+      toggle.addEventListener('click', () => {
+        const open = nav.classList.toggle('open');
+        toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+    }
+  </script>
 </body>
 </html>
