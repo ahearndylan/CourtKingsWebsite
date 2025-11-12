@@ -256,6 +256,7 @@
       /* datebar tweaks */
       .date-track-mask{width:78vw}
       .date-arrow{display:none} /* swipe on mobile */
+      .date-all{display:none}   /* HIDE 'All' button on mobile */
     }
 
     @media (max-width:480px){
@@ -272,7 +273,6 @@
   </style>
 </head>
 <body>
-
   <!-- HEADER (same structure as index.html) -->
   <header>
     <div class="logo-container">
@@ -448,42 +448,45 @@
       const groups = bets.reduce((acc,b)=>{ (acc[b.date_et] ||= []).push(b); return acc; }, {});
       const datesAll = Object.keys(groups).sort((a,b)=> a>b ? -1 : 1); // newest first
 
-      // Windowed view to avoid "chip dump"
+      // Windowed view on desktop; ALL dates on mobile
       const MAX_VISIBLE_DESKTOP = 10;
       let visibleStart = 0; // start at newest window
       let active = datesAll[0];
 
       const isMobile = () => window.matchMedia('(max-width:780px)').matches;
-      const maxVisible = () => isMobile() ? 6 : MAX_VISIBLE_DESKTOP;
+      const maxVisible = () => isMobile() ? datesAll.length : MAX_VISIBLE_DESKTOP;
 
       function renderWindow(){
         track.innerHTML = '';
-        const windowDates = datesAll.slice(visibleStart, visibleStart + maxVisible());
+        const windowDates = isMobile()
+          ? datesAll                      // MOBILE: show ALL dates in the scroller
+          : datesAll.slice(visibleStart, visibleStart + maxVisible());
 
         windowDates.forEach(d=>{
           const btn = document.createElement('button');
           btn.className = 'date-chip' + (d===active?' active':'');
+          btn.setAttribute('data-date', d);
           btn.role = 'tab';
           btn.setAttribute('aria-selected', d===active ? 'true' : 'false');
-          btn.textContent = d;
+          btn.textContent = formatDate(d);
           btn.onclick = ()=>{ active = d; updateActive(); renderDay(active, groups[active], daysEl); };
           track.appendChild(btn);
         });
 
         // Scroll the active into view
         requestAnimationFrame(()=>{
-          const current = [...track.children].find(x=>x.textContent===active);
+          const current = [...track.children].find(x=>x.getAttribute('data-date')===active);
           if(current) current.scrollIntoView({inline:'center', block:'nearest'});
         });
 
-        // Arrow enablement
+        // Arrow enablement (desktop only; arrows are hidden on mobile via CSS)
         if(btnPrev) btnPrev.disabled = (visibleStart<=0);
-        if(btnNext) btnNext.disabled = (visibleStart + maxVisible() >= datesAll.length);
+        if(btnNext) btnNext.disabled = (visibleStart + (isMobile()?datesAll.length:MAX_VISIBLE_DESKTOP) >= datesAll.length);
       }
 
       function updateActive(){
         [...document.querySelectorAll('.date-chip')].forEach(x=>{
-          const on = x.textContent===active;
+          const on = x.getAttribute('data-date')===active;
           x.classList.toggle('active', on);
           x.setAttribute('aria-selected', on ? 'true' : 'false');
         });
@@ -493,44 +496,47 @@
       renderWindow();
       renderDay(active, groups[active], daysEl);
 
-      // Arrow handlers
+      // Arrow handlers (desktop only)
       btnPrev?.addEventListener('click', ()=>{
-        visibleStart = Math.max(0, visibleStart - maxVisible());
+        if (isMobile()) return;
+        visibleStart = Math.max(0, visibleStart - MAX_VISIBLE_DESKTOP);
         renderWindow();
       });
       btnNext?.addEventListener('click', ()=>{
-        visibleStart = Math.min(datesAll.length-1, visibleStart + maxVisible());
+        if (isMobile()) return;
+        visibleStart = Math.min(datesAll.length-1, visibleStart + MAX_VISIBLE_DESKTOP);
         renderWindow();
       });
 
-      // Keyboard shortcuts on track (Left/Right/Home/End)
+      // Keyboard shortcuts on track
       track.addEventListener('keydown',(e)=>{
         const idx = datesAll.indexOf(active);
         if(e.key==='ArrowRight' && idx < datesAll.length-1){ active = datesAll[idx+1]; ensureActiveVisible(); }
         if(e.key==='ArrowLeft'  && idx > 0){ active = datesAll[idx-1]; ensureActiveVisible(); }
-        if(e.key==='Home'){ active = datesAll[0]; visibleStart = 0; renderWindow(); }
-        if(e.key==='End'){ active = datesAll[datesAll.length-1]; visibleStart = Math.max(0, datesAll.length - maxVisible()); renderWindow(); }
+        if(e.key==='Home'){ active = datesAll[0]; if(!isMobile()) { visibleStart = 0; renderWindow(); } }
+        if(e.key==='End'){ active = datesAll[datesAll.length-1]; if(!isMobile()) { visibleStart = Math.max(0, datesAll.length - MAX_VISIBLE_DESKTOP); renderWindow(); } }
         updateActive(); renderDay(active, groups[active], daysEl);
       });
       track.tabIndex = 0;
 
       function ensureActiveVisible(){
-        const end = visibleStart + maxVisible();
+        if (isMobile()) { renderWindow(); return; } // all dates shown; just repaint
+        const end = visibleStart + MAX_VISIBLE_DESKTOP;
         const i = datesAll.indexOf(active);
         if(i < visibleStart){ visibleStart = i; renderWindow(); }
-        else if(i >= end){ visibleStart = i - maxVisible() + 1; renderWindow(); }
+        else if(i >= end){ visibleStart = i - MAX_VISIBLE_DESKTOP + 1; renderWindow(); }
       }
 
-      // ----- All Dates Modal -----
+      // ----- All Dates Modal (desktop only) -----
       function openModal(){
+        if (isMobile()) return; // disabled on mobile
         buildGrid();
         modal.hidden = false;
         btnClose.focus();
       }
       function closeModal(){
         modal.hidden = true;
-        // return focus to active chip
-        const chip = [...track.children].find(x=>x.textContent===active);
+        const chip = [...track.children].find(x=>x.getAttribute('data-date')===active);
         chip?.focus();
       }
       btnAll?.addEventListener('click', openModal);
@@ -540,7 +546,6 @@
 
       function buildGrid(){
         grid.innerHTML = '';
-        // Group dates by YYYY-MM
         const months = {};
         for(const d of datesAll){
           const key = d.slice(0,7);
@@ -557,9 +562,10 @@
             pill.textContent = d;
             pill.onclick = ()=>{
               active = d;
-              // adjust window to show this date
               const i = datesAll.indexOf(d);
-              visibleStart = Math.max(0, Math.min(i, Math.max(0, i - Math.floor(maxVisible()/2))));
+              if (!isMobile()) {
+                visibleStart = Math.max(0, Math.min(i, Math.max(0, i - Math.floor(MAX_VISIBLE_DESKTOP/2))));
+              }
               renderWindow(); updateActive(); renderDay(active, groups[active], daysEl); closeModal();
             };
             body.appendChild(pill);
@@ -569,10 +575,18 @@
       }
     }
 
+    function formatDate(isoDate) {
+      const d = new Date(isoDate);
+      if (isNaN(d)) return isoDate; // fallback if not parsable
+      const mm = String(d.getMonth() + 1).padStart(2, '0');
+      const dd = String(d.getDate()).padStart(2, '0');
+      const yyyy = d.getFullYear();
+      return `${mm}/${dd}/${yyyy}`;
+    }
+
     function renderDay(date, list, root){
       root.innerHTML = '';
 
-      // one per market (by design of the bot)
       const byM = {};
       list.forEach(b => byM[b.market] = b);
 
@@ -580,7 +594,7 @@
       section.className = 'day-card fade-in';
       section.innerHTML = `
         <div class="day-head">
-          <h3>${date}</h3>
+          <h3>${formatDate(date)}</h3>
           <span class="royal">👑 Royal Slip</span>
         </div>
         <div class="grid" id="grid-${cssId(date)}"></div>
