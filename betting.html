@@ -128,20 +128,66 @@
       opacity:.10;pointer-events:none
     }
 
-    /* DATE SELECTOR */
+    /* ===== DATE SELECTOR (NEW) ===== */
     .section-title{
       display:flex;align-items:center;justify-content:space-between;gap:12px;margin:8px 0 12px
     }
     .section-title h2{font-size:1.35rem;margin:0}
-    .date-select{display:flex;gap:10px;flex-wrap:wrap}
-    .date-btn{
-      font:inherit;color:#ececec;background:#121212;border:1px solid #262626;border-radius:14px;
-      padding:8px 12px;cursor:pointer;transition:all .15s ease
+
+    .datebar{display:flex;align-items:center;gap:.5rem}
+    .date-arrow{
+      background:#121212;border:1px solid #262626;color:#eaeaea;
+      border-radius:12px;padding:.4rem .6rem;cursor:pointer
     }
-    .date-btn:hover{transform:translateY(-1px)}
-    .date-btn.active{
-      border-color:rgba(0,255,198,.55);
+    .date-arrow:disabled{opacity:.4;cursor:not-allowed}
+    .date-all{
+      background:linear-gradient(180deg,#1a1a1a,#121212);
+      border:1px solid #2b2b2b;border-radius:12px;padding:.45rem .7rem;
+      color:#eaeaea;font-weight:800;cursor:pointer
+    }
+
+    .date-track-mask{
+      position:relative;min-width:0;
+      width:min(680px, 70vw);overflow:hidden;border-radius:12px;
+    }
+    .date-track{
+      display:flex;gap:.5rem;padding:.25rem .4rem;
+      overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;
+    }
+    .date-track::-webkit-scrollbar{display:none}
+    .date-track::before,.date-track::after{
+      content:"";position:sticky;top:0;width:18px;flex:0 0 18px;height:100%;
+    }
+    .date-track::before{left:0;background:linear-gradient(90deg, rgba(12,12,12,1), rgba(12,12,12,0))}
+    .date-track::after{right:0;background:linear-gradient(270deg, rgba(12,12,12,1), rgba(12,12,12,0))}
+    .date-chip{
+      scroll-snap-align:center;white-space:nowrap;
+      font:inherit;color:#ececec;background:#121212;border:1px solid #262626;border-radius:14px;
+      padding:.55rem .8rem;cursor:pointer;transition:transform .15s, box-shadow .15s, border-color .15s;
+    }
+    .date-chip:hover{transform:translateY(-1px)}
+    .date-chip.active{
+      border-color:rgba(0,255,198,.6);
       box-shadow:0 0 0 3px rgba(0,255,198,.14) inset, 0 8px 24px rgba(0,255,198,.08);
+    }
+
+    /* All Dates Modal */
+    .date-modal{position:fixed;inset:0;background:rgba(0,0,0,.6);display:grid;place-items:center;z-index:100}
+    .date-modal-card{
+      width:min(880px,92vw);max-height:80vh;overflow:auto;
+      background:#121212;border:1px solid #2a2a2a;border-radius:16px;box-shadow:0 20px 50px rgba(0,0,0,.5)
+    }
+    .date-modal-head{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border-bottom:1px solid #252525;background:#141414}
+    .date-close{
+      background:#181818;border:1px solid #2a2a2a;border-radius:10px;padding:.35rem .6rem;color:#ddd;cursor:pointer
+    }
+    .date-grid{padding:14px;display:grid;gap:16px}
+    .month-block{border:1px solid #242424;border-radius:12px;overflow:hidden}
+    .month-head{padding:10px 12px;background:#161616;border-bottom:1px solid #242424;font-weight:900}
+    .month-body{display:flex;flex-wrap:wrap;gap:.5rem;padding:12px}
+    .date-pill{
+      background:#101010;border:1px solid #262626;color:#eaeaea;border-radius:999px;
+      padding:.45rem .7rem;cursor:pointer
     }
 
     /* DAY CARD */
@@ -206,7 +252,10 @@
       h1.title{font-size:2rem}
       .records{grid-template-columns:1fr}
       .grid{grid-template-columns:1fr}
-      .date-select{overflow-x:auto;padding-bottom:4px}
+
+      /* datebar tweaks */
+      .date-track-mask{width:78vw}
+      .date-arrow{display:none} /* swipe on mobile */
     }
 
     @media (max-width:480px){
@@ -217,6 +266,9 @@
     /* FADE-IN */
     .fade-in{opacity:0;transform:translateY(6px);animation:fadeIn .35s ease forwards}
     @keyframes fadeIn{to{opacity:1;transform:none}}
+  
+    .date-modal[hidden]{ display:none !important; }
+
   </style>
 </head>
 <body>
@@ -246,7 +298,6 @@
   <section class="hero">
     <div class="chips">
       <span class="chip gold">👑 Crown Picks</span>
-      <!-- <span class="chip">Live from CKHQ bots</span> -->
     </div>
     <h1 class="title">💵 The Royal Slip</h1>
     <p class="sub">Daily moneyline, spread, and total — posted automatically with transparent results and season-long records.</p>
@@ -258,10 +309,28 @@
     <!-- RECORDS -->
     <section class="records" id="records"></section>
 
-    <!-- DATE SELECTOR -->
+    <!-- DATE SELECTOR (NEW STRUCTURE) -->
     <div class="section-title">
       <h2>Daily Bets</h2>
-      <div id="dateSelect" class="date-select"></div>
+      <div class="datebar" aria-label="Select date">
+        <button class="date-arrow" id="datePrev" aria-label="Previous dates">‹</button>
+        <div class="date-track-mask">
+          <div id="dateTrack" class="date-track" role="tablist" aria-label="Dates"></div>
+        </div>
+        <button class="date-arrow" id="dateNext" aria-label="Next dates">›</button>
+        <button class="date-all" id="dateAllBtn" aria-haspopup="dialog" aria-controls="dateModal">All</button>
+      </div>
+    </div>
+
+    <!-- All Dates Modal -->
+    <div id="dateModal" class="date-modal" role="dialog" aria-modal="true" aria-labelledby="dateModalTitle" hidden>
+      <div class="date-modal-card">
+        <div class="date-modal-head">
+          <h3 id="dateModalTitle">All Dates</h3>
+          <button class="date-close" id="dateClose" aria-label="Close">✕</button>
+        </div>
+        <div id="dateGrid" class="date-grid"></div>
+      </div>
     </div>
 
     <!-- DAYS -->
@@ -358,34 +427,146 @@
       });
     }
 
-    // --- Render dates + bets ---
+    // --- NEW: Render dates + bets with compact scroller & modal ---
     function renderDatesAndBets(bets){
       const daysEl = document.getElementById('days');
-      const bar = document.getElementById('dateSelect');
-      daysEl.innerHTML=''; bar.innerHTML='';
+      const track  = document.getElementById('dateTrack');
+      const empty  = document.getElementById('emptyState');
+      const btnPrev= document.getElementById('datePrev');
+      const btnNext= document.getElementById('dateNext');
+      const btnAll = document.getElementById('dateAllBtn');
+      const modal  = document.getElementById('dateModal');
+      const grid   = document.getElementById('dateGrid');
+      const btnClose=document.getElementById('dateClose');
 
-      if(!bets.length){ document.getElementById('emptyState').style.display='block'; return; }
-      document.getElementById('emptyState').style.display='none';
+      daysEl.innerHTML=''; track.innerHTML='';
 
-      // Group by date
+      if(!bets.length){ empty.style.display='block'; return; }
+      empty.style.display='none';
+
+      // Group by date (YYYY-MM-DD)
       const groups = bets.reduce((acc,b)=>{ (acc[b.date_et] ||= []).push(b); return acc; }, {});
-      const dates = Object.keys(groups).sort((a,b)=> a>b ? -1 : 1);
+      const datesAll = Object.keys(groups).sort((a,b)=> a>b ? -1 : 1); // newest first
 
-      let active = dates[0];
-      dates.forEach(d=>{
-        const btn = document.createElement('button');
-        btn.className = 'date-btn' + (d===active?' active':'');
-        btn.textContent = d;
-        btn.onclick = ()=>{
-          active = d;
-          document.querySelectorAll('.date-btn').forEach(x=>x.classList.remove('active'));
-          btn.classList.add('active');
-          renderDay(d, groups[d], daysEl);
-        };
-        bar.appendChild(btn);
+      // Windowed view to avoid "chip dump"
+      const MAX_VISIBLE_DESKTOP = 10;
+      let visibleStart = 0; // start at newest window
+      let active = datesAll[0];
+
+      const isMobile = () => window.matchMedia('(max-width:780px)').matches;
+      const maxVisible = () => isMobile() ? 6 : MAX_VISIBLE_DESKTOP;
+
+      function renderWindow(){
+        track.innerHTML = '';
+        const windowDates = datesAll.slice(visibleStart, visibleStart + maxVisible());
+
+        windowDates.forEach(d=>{
+          const btn = document.createElement('button');
+          btn.className = 'date-chip' + (d===active?' active':'');
+          btn.role = 'tab';
+          btn.setAttribute('aria-selected', d===active ? 'true' : 'false');
+          btn.textContent = d;
+          btn.onclick = ()=>{ active = d; updateActive(); renderDay(active, groups[active], daysEl); };
+          track.appendChild(btn);
+        });
+
+        // Scroll the active into view
+        requestAnimationFrame(()=>{
+          const current = [...track.children].find(x=>x.textContent===active);
+          if(current) current.scrollIntoView({inline:'center', block:'nearest'});
+        });
+
+        // Arrow enablement
+        if(btnPrev) btnPrev.disabled = (visibleStart<=0);
+        if(btnNext) btnNext.disabled = (visibleStart + maxVisible() >= datesAll.length);
+      }
+
+      function updateActive(){
+        [...document.querySelectorAll('.date-chip')].forEach(x=>{
+          const on = x.textContent===active;
+          x.classList.toggle('active', on);
+          x.setAttribute('aria-selected', on ? 'true' : 'false');
+        });
+      }
+
+      // Initial paint
+      renderWindow();
+      renderDay(active, groups[active], daysEl);
+
+      // Arrow handlers
+      btnPrev?.addEventListener('click', ()=>{
+        visibleStart = Math.max(0, visibleStart - maxVisible());
+        renderWindow();
+      });
+      btnNext?.addEventListener('click', ()=>{
+        visibleStart = Math.min(datesAll.length-1, visibleStart + maxVisible());
+        renderWindow();
       });
 
-      renderDay(active, groups[active], daysEl);
+      // Keyboard shortcuts on track (Left/Right/Home/End)
+      track.addEventListener('keydown',(e)=>{
+        const idx = datesAll.indexOf(active);
+        if(e.key==='ArrowRight' && idx < datesAll.length-1){ active = datesAll[idx+1]; ensureActiveVisible(); }
+        if(e.key==='ArrowLeft'  && idx > 0){ active = datesAll[idx-1]; ensureActiveVisible(); }
+        if(e.key==='Home'){ active = datesAll[0]; visibleStart = 0; renderWindow(); }
+        if(e.key==='End'){ active = datesAll[datesAll.length-1]; visibleStart = Math.max(0, datesAll.length - maxVisible()); renderWindow(); }
+        updateActive(); renderDay(active, groups[active], daysEl);
+      });
+      track.tabIndex = 0;
+
+      function ensureActiveVisible(){
+        const end = visibleStart + maxVisible();
+        const i = datesAll.indexOf(active);
+        if(i < visibleStart){ visibleStart = i; renderWindow(); }
+        else if(i >= end){ visibleStart = i - maxVisible() + 1; renderWindow(); }
+      }
+
+      // ----- All Dates Modal -----
+      function openModal(){
+        buildGrid();
+        modal.hidden = false;
+        btnClose.focus();
+      }
+      function closeModal(){
+        modal.hidden = true;
+        // return focus to active chip
+        const chip = [...track.children].find(x=>x.textContent===active);
+        chip?.focus();
+      }
+      btnAll?.addEventListener('click', openModal);
+      btnClose?.addEventListener('click', closeModal);
+      modal.addEventListener('click', (e)=>{ if(e.target===modal) closeModal(); });
+      window.addEventListener('keydown', (e)=>{ if(!modal.hidden && e.key==='Escape') closeModal(); });
+
+      function buildGrid(){
+        grid.innerHTML = '';
+        // Group dates by YYYY-MM
+        const months = {};
+        for(const d of datesAll){
+          const key = d.slice(0,7);
+          (months[key] ||= []).push(d);
+        }
+        Object.keys(months).sort((a,b)=> a>b ? -1 : 1).forEach(month=>{
+          const block = document.createElement('section');
+          block.className = 'month-block';
+          block.innerHTML = `<div class="month-head">${month}</div><div class="month-body"></div>`;
+          const body = block.querySelector('.month-body');
+          months[month].forEach(d=>{
+            const pill = document.createElement('button');
+            pill.className = 'date-pill';
+            pill.textContent = d;
+            pill.onclick = ()=>{
+              active = d;
+              // adjust window to show this date
+              const i = datesAll.indexOf(d);
+              visibleStart = Math.max(0, Math.min(i, Math.max(0, i - Math.floor(maxVisible()/2))));
+              renderWindow(); updateActive(); renderDay(active, groups[active], daysEl); closeModal();
+            };
+            body.appendChild(pill);
+          });
+          grid.appendChild(block);
+        });
+      }
     }
 
     function renderDay(date, list, root){

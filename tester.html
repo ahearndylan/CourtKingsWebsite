@@ -1,244 +1,203 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Free Throw Challenge</title>
-  <style>
-    body {
-      background-color: #111;
-      font-family: Arial, sans-serif;
-      margin: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
-
-    #gameContainer {
-      background: #1b1c2c;
-      width: 800px;
-      height: 500px;
-      border-radius: 12px;
-      box-shadow: 0 0 50px #ff8c00;
-      position: relative;
-      overflow: hidden;
-    }
-
-    canvas {
-      position: absolute;
-      top: 0;
-      left: 0;
-    }
-
-    #ui {
-      position: absolute;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      text-align: center;
-      color: white;
-    }
-
-    #powerBarContainer {
-      background: #333;
-      border-radius: 10px;
-      width: 300px;
-      height: 20px;
-      margin: 10px auto;
-    }
-
-    #powerBar {
-      background: orange;
-      width: 0%;
-      height: 100%;
-      border-radius: 10px;
-      transition: width 0.1s;
-    }
-
-    button {
-      padding: 10px 20px;
-      background: orange;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: bold;
-    }
-
-    h2 {
-      margin: 10px 0;
-    }
-  </style>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>CKHQ – Flick Free Throw (Vanilla)</title>
+<style>
+  :root{--bg:#07090f;--card:#0b0f18;--fg:#fff;--teal:#00ffc6;--border:rgba(255,255,255,.08)}
+  *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--fg);font-family:ui-sans-serif,system-ui;display:flex;justify-content:center}
+  .wrap{width:100%;max-width:1000px;padding:24px}
+  .hdr{display:flex;justify-content:space-between;align-items:center}
+  .arena{margin-top:12px;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:10px}
+  .canvas{width:100%;aspect-ratio:900/520;border-radius:12px;overflow:hidden;border:1px solid var(--border);background:#0b0f18}
+  canvas{width:100%;height:100%;display:block}
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:12px}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px}
+  .lbl{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#cdd6f6a0}
+  .val{font-size:26px;font-weight:800;margin-top:4px}
+  .hint{opacity:.7;font-size:14px}
+</style>
 </head>
 <body>
-  <div id="gameContainer">
-    <canvas id="gameCanvas" width="800" height="500"></canvas>
-    <div id="ui">
-      <h2 id="status">Click to set direction</h2>
-      <div id="powerBarContainer">
-        <div id="powerBar"></div>
-      </div>
-      <p>Score: <span id="score">0</span> / 10</p>
-      <button onclick="resetGame()">Reset</button>
+  <div class="wrap">
+    <div class="hdr"><h1>CKHQ <span style="color:var(--teal)">Flick</span> Free Throw</h1><div class="hint">Drag the ball → release • R = Reset</div></div>
+    <div class="stats">
+      <div class="card"><div class="lbl">Attempts</div><div class="val" id="att">0</div></div>
+      <div class="card"><div class="lbl">Makes</div><div class="val" id="mk">0</div></div>
+      <div class="card"><div class="lbl">FG%</div><div class="val" id="fg">0%</div></div>
+      <div class="card"><div class="lbl">Streak</div><div class="val" id="st">0</div></div>
     </div>
+    <div class="arena"><div class="canvas"><canvas id="c" width="900" height="520"></canvas></div></div>
   </div>
 
-  <script>
-    const canvas = document.getElementById("gameCanvas");
-    const ctx = canvas.getContext("2d");
+<script>
+(() => {
+  const cv = document.getElementById('c'), ctx = cv.getContext('2d');
+  const W=900,H=520,floorY=H-60;
 
-    const statusText = document.getElementById("status");
-    const powerBar = document.getElementById("powerBar");
-    const scoreText = document.getElementById("score");
+  // Hoop (side view)
+  const rimX=W-180, rimY=floorY-240;
+  const rimInner=18, rimOuter=24;
+  const boardX=rimX+55, boardTop=rimY-60, boardBot=rimY+60;
 
-    const hoop = { x: 700, y: 200, r: 25 };
-    const shooter = { x: 100, y: 400, r: 10 };
-    let arrowAngle = 0;
-    let directionLocked = false;
-    let power = 0;
-    let powerIncreasing = true;
-    let powerLocked = false;
+  // Scoring: center crosses this line within lane = make
+  let scoreLineY = rimY + 6;      // a bit below rim height
+  let laneHalf   = 30;            // widen/narrow to tune difficulty
 
-    let ball = null;
-    let shots = 0;
-    let score = 0;
-    let mode = "direction"; // or "power" or "shot"
+  // Ball
+  const spawnX=220, spawnY=floorY-120, R=11;
+  let b = {x:spawnX,y:spawnY,vx:0,vy:0,px:spawnX,py:spawnY,flying:false,scored:false};
+  const g=900, air=0.998, cor=0.5, dt=1/60;
 
-    function drawHoop() {
-      ctx.beginPath();
-      ctx.strokeStyle = "orange";
-      ctx.lineWidth = 5;
-      ctx.arc(hoop.x, hoop.y, hoop.r, 0, Math.PI, false);
-      ctx.stroke();
+  // Stats
+  let att=0,mk=0,st=0; const $=(id)=>document.getElementById(id);
+  const upd=()=>{ $('att').textContent=att; $('mk').textContent=mk; $('fg').textContent=(att?Math.round(mk/att*100):0)+'%'; $('st').textContent=st; }; upd();
+
+  // Drag-to-shoot
+  let dragging=false, dragStart=null;
+  function toWorld(e){const r=cv.getBoundingClientRect();const x=(e.touches?e.touches[0].clientX:e.clientX)-r.left;const y=(e.touches?e.touches[0].clientY:e.clientY)-r.top;return {x:x*(W/r.width),y:y*(H/r.height)};}
+
+  function onDown(e){
+    const p=toWorld(e);
+    const d=Math.hypot(p.x-b.x,p.y-b.y);
+    if(d<=R+14 && !b.flying){ dragging=true; dragStart=p; }
+  }
+  function onMove(e){
+    if(!dragging) return;
+    const p=toWorld(e);
+    // draw a ghost while dragging (we don’t move ball yet)
+    ghost=p;
+  }
+  function onUp(e){
+    if(!dragging) return;
+    const p=toWorld(e);
+    dragging=false;
+    // velocity = drag vector * scale (drag from ball to mouse)
+    const dx = p.x - b.x, dy = p.y - b.y;
+    const scale = 3.2;                 // tweak for feel (higher = faster)
+    b.vx = dx * scale;
+    b.vy = dy * scale;
+    // invert Y because up should be negative vy
+    b.vy *= -1;
+    b.flying=true; b.scored=false; att++; upd();
+    ghost=null;
+  }
+  let ghost=null;
+
+  cv.addEventListener('mousedown', onDown);
+  cv.addEventListener('mousemove', onMove);
+  window.addEventListener('mouseup', onUp);
+  cv.addEventListener('touchstart', e=>{e.preventDefault(); onDown(e)}, {passive:false});
+  cv.addEventListener('touchmove',  e=>{e.preventDefault(); onMove(e)},  {passive:false});
+  cv.addEventListener('touchend',   e=>{onUp(e)});
+
+  window.addEventListener('keydown', (e)=>{
+    if(e.key.toLowerCase()==='r'){ reset(false); }
+  });
+
+  function reset(hard){
+    b={x:spawnX,y:spawnY,vx:0,vy:0,px:spawnX,py:spawnY,flying:false,scored:false};
+    if(hard){att=mk=st=0;} upd();
+  }
+
+  // collisions
+  function collideCircle(cx,cy,r){
+    const dx=b.x-cx, dy=b.y-cy, dist=Math.hypot(dx,dy), min=r+R;
+    if(dist<min){
+      const nx=dx/(dist||1), ny=dy/(dist||1), overlap=min-dist;
+      b.x+=nx*overlap; b.y+=ny*overlap;
+      const dot=b.vx*nx+b.vy*ny;
+      b.vx-=(1+cor)*dot*nx; b.vy-=(1+cor)*dot*ny;
+      b.vx*=0.985; b.vy*=0.985;
     }
+  }
 
-    function drawShooter() {
-      ctx.beginPath();
-      ctx.fillStyle = "orange";
-      ctx.arc(shooter.x, shooter.y, shooter.r, 0, Math.PI * 2);
-      ctx.fill();
-    }
+  // flash on score
+  let flash=0;
 
-    function drawArrow() {
-      if (!directionLocked) {
-        const length = 80;
-        const endX = shooter.x + length * Math.cos(arrowAngle);
-        const endY = shooter.y + length * Math.sin(arrowAngle);
-        ctx.strokeStyle = "yellow";
-        ctx.lineWidth = 3;
-        ctx.beginPath();
-        ctx.moveTo(shooter.x, shooter.y);
-        ctx.lineTo(endX, endY);
-        ctx.stroke();
-      }
-    }
+  function step(){
+    // physics
+    if(b.flying){
+      b.px=b.x; b.py=b.y;
 
-    function drawBall() {
-      if (ball) {
-        ctx.beginPath();
-        ctx.fillStyle = "orange";
-        ctx.arc(ball.x, ball.y, 10, 0, Math.PI * 2);
-        ctx.fill();
-      }
-    }
+      b.vy+=g*dt;
+      b.x+=b.vx*dt;
+      b.y+=b.vy*dt;
+      b.vx*=air; b.vy*=air;
 
-    function animate() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      drawHoop();
-      drawShooter();
-      drawArrow();
-      drawBall();
-
-      if (!directionLocked) {
-        arrowAngle += 0.02;
-        if (arrowAngle > Math.PI / 3) arrowAngle = -Math.PI / 3;
-      }
-
-      if (mode === "power" && !powerLocked) {
-        if (powerIncreasing) {
-          power += 1;
-          if (power >= 100) powerIncreasing = false;
-        } else {
-          power -= 1;
-          if (power <= 0) powerIncreasing = true;
+      // ===== scoring (center-line crossing) BEFORE collisions =====
+      const crossed = (b.py <= scoreLineY && b.y >= scoreLineY);
+      if(!b.scored && crossed){
+        const t = (scoreLineY - b.py) / (b.y - b.py || 1);
+        const xCross = b.px + (b.x - b.px)*t;
+        const inLane = xCross >= (rimX - laneHalf) && xCross <= (rimX + laneHalf);
+        if(inLane){
+          b.scored=true; mk++; st++; upd(); flash=10;
         }
-        powerBar.style.width = `${power}%`;
       }
 
-      if (ball) {
-        ball.vy += 0.2; // gravity
-        ball.x += ball.vx;
-        ball.y += ball.vy;
-
-        if (
-          ball.x > hoop.x - hoop.r &&
-          ball.x < hoop.x + hoop.r &&
-          ball.y > hoop.y - 5 &&
-          ball.y < hoop.y + 5
-        ) {
-          score++;
-          scoreText.textContent = score;
-          ball = null;
-          nextShot();
-        } else if (ball.y > canvas.height) {
-          ball = null;
-          nextShot();
-        }
+      // floor
+      if(b.y+R>floorY){
+        b.y=floorY-R; b.vy*=-cor; b.vx*=0.9;
+        if(Math.abs(b.vx)<5 && Math.abs(b.vy)<5){ b.flying=false; b.vx=b.vy=0; if(!b.scored){st=0; upd();} }
       }
+      // backboard
+      if(b.x+R>boardX && b.y>boardTop && b.y<boardBot){ b.x=boardX-R; b.vx*=-cor; }
+      // rim rings
+      collideCircle(rimX-rimOuter,rimY,rimOuter);
+      collideCircle(rimX+rimOuter,rimY,rimOuter);
 
-      requestAnimationFrame(animate);
-    }
-
-    function nextShot() {
-      directionLocked = false;
-      powerLocked = false;
-      power = 0;
-      powerIncreasing = true;
-      powerBar.style.width = "0%";
-      mode = "direction";
-      shots++;
-      statusText.textContent = shots < 10 ? "Click to set direction" : "Game Over";
-    }
-
-    canvas.addEventListener("click", () => {
-      if (shots >= 10) return;
-
-      if (mode === "direction" && !directionLocked) {
-        directionLocked = true;
-        mode = "power";
-        statusText.textContent = "Click to set power";
-      } else if (mode === "power" && !powerLocked) {
-        powerLocked = true;
-        mode = "shot";
-        shootBall();
+      // out-of-bounds → reset ball
+      if(b.x < -50 || b.x > W+50 || b.y < -100 || b.y > H+100){
+        b.flying=false; if(!b.scored){st=0; upd();} reset(false);
       }
-    });
-
-    function shootBall() {
-      const speed = (power / 100) * 12;
-      ball = {
-        x: shooter.x,
-        y: shooter.y,
-        vx: speed * Math.cos(arrowAngle),
-        vy: speed * Math.sin(arrowAngle),
-      };
-      statusText.textContent = "Shooting...";
     }
 
-    function resetGame() {
-      score = 0;
-      shots = 0;
-      scoreText.textContent = score;
-      ball = null;
-      directionLocked = false;
-      powerLocked = false;
-      power = 0;
-      powerBar.style.width = "0%";
-      statusText.textContent = "Click to set direction";
-      mode = "direction";
-    }
+    draw();
+    requestAnimationFrame(step);
+  }
 
-    animate();
-  </script>
+  function line(x1,y1,x2,y2){ ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(x2,y2); ctx.stroke(); }
+  function circle(x,y,r){ ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); }
+
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    const grad=ctx.createLinearGradient(0,0,0,H); grad.addColorStop(0,"#0d0f15"); grad.addColorStop(1,"#050608"); ctx.fillStyle=grad; ctx.fillRect(0,0,W,H);
+
+    // court box + floor
+    ctx.fillStyle="#1b2330"; rounded(20,20,W-40,H-40,24); ctx.fill();
+    ctx.fillStyle="#0e1320"; rounded(20,floorY-40,W-40,80,18); ctx.fill();
+
+    // free-throw circle/line
+    ctx.strokeStyle="#28324a"; ctx.lineWidth=2; circle(spawnX+30,floorY-120,60); ctx.stroke(); line(spawnX-50,floorY-60,spawnX+100,floorY-60);
+
+    // backboard
+    ctx.fillStyle="#d9e3ff0f"; ctx.fillRect(boardX,boardTop,8,boardBot-boardTop);
+
+    // rim visuals
+    ctx.strokeStyle="#ff7d00"; ctx.lineWidth=4; arc(rimX,rimY,24,0,Math.PI); ctx.stroke();
+    ctx.strokeStyle="#ffd19a"; ctx.lineWidth=2; arc(rimX,rimY,18,0,Math.PI); ctx.stroke();
+
+    // optional scoring line (debug, faint)
+    ctx.strokeStyle="rgba(255,255,255,.18)"; ctx.lineWidth=3; line(rimX-laneHalf,scoreLineY,rimX+laneHalf,scoreLineY);
+
+    // swish flash
+    if(flash>0){ flash--; ctx.save(); ctx.globalAlpha=Math.min(.5,flash/10); ctx.strokeStyle="#00ffc6"; ctx.lineWidth=6; arc(rimX,rimY+4,24,0.1*Math.PI,0.9*Math.PI); ctx.stroke(); ctx.restore(); }
+
+    // ball
+    ctx.fillStyle="#f77f07"; circle(b.x,b.y,R); ctx.fill();
+    ctx.strokeStyle="#4a2808"; ctx.lineWidth=1.2; circle(b.x,b.y,R-2); ctx.stroke(); line(b.x-R,b.y,b.x+R,b.y); line(b.x,b.y-R,b.x,b.y+R);
+
+    // ghost while dragging
+    if(ghost){ ctx.strokeStyle="#00ffc6"; ctx.lineWidth=2; line(b.x,b.y,ghost.x,ghost.y); circle(ghost.x,ghost.y,6); ctx.stroke(); }
+  }
+
+  function arc(x,y,r,a0,a1,ccw=false){ ctx.beginPath(); ctx.arc(x,y,r,a0,a1,ccw); }
+  function rounded(x,y,w,h,r){ const rr=Math.min(r,w/2,h/2); ctx.beginPath(); ctx.moveTo(x+rr,y); ctx.arcTo(x+w,y,x+w,y+h,rr); ctx.arcTo(x+w,y+h,x,y+h,rr); ctx.arcTo(x,y+h,x,y,rr); ctx.arcTo(x,y,x+w,y,rr); ctx.closePath(); }
+
+  requestAnimationFrame(step);
+})();
+</script>
 </body>
 </html>
