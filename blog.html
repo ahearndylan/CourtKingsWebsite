@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Court Kings HQ — Blog</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet" />
+  <style>
+    :root{
+      --primary:#00ffc6; --accent:#c084fc; --bg-dark:#0c0c0c; --card-bg:#151515; --border:#1e1e1e; --muted:#9aa3ab;
+      --divider: rgba(255,255,255,.08);
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{
+      font-family:'Outfit',system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      background:var(--bg-dark); color:#fff; display:flex; flex-direction:column;
+    }
+
+    /* Header / Nav (same style as index) */
+    header{
+      display:grid;grid-template-columns:auto 1fr;align-items:center;gap:1rem;
+      padding:1rem 1.25rem;background:#121212;border-bottom:1px solid #1f1f1f;
+      position: relative;
+    }
+    .logo-container img{
+      height:64px;width:auto;border-radius:12px;box-shadow:0 0 8px rgba(0,0,0,.4);transition:transform .25s ease
+    }
+    .logo-container img:hover{transform:scale(1.04)}
+
+    nav.main-nav{
+      display:flex;justify-content:flex-end;align-items:center;flex-wrap:wrap;gap:.9rem 1.2rem
+    }
+    nav.main-nav a{
+      color:#ccc;text-decoration:none;font-weight:600;padding:.4rem .2rem;transition:color .2s ease;white-space:nowrap
+    }
+    nav.main-nav a:hover{color:var(--primary)}
+    .support-desktop{color:#ffc107!important}
+    .nav-toggle{
+      display:none;
+      background:transparent;border:1px solid #242424;color:#eaeaea;
+      font-weight:800;border-radius:10px;padding:.45rem .7rem;line-height:1;
+    }
+    .nav-toggle:focus{outline:2px solid rgba(0,255,198,.4); outline-offset:2px}
+
+    /* Blog intro */
+    .blog-intro{
+      text-align:center;padding:2.25rem 1rem 0;
+    }
+    .blog-intro h1{
+      font-size:clamp(1.9rem,3.2vw + .5rem,2.6rem);font-weight:800;color:var(--primary);margin-bottom:.4rem;
+    }
+    .blog-intro h3{
+      font-size:1.25rem;color:var(--accent);font-weight:600;margin-bottom:.85rem;
+    }
+    .blog-intro p{
+      color:var(--muted);max-width:820px;margin:0 auto;line-height:1.55;font-size:1.02rem;
+    }
+
+    /* Tag filter bar */
+    .tag-filter-bar{
+      margin:1.6rem auto 0;
+      max-width:900px;
+      padding:0 1rem;
+      display:flex;
+      flex-wrap:wrap;
+      justify-content:center;
+      gap:.5rem;
+    }
+    .tag-filter-pill{
+      border-radius:999px;
+      padding:.22rem .85rem;
+      font-size:.78rem;
+      font-weight:700;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      border:1px solid #2a2a2a;
+      background:rgba(255,255,255,0.02);
+      color:#d0d4da;
+      cursor:pointer;
+      transition:background .15s ease,border-color .15s ease,color .15s ease,box-shadow .15s ease,transform .1s ease;
+      white-space:nowrap;
+    }
+    .tag-filter-pill:hover{
+      background:rgba(255,255,255,0.05);
+      transform:translateY(-1px);
+      box-shadow:0 4px 10px rgba(0,0,0,.4);
+    }
+    .tag-filter-pill.active{
+      background:rgba(255,255,255,0.08);
+      box-shadow:0 0 0 1px rgba(255,255,255,0.04);
+    }
+    .tag-pill-all{
+      border-color:#4b4b4b;
+      color:#e5e7eb;
+    }
+    .tag-pill-take{
+      border-color:rgba(255, 0, 0, 0.7);
+      color:#e76868;
+    }
+    .tag-pill-player{
+      border-color:#2563eb;
+      color:#60a5fa;
+    }
+    .tag-pill-team{
+      border-color:#7c3aed;
+      color:#a78bfa;
+    }
+    .tag-pill-game{
+      border-color:#0cea91;
+      color:#bef7e0;
+    }
+    .tag-pill-trend{
+      border-color:#db2777;
+      color:#f9a8d4;
+    }
+
+    .section{
+      max-width:1200px;width:100%;margin:0 auto;padding:1.8rem 1rem 1rem;
+    }
+
+    /* Blog layout: just main posts now */
+    .blog-layout{
+      display:grid;grid-template-columns:1fr;gap:1.5rem;align-items:flex-start;
+    }
+    .blog-main{}
+
+    .blog-divider{
+      height:1px;background:var(--divider);margin-bottom:1rem;
+    }
+
+    /* Posts list */
+    .posts-list{
+      display:flex;flex-direction:column;gap:1rem;
+    }
+    .blog-card{
+      background:var(--card-bg);border:1px solid var(--border);border-radius:16px;
+      padding:1rem 1.1rem;
+      transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+      position:relative;overflow:hidden;box-shadow:0 0 8px rgba(0,255,198,.05);
+      text-align:left;
+      cursor:pointer;
+    }
+    .blog-card:hover{
+      transform:translateY(-3px);
+      box-shadow:0 10px 20px rgba(0,255,198,.12);
+      border-color:rgba(0,255,198,.25);
+    }
+    .blog-card::before{
+      content:"";position:absolute;inset:-40% -40% auto auto;height:200%;width:200%;
+      background:radial-gradient(circle,rgba(0,255,198,.08) 0%,transparent 60%);
+      transform:rotate(25deg);pointer-events:none;opacity:.6;transition:opacity .25s ease;
+    }
+    .blog-card:hover::before{opacity:.9}
+    .blog-card-title{
+      font-size:1.15rem;font-weight:700;color:#fff;margin-bottom:.25rem;
+    }
+    .blog-card-meta{
+      font-size:.85rem;color:var(--muted);margin-bottom:.55rem;
+    }
+    .blog-card-excerpt{
+      font-size:.94rem;color:#cfd6dc;line-height:1.45;
+    }
+
+    .modal-title {
+  overflow-wrap: break-word;   /* allows long words to wrap */
+  word-break: break-word;      /* backup for extremely long sequences */
+  white-space: normal;         /* ensures wrapping is allowed */
+}
+
+
+    /* Tag pill on posts (base + variants) */
+    .blog-tag{
+      display:inline-flex;align-items:center;gap:.3rem;
+      font-size:.8rem;
+      border-radius:999px;padding:.18rem .55rem;
+      margin-right:.35rem;
+      border:1px solid #2a2a2a;
+      background:rgba(255,255,255,.02);
+      color:#d0d4da;
+    }
+    .blog-tag-take{
+      border-color:rgba(255, 0, 0, 0.7);
+      color:#e76868;
+      background:rgba(0,255,198,.06);
+    }
+    .blog-tag-player{
+      border-color:#2563eb;
+      color:#60a5fa;
+      background:rgba(37,99,235,.15);
+    }
+    .blog-tag-team{
+      border-color:#7c3aed;
+      color:#a78bfa;
+      background:rgba(124,58,237,.16);
+    }
+    .blog-tag-game{
+      border-color:#0cea91;
+      color:#bef7e0;
+      background:rgba(234,88,12,.18);
+    }
+    .blog-tag-trend{
+      border-color:#db2777;
+      color:#f9a8d4;
+      background:rgba(219,39,119,.18);
+    }
+
+    /* Prevent long words/URLs from blowing out layout */
+    .blog-card-title,
+    .blog-card-excerpt,
+    .modal-body {
+      word-wrap: break-word;
+      overflow-wrap: anywhere;
+    }
+
+    /* Sidebar / admin card reused inside modal */
+    .sidebar-card{
+      background:var(--card-bg);border:1px solid var(--border);border-radius:16px;
+      padding:1rem 1.1rem;
+      box-shadow:0 0 8px rgba(0,255,198,.05);
+    }
+    .sidebar-card h2{
+      font-size:1rem;font-weight:800;color:#e9fdf7;margin-bottom:.6rem;
+    }
+    .sidebar-card p{
+      font-size:.9rem;color:var(--muted);line-height:1.4;margin-bottom:.4rem;
+    }
+
+    /* Login + editor */
+    .auth-section{
+      margin-top:.4rem;border-top:1px solid var(--divider);padding-top:.7rem;
+    }
+    .auth-fields{
+      display:flex;flex-direction:column;gap:.4rem;margin-top:.4rem;
+    }
+    .auth-fields label{
+      font-size:.8rem;color:var(--muted);
+    }
+    .auth-fields input,
+    .auth-fields textarea{
+      width:100%;border-radius:10px;border:1px solid #242424;background:#0f1011;
+      color:#eaeaea;font-size:.9rem;padding:.45rem .55rem;
+    }
+    .auth-fields textarea{min-height:120px;resize:vertical}
+    .btn{
+      display:inline-flex;align-items:center;justify-content:center;
+      border-radius:999px;border:1px solid rgba(0,255,198,.3);
+      background:linear-gradient(135deg,rgba(0,255,198,.14),rgba(192,132,252,.16));
+      color:#eafff8;font-weight:600;padding:.45rem .9rem;font-size:.9rem;
+      cursor:pointer;margin-top:.25rem;
+    }
+    .btn.secondary{
+      background:transparent;border-color:#333;color:#d0d4da;font-weight:500;
+    }
+    .btn-row{
+      display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.4rem;
+    }
+    .auth-note{
+      font-size:.78rem;color:var(--muted);margin-top:.45rem;
+    }
+    .status-message{
+      font-size:.8rem;margin-top:.4rem;color:var(--primary);
+    }
+    .auth-header-line{
+      display:flex;justify-content:space-between;align-items:center;gap:.5rem;
+      font-size:.8rem;color:var(--muted);
+      margin-bottom:.25rem;
+    }
+
+    footer{
+      margin-top:auto;text-align:center;padding:1.75rem 1rem 10px;font-size:.9rem;color:#7f8b95
+    }
+
+    /* Shared modal base */
+    .modal-overlay{
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,0.72);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:1rem;
+      z-index:50;
+      opacity:0;
+      pointer-events:none;
+      transition:opacity .2s ease;
+    }
+    .modal-overlay.show{
+      opacity:1;
+      pointer-events:auto;
+    }
+    .modal-card{
+      max-width:800px;
+      width:100%;
+      max-height:90vh;
+      overflow-y:auto;
+      background:var(--card-bg);
+      border-radius:18px;
+      border:1px solid var(--border);
+      box-shadow:0 18px 40px rgba(0,0,0,.6);
+      padding:1.25rem 1.4rem 1.4rem;
+      position:relative;
+    }
+    .modal-close{
+      position:absolute;
+      top:.6rem;
+      right:.75rem;
+      border:none;
+      background:transparent;
+      color:#9aa3ab;
+      font-size:1.4rem;
+      line-height:1;
+      cursor:pointer;
+    }
+    .modal-close:hover{
+      color:#ffffff;
+    }
+
+    /* Post modal specific */
+    .modal-tag-row{
+      display:flex;
+      align-items:center;
+      gap:.5rem;
+      font-size:.85rem;
+      color:var(--muted);
+      margin-bottom:.35rem;
+    }
+    .modal-title{
+      font-size:1.4rem;
+      font-weight:800;
+      margin-bottom:.4rem;
+      color:#fff;
+    }
+    .modal-meta{
+      font-size:.85rem;
+      color:var(--muted);
+      margin-bottom:.9rem;
+    }
+    .modal-body{
+      font-size:.96rem;
+      line-height:1.6;
+      color:#dde3ea;
+      white-space:pre-wrap;
+    }
+
+    /* Admin modal tweaks */
+    .admin-card{
+      max-width:430px;
+    }
+
+    /* Floating crown button */
+    .admin-toggle{
+      position:fixed;
+      bottom:18px;
+      right:18px;
+      width:44px;
+      height:44px;
+      border-radius:999px;
+      border:1px solid rgba(0,255,198,.5);
+      background:radial-gradient(circle at 30% 0, rgba(192,132,252,.55), rgba(0,255,198,.18));
+      color:#fff;
+      font-size:1.4rem;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      cursor:pointer;
+      box-shadow:0 0 14px rgba(0,255,198,.55);
+      z-index:60;
+      transition:transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+    }
+    .admin-toggle:hover{
+      transform:translateY(-1px);
+      box-shadow:0 0 20px rgba(0,255,198,.9);
+      border-color:rgba(0,255,198,.9);
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 780px){
+      header{
+        grid-template-columns: 1fr auto;
+        align-items:center;
+      }
+      .logo-container{display:flex;align-items:center}
+      .nav-toggle{display:inline-block}
+      nav.main-nav{
+        display:none;
+        position: absolute; top:100%; right:0; left:0;
+        background:#101214; border-top:1px solid #202327;
+        padding:.6rem 1rem; gap:.4rem; z-index: 5;
+        flex-direction: column; align-items: flex-start;
+      }
+      nav.main-nav.open{display:flex}
+      nav.main-nav a{padding:.6rem 0; width:100%}
+
+      .blog-intro{padding:1.8rem 1rem 0}
+      .blog-intro h1{font-size:2rem}
+      .blog-intro h3{font-size:1.05rem}
+      .blog-intro p{font-size:.96rem}
+
+      /* move crown up a bit so it doesn't overlap footer */
+      .admin-toggle{
+        bottom:64px;
+        right:18px;
+      }
+    }
+
+    @media (max-width: 600px){
+      /* keep tag pills on one line with horizontal scroll */
+      .tag-filter-bar{
+        flex-wrap:nowrap;
+        justify-content:flex-start;
+        overflow-x:auto;
+        padding-bottom:.35rem;
+        -webkit-overflow-scrolling:touch;
+      }
+      .tag-filter-bar::-webkit-scrollbar{
+        display:none;
+      }
+      .tag-filter-pill{
+        font-size:.72rem;
+        padding:.2rem .7rem;
+      }
+    }
+
+    @media (max-width: 480px){
+      .blog-intro h1{font-size:1.8rem}
+      .blog-intro h3{font-size:1rem}
+      .blog-intro p{font-size:.93rem}
+      .sidebar-card, .blog-card{padding:.85rem .9rem}
+      .blog-card-title{font-size:1.05rem}
+      .blog-card-excerpt{font-size:.9rem}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo-container"><a href="index.html"><img src="img/logo6.png" alt="Court Kings HQ Logo"></a></div>
+
+    <!-- Mobile hamburger -->
+    <button class="nav-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle menu">☰</button>
+
+    <nav id="primary-nav" class="main-nav" aria-label="Primary navigation">
+      <a href="about.html">About</a>
+      <a href="archive.html">Live Hub</a>
+      <a href="trivia.html">Trivia</a>
+      <a href="offseason.html">Offseason</a>
+      <a href="betting.html">Crown Picks</a>
+      <a href="blog.html" style="color:var(--primary);">Blog</a>
+      <a href="contact.html">Contact</a>
+      <a class="support-desktop" href="https://buymeacoffee.com/courtkingshq" target="_blank" rel="noopener">☕ Support</a>
+    </nav>
+  </header>
+
+  <section class="blog-intro">
+    <h1>CKHQ Blog</h1>
+    <h3>Real Hoops. Real Takes.</h3>
+    <p>
+      Unfiltered NBA thoughts, stat-backed breakdowns, and real takes from the Court Kings HQ side of the court.
+      No fluff recaps — just what actually matters from the games, trends, and players.
+    </p>
+
+    <!-- Tag filter bar -->
+    <div class="tag-filter-bar" aria-label="Filter posts by tag">
+      <button class="tag-filter-pill tag-pill-all active" data-tag="All">All</button>
+      <button class="tag-filter-pill tag-pill-take" data-tag="Take">Hot Takes</button>
+      <button class="tag-filter-pill tag-pill-player" data-tag="Player">Players</button>
+      <button class="tag-filter-pill tag-pill-team" data-tag="Team">Teams</button>
+      <button class="tag-filter-pill tag-pill-game" data-tag="Game">Games</button>
+      <button class="tag-filter-pill tag-pill-trend" data-tag="Trend">Trends</button>
+    </div>
+  </section>
+
+  <section class="section" aria-label="Court Kings HQ Blog">
+    <div class="blog-layout">
+      <!-- Main blog posts -->
+      <main class="blog-main">
+        <div class="blog-divider"></div>
+        <div id="posts" class="posts-list">
+          <!-- Posts from Supabase will render here -->
+        </div>
+      </main>
+    </div>
+  </section>
+
+  <!-- Post modal overlay for full post view -->
+  <div id="post-modal" class="modal-overlay">
+    <div class="modal-card">
+      <button class="modal-close" id="modal-close" aria-label="Close post">&times;</button>
+      <div class="modal-tag-row">
+        <span id="modal-tag" class="blog-tag blog-tag-take">Hot Takes</span>
+        <span id="modal-date"></span>
+        <span>• @CourtKingsHQ</span>
+      </div>
+      <h2 id="modal-title" class="modal-title"></h2>
+      <div id="modal-meta" class="modal-meta"></div>
+      <div id="modal-body" class="modal-body"></div>
+    </div>
+  </div>
+
+  <!-- Admin / Author Console modal -->
+  <div id="admin-modal" class="modal-overlay">
+    <div class="modal-card admin-card">
+      <button class="modal-close" id="admin-close" aria-label="Close author console">&times;</button>
+      <div class="sidebar-card">
+        <h2>Author Console</h2>
+        <p>Log in with your CKHQ author account to post new blogs directly from any device.</p>
+
+        <div class="auth-section" id="auth-section">
+          <div class="auth-header-line">
+            <span id="auth-status-line">Not logged in</span>
+            <button id="logout-btn" class="btn secondary" type="button" style="display:none;">Log out</button>
+          </div>
+
+          <!-- LOGIN VIEW -->
+          <div id="login-view">
+            <p><strong>Author Login</strong></p>
+            <div class="auth-fields">
+              <label for="login-email">Email</label>
+              <input id="login-email" type="email" placeholder="you@example.com" />
+
+              <label for="login-password">Password</label>
+              <input id="login-password" type="password" placeholder="••••••••" />
+            </div>
+            <div class="btn-row">
+              <button class="btn" type="button" id="login-btn">Log In</button>
+            </div>
+            <p class="auth-note">
+              Use the email/password you created in Supabase Auth (e.g. your <code>cashquatro3</code> account).
+            </p>
+          </div>
+
+          <!-- EDITOR VIEW (only when logged in) -->
+          <div id="editor-view" style="margin-top:1rem; display:none;">
+            <p><strong>New Post</strong></p>
+            <div class="auth-fields">
+              <label for="post-title">Title</label>
+              <input id="post-title" type="text" placeholder="ex. Why Team X’s Half-Court Offense Actually Works" />
+
+              <label for="post-tag">Tag</label>
+              <input id="post-tag" type="text" placeholder="Hot Take, Player, Game, Trend..." />
+
+              <label for="post-body">Body</label>
+              <textarea id="post-body" placeholder="Write your real hoops take here..."></textarea>
+            </div>
+            <div class="btn-row">
+              <button class="btn" type="button" id="publish-btn">Publish Post</button>
+              <button class="btn secondary" type="button" id="clear-btn">Clear</button>
+            </div>
+            <p class="auth-note">
+              Posts save straight into your <code>blog_posts</code> table and appear on the blog, newest first.
+            </p>
+          </div>
+
+          <div id="status-message" class="status-message">
+            Loading auth state…
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Floating crown admin button -->
+  <button id="admin-toggle" class="admin-toggle" title="Author console">👑</button>
+
+  <footer>© 2025 Court Kings HQ – All stats auto-tracked &amp; published. @CourtKingsHQ</footer>
+
+  <!-- Supabase client -->
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+
+  <script>
+    // Mobile hamburger toggle
+    const toggle = document.querySelector('.nav-toggle');
+    const nav = document.getElementById('primary-nav');
+    if (toggle && nav) {
+      toggle.addEventListener('click', () => {
+        const isOpen = nav.classList.toggle('open');
+        toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      });
+    }
+
+    // ---------- Supabase setup ----------
+    const supabaseUrl = "https://fjtxowbjnxclzcogostk.supabase.co";
+    const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZqdHhvd2JqbnhjbHpjb2dvc3RrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI2MDE5NTgsImV4cCI6MjA1ODE3Nzk1OH0.LPkFw-UX6io0F3j18Eefd1LmeAGGXnxL4VcCLOR_c1Q";
+    const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+    // ---------- DOM elements ----------
+    const loginView = document.getElementById("login-view");
+    const editorView = document.getElementById("editor-view");
+    const authStatusLine = document.getElementById("auth-status-line");
+    const statusMessage = document.getElementById("status-message");
+    const logoutBtn = document.getElementById("logout-btn");
+
+    const loginBtn = document.getElementById("login-btn");
+    const loginEmail = document.getElementById("login-email");
+    const loginPassword = document.getElementById("login-password");
+
+    const publishBtn = document.getElementById("publish-btn");
+    const clearBtn = document.getElementById("clear-btn");
+    const postTitle = document.getElementById("post-title");
+    const postTag = document.getElementById("post-tag");
+    const postBody = document.getElementById("post-body");
+    const postsContainer = document.getElementById("posts");
+
+    // Tag filter elements
+    const tagButtons = document.querySelectorAll(".tag-filter-pill");
+    let currentTagFilter = "All";
+    let allPosts = [];
+
+    // Post modal elements
+    const modalOverlay = document.getElementById("post-modal");
+    const modalCloseBtn = document.getElementById("modal-close");
+    const modalTag = document.getElementById("modal-tag");
+    const modalDate = document.getElementById("modal-date");
+    const modalTitle = document.getElementById("modal-title");
+    const modalMeta = document.getElementById("modal-meta");
+    const modalBody = document.getElementById("modal-body");
+
+    // Admin modal elements
+    const adminToggleBtn = document.getElementById("admin-toggle");
+    const adminModal = document.getElementById("admin-modal");
+    const adminCloseBtn = document.getElementById("admin-close");
+
+    // ---------- Tag helper ----------
+    function getTagMeta(rawTag) {
+      const base = (rawTag || "Hot Take").trim().toLowerCase();
+
+      if (base.startsWith("player")) return { label: "Player", cls: "blog-tag-player" };
+      if (base.startsWith("team"))   return { label: "Team",   cls: "blog-tag-team"   };
+      if (base.startsWith("game"))   return { label: "Game",   cls: "blog-tag-game"   };
+      if (base.startsWith("trend"))  return { label: "Trend",  cls: "blog-tag-trend"  };
+      // default
+      return { label: "Hot Take", cls: "blog-tag-take" };
+    }
+
+    // ---------- Auth helpers ----------
+    async function checkAuthState() {
+      const { data, error } = await supabaseClient.auth.getUser();
+
+      if (error) {
+        console.error(error);
+        authStatusLine.textContent = "Auth error";
+        loginView.style.display = "block";
+        editorView.style.display = "none";
+        logoutBtn.style.display = "none";
+        statusMessage.textContent = "Error checking auth.";
+        return;
+      }
+
+      if (data.user) {
+        authStatusLine.textContent = `Logged in as ${data.user.email}`;
+        loginView.style.display = "none";
+        editorView.style.display = "block";
+        logoutBtn.style.display = "inline-flex";
+        statusMessage.textContent = "You can post new blogs from this device.";
+      } else {
+        authStatusLine.textContent = "Not logged in";
+        loginView.style.display = "block";
+        editorView.style.display = "none";
+        logoutBtn.style.display = "none";
+        statusMessage.textContent = "Log in with your author account to post.";
+      }
+    }
+
+    async function handleLogin() {
+      statusMessage.textContent = "Logging in…";
+      const { data, error } = await supabaseClient.auth.signInWithPassword({
+        email: loginEmail.value.trim(),
+        password: loginPassword.value
+      });
+
+      if (error) {
+        console.error(error);
+        statusMessage.textContent = "Login failed: " + error.message;
+        alert("Login failed: " + error.message);
+      } else {
+        statusMessage.textContent = "Login successful.";
+        await checkAuthState();
+      }
+    }
+
+    async function handleLogout() {
+      await supabaseClient.auth.signOut();
+      statusMessage.textContent = "Logged out.";
+      await checkAuthState();
+    }
+
+    // ---------- Post modal helpers ----------
+    function openPostModal(post, tagRaw, dateStr) {
+      const { label, cls } = getTagMeta(tagRaw || post.tag);
+
+      modalTag.textContent = label;
+      modalTag.className = "blog-tag " + cls;
+      modalDate.textContent = dateStr || "";
+      modalTitle.textContent = post.title || "";
+      modalMeta.textContent = "";
+      modalBody.textContent = post.body || "";
+
+      modalOverlay.classList.add("show");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closePostModal() {
+      modalOverlay.classList.remove("show");
+      document.body.style.overflow = "";
+    }
+
+    modalCloseBtn.addEventListener("click", closePostModal);
+    modalOverlay.addEventListener("click", (e) => {
+      if (e.target === modalOverlay) {
+        closePostModal();
+      }
+    });
+
+    // ---------- Admin modal helpers ----------
+    function openAdminModal() {
+      adminModal.classList.add("show");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeAdminModal() {
+      adminModal.classList.remove("show");
+      document.body.style.overflow = "";
+    }
+
+    adminToggleBtn.addEventListener("click", openAdminModal);
+    adminCloseBtn.addEventListener("click", closeAdminModal);
+    adminModal.addEventListener("click", (e) => {
+      if (e.target === adminModal) {
+        closeAdminModal();
+      }
+    });
+
+    // ---------- Posts & filtering ----------
+    function truncateBody(text, maxLen) {
+      if (!text) return "";
+      if (text.length <= maxLen) return text;
+      return text.slice(0, maxLen).trimEnd() + "…";
+    }
+
+    function renderPosts() {
+      postsContainer.innerHTML = "";
+
+      if (!allPosts || allPosts.length === 0) {
+        const el = document.createElement("p");
+        el.style.color = "#9aa3ab";
+        el.textContent = "No posts yet. Log in via the crown button to publish your first CKHQ blog.";
+        postsContainer.appendChild(el);
+        return;
+      }
+
+      const filtered = currentTagFilter === "All"
+        ? allPosts
+        : allPosts.filter((post) => {
+            const t = (post.tag || "").trim().toLowerCase();
+            return t === currentTagFilter.toLowerCase();
+          });
+
+      if (filtered.length === 0) {
+        const el = document.createElement("p");
+        el.style.color = "#9aa3ab";
+        el.textContent = `No posts for the “${currentTagFilter}” tag yet.`;
+        postsContainer.appendChild(el);
+        return;
+      }
+
+      filtered.forEach((post) => {
+        const article = document.createElement("article");
+        article.classList.add("blog-card");
+
+        const { label, cls } = getTagMeta(post.tag);
+        const dateStr = post.created_at
+          ? new Date(post.created_at).toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" })
+          : "";
+
+        article.innerHTML = `
+          <div class="blog-card-meta">
+            <span class="blog-tag ${cls}">${label}</span>
+            ${dateStr} • @CourtKingsHQ
+          </div>
+          <h2 class="blog-card-title">${post.title}</h2>
+          <p class="blog-card-excerpt">${truncateBody(post.body, 260)}</p>
+        `;
+
+        article.addEventListener("click", () => {
+          openPostModal(post, label, dateStr);
+        });
+
+        postsContainer.appendChild(article);
+      });
+    }
+
+    async function loadPosts() {
+      const { data, error } = await supabaseClient
+        .from("blog_posts")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (error) {
+        console.error(error);
+        postsContainer.innerHTML = "";
+        const el = document.createElement("p");
+        el.textContent = "Error loading posts.";
+        postsContainer.appendChild(el);
+        return;
+      }
+
+      allPosts = data || [];
+      renderPosts();
+    }
+
+    async function handlePublish() {
+      const title = postTitle.value.trim();
+      const body = postBody.value.trim();
+      const tag = postTag.value.trim();
+
+      if (!title || !body) {
+        alert("Title and body are required.");
+        return;
+      }
+
+      const { data: authData } = await supabaseClient.auth.getUser();
+      if (!authData.user) {
+        alert("You must be logged in to publish.");
+        await checkAuthState();
+        return;
+      }
+
+      const slug = title
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/(^-|-$)/g, "");
+
+      statusMessage.textContent = "Publishing post…";
+
+      const { error } = await supabaseClient
+        .from("blog_posts")
+        .insert({
+          title: title,
+          slug: slug,
+          tag: tag || "Take",
+          body: body,
+          author_id: authData.user.id
+        });
+
+      if (error) {
+        console.error(error);
+        statusMessage.textContent = "Error publishing: " + error.message;
+        alert("Error publishing: " + error.message);
+      } else {
+        statusMessage.textContent = "Post published.";
+        postTitle.value = "";
+        postTag.value = "";
+        postBody.value = "";
+        await loadPosts();
+      }
+    }
+
+    function handleClear() {
+      postTitle.value = "";
+      postTag.value = "";
+      postBody.value = "";
+    }
+
+    // Tag filter event listeners
+    tagButtons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const tag = btn.getAttribute("data-tag");
+        currentTagFilter = tag || "All";
+
+        tagButtons.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+
+        renderPosts();
+      });
+    });
+
+    // ---------- Event listeners ----------
+    if (loginBtn) loginBtn.addEventListener("click", handleLogin);
+    if (logoutBtn) logoutBtn.addEventListener("click", handleLogout);
+    if (publishBtn) publishBtn.addEventListener("click", handlePublish);
+    if (clearBtn) clearBtn.addEventListener("click", handleClear);
+
+    supabaseClient.auth.onAuthStateChange((_event, _session) => {
+      checkAuthState();
+    });
+
+    // Initial load
+    checkAuthState();
+    loadPosts();
+  </script>
+</body>
+</html>
