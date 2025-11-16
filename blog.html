@@ -463,7 +463,7 @@
     <!-- Tag filter bar -->
     <div class="tag-filter-bar" aria-label="Filter posts by tag">
       <button class="tag-filter-pill tag-pill-all active" data-tag="All">All</button>
-      <button class="tag-filter-pill tag-pill-take" data-tag="Take">Hot Takes</button>
+      <button class="tag-filter-pill tag-pill-take" data-tag="Hot Take">Hot Takes</button>
       <button class="tag-filter-pill tag-pill-player" data-tag="Player">Players</button>
       <button class="tag-filter-pill tag-pill-team" data-tag="Team">Teams</button>
       <button class="tag-filter-pill tag-pill-game" data-tag="Game">Games</button>
@@ -503,8 +503,7 @@
     <div class="modal-card admin-card">
       <button class="modal-close" id="admin-close" aria-label="Close author console">&times;</button>
       <div class="sidebar-card">
-        <h2>Author Console</h2>
-        <p>Log in with your CKHQ author account to post new blogs directly from any device.</p>
+        <h2>Console</h2>
 
         <div class="auth-section" id="auth-section">
           <div class="auth-header-line">
@@ -514,7 +513,7 @@
 
           <!-- LOGIN VIEW -->
           <div id="login-view">
-            <p><strong>Author Login</strong></p>
+            <p><strong>Login</strong></p>
             <div class="auth-fields">
               <label for="login-email">Email</label>
               <input id="login-email" type="email" placeholder="you@example.com" />
@@ -525,9 +524,7 @@
             <div class="btn-row">
               <button class="btn" type="button" id="login-btn">Log In</button>
             </div>
-            <p class="auth-note">
-              Use the email/password you created in Supabase Auth (e.g. your <code>cashquatro3</code> account).
-            </p>
+            
           </div>
 
           <!-- EDITOR VIEW (only when logged in) -->
@@ -538,7 +535,7 @@
               <input id="post-title" type="text" placeholder="ex. Why Team X’s Half-Court Offense Actually Works" />
 
               <label for="post-tag">Tag</label>
-              <input id="post-tag" type="text" placeholder="Hot Take, Player, Game, Trend..." />
+              <input id="post-tag" type="text" placeholder="Hot Take, Player, Game, Trend, Team" />
 
               <label for="post-body">Body</label>
               <textarea id="post-body" placeholder="Write your real hoops take here..."></textarea>
@@ -547,9 +544,7 @@
               <button class="btn" type="button" id="publish-btn">Publish Post</button>
               <button class="btn secondary" type="button" id="clear-btn">Clear</button>
             </div>
-            <p class="auth-note">
-              Posts save straight into your <code>blog_posts</code> table and appear on the blog, newest first.
-            </p>
+            
           </div>
 
           <div id="status-message" class="status-message">
@@ -639,11 +634,11 @@
 
       if (error) {
         console.error(error);
-        authStatusLine.textContent = "Auth error";
+        authStatusLine.textContent = "";
         loginView.style.display = "block";
         editorView.style.display = "none";
         logoutBtn.style.display = "none";
-        statusMessage.textContent = "Error checking auth.";
+        statusMessage.textContent = "";
         return;
       }
 
@@ -652,7 +647,7 @@
         loginView.style.display = "none";
         editorView.style.display = "block";
         logoutBtn.style.display = "inline-flex";
-        statusMessage.textContent = "You can post new blogs from this device.";
+        statusMessage.textContent = "";
       } else {
         authStatusLine.textContent = "Not logged in";
         loginView.style.display = "block";
@@ -838,7 +833,7 @@
         .insert({
           title: title,
           slug: slug,
-          tag: tag || "Take",
+          tag: tag || "Hot Take",
           body: body,
           author_id: authData.user.id
         });
