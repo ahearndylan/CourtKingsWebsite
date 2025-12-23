@@ -366,7 +366,11 @@
     // --- Supabase client (frontend read-only) ---
     const SUPABASE_URL = "https://fjtxowbjnxclzcogostk.supabase.co";
     const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZqdHhvd2JqbnhjbHpjb2dvc3RrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI2MDE5NTgsImV4cCI6MjA1ODE3Nzk1OH0.LPkFw-UX6io0F3j18Eefd1LmeAGGXnxL4VcCLOR_c1Q";
-    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    const supabaseClient = window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_ANON_KEY
+    );
+
 
     // --- Helpers ---
     const fmtMarket = m => ({MONEYLINE:'Moneyline', SPREAD:'Spread', TOTAL:'Total'}[m] || m);
@@ -398,8 +402,8 @@
     // --- Data load ---
     async function loadData(){
       const [{ data: records, error: recErr }, { data: bets, error: betErr }] = await Promise.all([
-        supabase.from('ckhq_bet_records').select('*'),
-        supabase.from('ckhq_bets').select('*').order('date_et', { ascending:false })
+        supabaseClient.from('ckhq_bet_records').select('*'),
+        supabaseClient.from('ckhq_bets').select('*').order('date_et', { ascending:false })
       ]);
 
       if(recErr) console.error(recErr);
