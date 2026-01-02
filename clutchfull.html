@@ -77,7 +77,7 @@
   <p id="end" class="end"></p>
 
   <script>
-    const supabase = window.supabase.createClient(
+    const supabaseClient = window.supabase.createClient(
       'https://fjtxowbjnxclzcogostk.supabase.co',
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZqdHhvd2JqbnhjbHpjb2dvc3RrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI2MDE5NTgsImV4cCI6MjA1ODE3Nzk1OH0.LPkFw-UX6io0F3j18Eefd1LmeAGGXnxL4VcCLOR_c1Q'
     );
@@ -97,7 +97,7 @@
     };
 
     async function loadClutchArchive() {
-      const { data, error } = await supabase
+      const { data, error } = await supabaseClient
         .from('clutchkings')
         .select('*')
         .order('date', { ascending: false });
